@@ -1,4 +1,4 @@
-package projects.liga.parcel;
+package projects.liga.parcel.file_handling;
 
 import projects.liga.parcel.entities.ParcelType;
 

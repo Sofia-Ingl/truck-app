@@ -1,8 +1,8 @@
 package projects.liga;
 
-import projects.liga.parcel.FirstAlgorithm;
-import projects.liga.parcel.ParcelFileHandler;
-import projects.liga.parcel.ParcelFileHandlerImpl;
+import projects.liga.parcel.CommonAlgorithm;
+import projects.liga.parcel.file_handling.ParcelFileHandler;
+import projects.liga.parcel.file_handling.ParcelFileHandlerImpl;
 import projects.liga.parcel.entities.ParcelType;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class Main {
         ParcelFileHandler parcelFileHandler = new ParcelFileHandlerImpl();
         NavigableMap<ParcelType, Integer> tm = parcelFileHandler.getParcelQuantityByType("C:\\Users\\Home\\IdeaProjects\\truck-app\\src\\main\\resources\\input.txt");
 
-        FirstAlgorithm firstAlgorithm = new FirstAlgorithm(6, 6);
-        firstAlgorithm.processPackaging(tm);
+        CommonAlgorithm commonAlgorithm = new CommonAlgorithm(6, 6);
+        commonAlgorithm.processPackaging(tm);
     }
 }

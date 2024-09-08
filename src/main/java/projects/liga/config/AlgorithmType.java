@@ -1,7 +1,7 @@
 package projects.liga.config;
 
 public enum AlgorithmType {
-    FIRST,
-    SECOND
+    COMMON,
+    SIX_DIMENSIONAL
 
 }

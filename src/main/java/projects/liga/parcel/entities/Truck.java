@@ -34,9 +34,18 @@ public class Truck {
                            int y,
                            ParcelType suitableParcel) {
 
+
+//        if (!checkCanLoadParcel(x, y, suitableParcel)) {
+//            // error
+//        }
+
         for (int i = 0; i < suitableParcel.getHeight(); i++) {
 
             for (int j = 0; j < suitableParcel.getMaxWidth(); j++) {
+
+                if (back[i][j] != ' ') {
+                    // error
+                }
 
                 int yBackCoordinate = height - 1 - (y + i);
                 int xBackCoordinate = x + j;
@@ -54,6 +63,26 @@ public class Truck {
 
 
     }
+
+
+//    private boolean checkCanLoadParcel(int x,
+//                                       int y,
+//                                       ParcelType suitableParcel) {
+//
+//        for (int i = 0; i < suitableParcel.getHeight(); i++) {
+//            for (int j = 0; j < suitableParcel.getMaxWidth(); j++) {
+//
+//                int yBackCoordinate = height - 1 - (y + i);
+//                int xBackCoordinate = x + j;
+//
+//                if (back[yBackCoordinate][xBackCoordinate] != ' ') {
+//                    return false;
+//                }
+//
+//            }
+//        }
+//        return true;
+//    }
 
     public char[] getRowSlice(int x, int y) {
         char[] slice = new char[width - x];
@@ -79,14 +108,6 @@ public class Truck {
 
         // find new coordinates
         if (startingXPoint >= width) {
-
-//            for (int i = height - 1 - (y + 1); i >= 0; i--) {
-//                if (occupiedCapacityByRow[i] != width) {
-//                    y = height - 1 - i;
-//                    x = occupiedCapacityByRow[i];
-//                    break;
-//                }
-//            }
 
             for (int i = height - 1 - (y + 1); i >= 0; i--) {
                 if (occupiedCapacityByRow[i] != width && occupiedCapacityByRow[i] < currentLoadedCapacity) {

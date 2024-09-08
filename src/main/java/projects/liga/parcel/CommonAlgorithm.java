@@ -10,11 +10,12 @@ import java.util.*;
 
 // common
 @AllArgsConstructor
-public class FirstAlgorithm {
+public class CommonAlgorithm implements ParcelPackager {
 
     private Integer truckWidth;
     private Integer truckHeight;
 
+    @Override
     public void processPackaging(NavigableMap<ParcelType, Integer> parcelQuantityByType) {
 
         List<Truck> trucks = new ArrayList<>();
@@ -117,7 +118,7 @@ public class FirstAlgorithm {
             int basicRowLength = suitableParcel.getMaxWidth();
             int gaps = gapsNumberCumulative[basicRowLength - 1];
 
-            if (basicRowLength  > gaps*2 && suitableParcel.getHeight() <= heightToFill) {
+            if (basicRowLength > gaps * 2 && suitableParcel.getHeight() <= heightToFill) {
                 return suitableParcel;
             }
         }
