@@ -116,18 +116,8 @@ public class FirstAlgorithm {
 
             int basicRowLength = suitableParcel.getMaxWidth();
             int gaps = gapsNumberCumulative[basicRowLength - 1];
-//            int gaps = 0;
-//            int basicRowLength = 0;
-//
-//            char[] basicRow = suitableParcel.getFilling()[suitableParcel.getHeight() - 1];
-//            for (int i = 0; i < suitableParcel.getMaxWidth(); i++) {
-//                boolean gapInBasicRow = basicRow[i] == ' ';
-//                boolean gapInUnderlyingRow = underlyingRow[i] == ' ';
-//                basicRowLength += (gapInBasicRow) ? 0 : 1;
-//                gaps += (gapInUnderlyingRow & !gapInBasicRow) ? 1 : 0;
-//            }
 
-            if (basicRowLength  > gaps*2) {
+            if (basicRowLength  > gaps*2 && suitableParcel.getHeight() <= heightToFill) {
                 return suitableParcel;
             }
         }

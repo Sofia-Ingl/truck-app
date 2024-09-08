@@ -41,9 +41,10 @@ public class Truck {
                 int yBackCoordinate = height - 1 - (y + i);
                 int xBackCoordinate = x + j;
 
-                back[yBackCoordinate][xBackCoordinate] = suitableParcel.getFilling()[suitableParcel.getHeight() - 1 - i][j];
+                back[yBackCoordinate][xBackCoordinate] =
+                        suitableParcel.getFilling()[suitableParcel.getHeight() - 1 - i][j];
 
-                if (suitableParcel.getFilling()[i][j] != ' ') {
+                if (suitableParcel.getFilling()[suitableParcel.getHeight() - 1 - i][j] != ' ') {
                     occupiedCapacityByRow[yBackCoordinate]++;
                     occupiedCapacityByColumn[xBackCoordinate]++;
                 }
@@ -71,14 +72,24 @@ public class Truck {
 
         int x = startingXPoint;
         int y = startingYPoint;
-        int maxHeight = 0;
-        int maxWidth = 0;
+        int maxHeight;
+        int maxWidth;
+
+        int currentLoadedCapacity = occupiedCapacityByRow[height - 1 - startingYPoint];
 
         // find new coordinates
         if (startingXPoint >= width) {
 
+//            for (int i = height - 1 - (y + 1); i >= 0; i--) {
+//                if (occupiedCapacityByRow[i] != width) {
+//                    y = height - 1 - i;
+//                    x = occupiedCapacityByRow[i];
+//                    break;
+//                }
+//            }
+
             for (int i = height - 1 - (y + 1); i >= 0; i--) {
-                if (occupiedCapacityByRow[i] != width) {
+                if (occupiedCapacityByRow[i] != width && occupiedCapacityByRow[i] < currentLoadedCapacity) {
                     y = height - 1 - i;
                     x = occupiedCapacityByRow[i];
                     break;
