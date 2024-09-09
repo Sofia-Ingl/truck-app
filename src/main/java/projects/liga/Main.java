@@ -7,12 +7,10 @@ import projects.liga.config.ConfigFileHandlerImpl;
 import projects.liga.parcel.CommonAlgorithm;
 import projects.liga.parcel.ParcelPackager;
 import projects.liga.parcel.SingleParcelAlgorithm;
-import projects.liga.parcel.exceptions.ValidationException;
 import projects.liga.parcel.file_handling.ParcelFileHandler;
 import projects.liga.parcel.file_handling.ParcelFileHandlerImpl;
 import projects.liga.parcel.entities.ParcelType;
 
-import java.io.IOException;
 import java.util.NavigableMap;
 
 public class Main {

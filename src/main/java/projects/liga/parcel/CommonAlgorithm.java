@@ -1,14 +1,12 @@
 package projects.liga.parcel;
 
 
-import lombok.AllArgsConstructor;
 import projects.liga.parcel.entities.ParcelType;
 import projects.liga.parcel.entities.Slot;
 import projects.liga.parcel.entities.Truck;
 
 import java.util.*;
 
-// common
 public class CommonAlgorithm implements ParcelPackager {
 
     @Override

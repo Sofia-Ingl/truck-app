@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Slot {
-    int x;
-    int y;
-    int width;
-    int height;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
 }
