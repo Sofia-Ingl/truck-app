@@ -34,9 +34,9 @@ public class ConfigFileHandlerImpl implements ConfigFileHandler {
             String paramName = paramWithValue[0];
             String paramValue = paramWithValue[1];
 
-            if (paramName.equals("parcelFileName")) {
+            if (paramName.equals("file")) {
                 parcelFileName = paramValue;
-            } else if (paramName.equals("algorithmType")) {
+            } else if (paramName.equals("algorithm")) {
                 algorithmType = AlgorithmType.valueOf(paramValue);
             } else if (paramName.equals("truck-width")) {
                 truckWidth = Integer.valueOf(paramValue);

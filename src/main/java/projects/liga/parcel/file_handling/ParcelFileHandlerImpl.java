@@ -88,10 +88,20 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
                           int truckHeight,
                           int truckWidth) throws ValidationException {
         if (!validator.isValid(currentParcel) ) {
-            throw new ValidationException("Invalid parcel!");
+            StringBuilder message = new StringBuilder("Invalid parcel!");
+            message.append("\n");
+            for (String line : currentParcel) {
+                message.append(line);
+            }
+            throw new ValidationException(message.toString());
         }
         if (!validator.fitsTruck(currentParcel, truckHeight, truckWidth) ) {
-            throw new ValidationException("Invalid parcel size!");
+            StringBuilder message = new StringBuilder("Invalid parcel size!");
+            message.append("\n");
+            for (String line : currentParcel) {
+                message.append(line);
+            }
+            throw new ValidationException(message.toString());
         }
     }
 
