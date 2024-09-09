@@ -8,6 +8,6 @@ import java.util.NavigableMap;
 public interface ParcelFileHandler {
 
 
-    public NavigableMap<ParcelType, Integer> getParcelQuantityByType(String filename) throws IOException;
+    NavigableMap<ParcelType, Integer> getParcelQuantityByType(String filename) throws IOException;
 
 }

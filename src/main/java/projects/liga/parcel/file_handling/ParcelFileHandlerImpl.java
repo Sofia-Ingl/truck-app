@@ -2,15 +2,16 @@ package projects.liga.parcel.file_handling;
 
 import lombok.AllArgsConstructor;
 import projects.liga.parcel.entities.ParcelType;
+import projects.liga.parcel.file_handling.validation.ParcelValidator;
+import projects.liga.parcel.file_handling.validation.ParcelValidatorImpl;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-@AllArgsConstructor
 public class ParcelFileHandlerImpl implements ParcelFileHandler {
 
-//    BlockType[] availableBlockTypes;
+    private final ParcelValidator validator = new ParcelValidatorImpl();
 
     public NavigableMap<ParcelType, Integer> getParcelQuantityByType(String filename) throws IOException {
 
@@ -28,8 +29,12 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
             } else {
 
                 if (!currentParcel.isEmpty()) {
+
+                    if (!validator.isValid(currentParcel)) {
+                        //error
+                    }
+
                     ParcelType currentType = extractParcelType(currentParcel);
-                    /*TODO: check available block types*/
                     insertBlockType(currentType, parcelQuantityByType);
                     currentParcel.clear();
                 }
@@ -37,8 +42,12 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
         }
 
         if (!currentParcel.isEmpty()) {
+
+            if (!validator.isValid(currentParcel)) {
+                //error
+            }
+
             ParcelType currentType = extractParcelType(currentParcel);
-            /*TODO: check available block types*/
             insertBlockType(currentType, parcelQuantityByType);
         }
         return parcelQuantityByType;

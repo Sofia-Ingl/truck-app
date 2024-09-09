@@ -1,6 +1,5 @@
 package projects.liga;
 
-import projects.liga.parcel.CommonAlgorithm;
 import projects.liga.parcel.ParcelPackager;
 import projects.liga.parcel.SingleParcelAlgorithm;
 import projects.liga.parcel.file_handling.ParcelFileHandler;
