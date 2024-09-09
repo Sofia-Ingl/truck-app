@@ -13,7 +13,6 @@ public class Truck {
     private int height;
 
     int[] occupiedCapacityByRow;
-    int[] occupiedCapacityByColumn;
 
     public Truck(Integer width, Integer height) {
         back = new char[height][width];
@@ -25,9 +24,7 @@ public class Truck {
         this.height = height;
 
         occupiedCapacityByRow = new int[height];
-        occupiedCapacityByColumn = new int[width];
         Arrays.fill(occupiedCapacityByRow, 0);
-        Arrays.fill(occupiedCapacityByColumn, 0);
     }
 
     public void loadParcel(int x,
@@ -35,19 +32,15 @@ public class Truck {
                            ParcelType suitableParcel) {
 
 
-//        if (!checkCanLoadParcel(x, y, suitableParcel)) {
-//            // error
-//        }
+        if (!checkCanLoadParcel(x, y, suitableParcel)) {
+            // error
+        }
 
         for (int i = 0; i < suitableParcel.getHeight(); i++) {
 
             for (int j = 0; j < suitableParcel.getMaxWidth(); j++) {
 
-                if (back[i][j] != ' ') {
-                    // error
-                }
-
-                int yBackCoordinate = height - 1 - (y + i);
+                int yBackCoordinate = y + i;
                 int xBackCoordinate = x + j;
 
                 back[yBackCoordinate][xBackCoordinate] =
@@ -55,7 +48,6 @@ public class Truck {
 
                 if (suitableParcel.getFilling()[suitableParcel.getHeight() - 1 - i][j] != ' ') {
                     occupiedCapacityByRow[yBackCoordinate]++;
-                    occupiedCapacityByColumn[xBackCoordinate]++;
                 }
 
             }
@@ -65,30 +57,30 @@ public class Truck {
     }
 
 
-//    private boolean checkCanLoadParcel(int x,
-//                                       int y,
-//                                       ParcelType suitableParcel) {
-//
-//        for (int i = 0; i < suitableParcel.getHeight(); i++) {
-//            for (int j = 0; j < suitableParcel.getMaxWidth(); j++) {
-//
-//                int yBackCoordinate = height - 1 - (y + i);
-//                int xBackCoordinate = x + j;
-//
-//                if (back[yBackCoordinate][xBackCoordinate] != ' ') {
-//                    return false;
-//                }
-//
-//            }
-//        }
-//        return true;
-//    }
+    private boolean checkCanLoadParcel(int x,
+                                       int y,
+                                       ParcelType suitableParcel) {
+
+        for (int i = 0; i < suitableParcel.getHeight(); i++) {
+            for (int j = 0; j < suitableParcel.getMaxWidth(); j++) {
+
+                int yBackCoordinate = y + i;
+                int xBackCoordinate = x + j;
+
+                if (back[yBackCoordinate][xBackCoordinate] != ' ') {
+                    return false;
+                }
+
+            }
+        }
+        return true;
+    }
 
     public char[] getRowSlice(int x, int y) {
         char[] slice = new char[width - x];
         for (int i = x; i < width; i++) {
             if (y >= 0)
-                slice[i - x] = back[height - 1 - y][i];
+                slice[i - x] = back[y][i];
             else
                 slice[i - x] = '+';
         }
@@ -104,24 +96,24 @@ public class Truck {
         int maxHeight;
         int maxWidth;
 
-        int currentLoadedCapacity = occupiedCapacityByRow[height - 1 - startingYPoint];
+        int currentLoadedCapacity = occupiedCapacityByRow[startingYPoint];
 
         // find new coordinates
         if (startingXPoint >= width) {
 
-            for (int i = height - 1 - (y + 1); i >= 0; i--) {
+            for (int i = y + 1; i < height; i++) {
                 if (occupiedCapacityByRow[i] != width && occupiedCapacityByRow[i] < currentLoadedCapacity) {
-                    y = height - 1 - i;
+                    y = i;
                     x = occupiedCapacityByRow[i];
                     break;
                 }
             }
         }
 
-        int occupiedCapacityOfCurrentRow = occupiedCapacityByRow[height - 1 - y];
+        int occupiedCapacityOfCurrentRow = occupiedCapacityByRow[y];
         maxHeight = 1;
 
-        for (int i = height - 1 - (y + 1); i >= 0; i--) {
+        for (int i = y + 1; i < height; i++) {
             if (occupiedCapacityByRow[i] != occupiedCapacityOfCurrentRow) {
                 break;
             }
@@ -139,7 +131,7 @@ public class Truck {
     public void print() {
 
         System.out.print("\n");
-        for (int i = 0; i < height; i++) {
+        for (int i = height-1; i >= 0; i--) {
             System.out.print("+");
             for (int j = 0; j < width; j++) {
                 System.out.print(back[i][j]);
