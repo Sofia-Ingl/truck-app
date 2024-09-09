@@ -87,47 +87,6 @@ public class Truck {
         return slice;
     }
 
-
-//    public Slot getNextPlaceForAnyParcel(int startingXPoint,
-//                                         int startingYPoint) {
-//
-//        int x = startingXPoint;
-//        int y = startingYPoint;
-//        int maxHeight;
-//        int maxWidth;
-//
-//        int currentLoadedCapacity = occupiedCapacityByRow[startingYPoint];
-//
-//        // find new coordinates
-//        if (startingXPoint >= width) {
-//
-//            for (int i = y + 1; i < height; i++) {
-//                if (occupiedCapacityByRow[i] != width && occupiedCapacityByRow[i] < currentLoadedCapacity) {
-//                    y = i;
-//                    x = occupiedCapacityByRow[i];
-//                    break;
-//                }
-//            }
-//        }
-//
-//        int occupiedCapacityOfCurrentRow = occupiedCapacityByRow[y];
-//        maxHeight = 1;
-//
-//        for (int i = y + 1; i < height; i++) {
-//            if (occupiedCapacityByRow[i] != occupiedCapacityOfCurrentRow) {
-//                break;
-//            }
-//            maxHeight += 1;
-//        }
-//
-//        maxWidth = width - x;
-//
-//        if (maxWidth <= 0 || maxHeight <= 0) return null;
-//
-//        return new Slot(x, y, maxWidth, maxHeight);
-//
-//    }
-
     public void print() {
 
         System.out.print("\n");
