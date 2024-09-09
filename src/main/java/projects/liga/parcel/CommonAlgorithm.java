@@ -9,14 +9,13 @@ import projects.liga.parcel.entities.Truck;
 import java.util.*;
 
 // common
-@AllArgsConstructor
 public class CommonAlgorithm implements ParcelPackager {
 
-    private Integer truckWidth;
-    private Integer truckHeight;
-
     @Override
-    public void processPackaging(NavigableMap<ParcelType, Integer> parcelQuantityByType) {
+    public List<Truck> processPackaging(
+            int truckWidth,
+            int truckHeight,
+            NavigableMap<ParcelType, Integer> parcelQuantityByType) {
 
         List<Truck> trucks = new ArrayList<>();
 
@@ -89,11 +88,10 @@ public class CommonAlgorithm implements ParcelPackager {
         }
 
 
-        for (Truck truck : trucks) {
-            truck.print();
-        }
+        return trucks;
 
     }
+
 
     private ParcelType findSuitableParcel(int widthToFill,
                                           int heightToFill,

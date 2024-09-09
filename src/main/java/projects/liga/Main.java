@@ -14,7 +14,7 @@ public class Main {
         ParcelFileHandler parcelFileHandler = new ParcelFileHandlerImpl();
         NavigableMap<ParcelType, Integer> tm = parcelFileHandler.getParcelQuantityByType("C:\\Users\\Home\\IdeaProjects\\truck-app\\src\\main\\resources\\input.txt");
 
-        CommonAlgorithm commonAlgorithm = new CommonAlgorithm(6, 6);
-        commonAlgorithm.processPackaging(tm);
+        CommonAlgorithm commonAlgorithm = new CommonAlgorithm();
+        commonAlgorithm.printTrucks(commonAlgorithm.processPackaging(6,6,tm));
     }
 }
