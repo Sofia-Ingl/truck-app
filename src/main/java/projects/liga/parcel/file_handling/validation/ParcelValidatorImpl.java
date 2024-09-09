@@ -92,4 +92,13 @@ public class ParcelValidatorImpl implements ParcelValidator {
         }
         return false;
     }
+
+
+
+    @Override
+    public boolean fitsTruck(List<String> parcel, int truckHeight, int truckWidth) {
+        return parcel.size() <= truckHeight
+                && parcel.get(parcel.size() - 1).length() <= truckWidth;
+    }
+
 }

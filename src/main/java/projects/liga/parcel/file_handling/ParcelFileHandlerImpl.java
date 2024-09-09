@@ -1,9 +1,9 @@
 package projects.liga.parcel.file_handling;
 
-import lombok.AllArgsConstructor;
 import projects.liga.parcel.entities.ParcelType;
 import projects.liga.parcel.file_handling.validation.ParcelValidator;
 import projects.liga.parcel.file_handling.validation.ParcelValidatorImpl;
+import projects.liga.parcel.exceptions.ValidationException;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,9 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
 
     private final ParcelValidator validator = new ParcelValidatorImpl();
 
-    public NavigableMap<ParcelType, Integer> getParcelQuantityByType(String filename) throws IOException {
+    public NavigableMap<ParcelType, Integer> getParcelQuantityByType(String filename,
+                                                                     int truckHeight,
+                                                                     int truckWidth) throws IOException, ValidationException {
 
         File parcelFile = new File(filename);
         Scanner parcelScanner = new Scanner(parcelFile);
@@ -30,9 +32,7 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
 
                 if (!currentParcel.isEmpty()) {
 
-                    if (!validator.isValid(currentParcel)) {
-                        //error
-                    }
+                    validate(currentParcel, truckHeight, truckWidth);
 
                     ParcelType currentType = extractParcelType(currentParcel);
                     insertBlockType(currentType, parcelQuantityByType);
@@ -43,9 +43,7 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
 
         if (!currentParcel.isEmpty()) {
 
-            if (!validator.isValid(currentParcel)) {
-                //error
-            }
+            validate(currentParcel, truckHeight, truckWidth);
 
             ParcelType currentType = extractParcelType(currentParcel);
             insertBlockType(currentType, parcelQuantityByType);
@@ -83,6 +81,17 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
             parcelQuantityByType.put(parcelType, parcelQuantityByType.get(parcelType) + 1);
         } else {
             parcelQuantityByType.put(parcelType, 1);
+        }
+    }
+
+    private void validate(List<String> currentParcel,
+                          int truckHeight,
+                          int truckWidth) throws ValidationException {
+        if (!validator.isValid(currentParcel) ) {
+            throw new ValidationException("Invalid parcel!");
+        }
+        if (!validator.fitsTruck(currentParcel, truckHeight, truckWidth) ) {
+            throw new ValidationException("Invalid parcel size!");
         }
     }
 
