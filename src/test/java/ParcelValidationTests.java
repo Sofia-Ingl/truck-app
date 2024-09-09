@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import projects.liga.parcel.file_handling.validation.ParcelValidator;
 import projects.liga.parcel.file_handling.validation.ParcelValidatorImpl;
