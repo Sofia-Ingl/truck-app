@@ -69,7 +69,7 @@ public class CommonAlgorithm implements ParcelPackager {
 
                 }
 
-                Slot freeSlot = truck.getNextPlaceForAnyParcel(startingXPointForNewSlot, startingYPointForNewSlot);
+                Slot freeSlot = getNextPlaceForAnyParcel(truck, startingXPointForNewSlot, startingYPointForNewSlot);
 
                 if (freeSlot == null) {
                     x = truckWidth;
@@ -129,6 +129,47 @@ public class CommonAlgorithm implements ParcelPackager {
 
 
 
+    public Slot getNextPlaceForAnyParcel(Truck truck,
+                                         int startingXPoint,
+                                         int startingYPoint) {
+
+        int x = startingXPoint;
+        int y = startingYPoint;
+        int maxHeight;
+        int maxWidth;
+
+        int currentLoadedCapacity = truck.getOccupiedCapacityByRow()[startingYPoint];
+
+        // find new coordinates
+        if (startingXPoint >= truck.getWidth()) {
+
+            for (int i = y + 1; i < truck.getHeight(); i++) {
+                if (truck.getOccupiedCapacityByRow()[i] != truck.getWidth()
+                        && truck.getOccupiedCapacityByRow()[i] < currentLoadedCapacity) {
+                    y = i;
+                    x = truck.getOccupiedCapacityByRow()[i];
+                    break;
+                }
+            }
+        }
+
+        int occupiedCapacityOfCurrentRow = truck.getOccupiedCapacityByRow()[y];
+        maxHeight = 1;
+
+        for (int i = y + 1; i < truck.getHeight(); i++) {
+            if (truck.getOccupiedCapacityByRow()[i] != occupiedCapacityOfCurrentRow) {
+                break;
+            }
+            maxHeight += 1;
+        }
+
+        maxWidth = truck.getWidth() - x;
+
+        if (maxWidth <= 0 || maxHeight <= 0) return null;
+
+        return new Slot(x, y, maxWidth, maxHeight);
+
+    }
 
 
 }
