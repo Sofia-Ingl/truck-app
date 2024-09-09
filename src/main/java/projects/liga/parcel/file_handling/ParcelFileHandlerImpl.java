@@ -91,7 +91,7 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
             StringBuilder message = new StringBuilder("Invalid parcel!");
             message.append("\n");
             for (String line : currentParcel) {
-                message.append(line);
+                message.append(line).append("\n");
             }
             throw new ValidationException(message.toString());
         }
@@ -99,7 +99,7 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
             StringBuilder message = new StringBuilder("Invalid parcel size!");
             message.append("\n");
             for (String line : currentParcel) {
-                message.append(line);
+                message.append(line).append("\n");
             }
             throw new ValidationException(message.toString());
         }

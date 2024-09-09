@@ -16,11 +16,11 @@ import java.io.IOException;
 import java.util.NavigableMap;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ValidationException {
+    public static void main(String[] args) {
 
         try {
             ConfigFileHandler configFileHandler = new ConfigFileHandlerImpl();
-            Config config = configFileHandler.loadConfig("C:\\Users\\Home\\IdeaProjects\\truck-app\\src\\main\\resources\\app.config");
+            Config config = configFileHandler.loadConfig();
 
             ParcelFileHandler parcelFileHandler = new ParcelFileHandlerImpl();
             NavigableMap<ParcelType, Integer> parcelTypesMap = parcelFileHandler.getParcelQuantityByType(
