@@ -33,7 +33,7 @@ public class Truck {
                            ParcelType suitableParcel) {
 
 
-        if (!checkCanLoadParcel(x, y, suitableParcel)) {
+        if (!canLoadParcel(x, y, suitableParcel)) {
             throw new TruckException("Can't load parcel on position " + x + ", " + y);
         }
 
@@ -58,9 +58,13 @@ public class Truck {
     }
 
 
-    private boolean checkCanLoadParcel(int x,
+    private boolean canLoadParcel(int x,
                                        int y,
                                        ParcelType suitableParcel) {
+
+        if (suitableParcel.getHeight() > height - y || suitableParcel.getMaxWidth() > width - x) {
+            return false;
+        }
 
         for (int i = 0; i < suitableParcel.getHeight(); i++) {
             for (int j = 0; j < suitableParcel.getMaxWidth(); j++) {
