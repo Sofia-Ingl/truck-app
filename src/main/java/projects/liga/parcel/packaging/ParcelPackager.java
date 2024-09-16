@@ -1,4 +1,4 @@
-package projects.liga.parcel;
+package projects.liga.parcel.packaging;
 
 import projects.liga.parcel.entities.ParcelType;
 import projects.liga.parcel.entities.Truck;
@@ -11,6 +11,7 @@ public interface ParcelPackager {
     public List<Truck> processPackaging(
             int truckWidth,
             int truckHeight,
+            int truckQuantity,
             NavigableMap<ParcelType, Integer> parcelQuantityByType);
 
     default void printTrucks(List<Truck> trucks) {

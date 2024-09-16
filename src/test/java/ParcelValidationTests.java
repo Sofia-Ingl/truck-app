@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import projects.liga.parcel.file_handling.validation.ParcelValidator;
-import projects.liga.parcel.file_handling.validation.ParcelValidatorImpl;
+import projects.liga.parcel.validation.ParcelValidator;
+import projects.liga.parcel.validation.ParcelValidatorImpl;
 
 import java.util.ArrayList;
 import java.util.List;

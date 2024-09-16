@@ -1,8 +1,8 @@
 package projects.liga.parcel.file_handling;
 
 import projects.liga.parcel.entities.ParcelType;
-import projects.liga.parcel.file_handling.validation.ParcelValidator;
-import projects.liga.parcel.file_handling.validation.ParcelValidatorImpl;
+import projects.liga.parcel.validation.ParcelValidator;
+import projects.liga.parcel.validation.ParcelValidatorImpl;
 import projects.liga.parcel.exceptions.ValidationException;
 
 import java.io.File;
@@ -15,7 +15,7 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
 
     public NavigableMap<ParcelType, Integer> getParcelQuantityByType(String filename,
                                                                      int truckHeight,
-                                                                     int truckWidth) throws IOException, ValidationException {
+                                                                     int truckWidth) throws IOException {
 
         File parcelFile = new File(filename);
         Scanner parcelScanner = new Scanner(parcelFile);

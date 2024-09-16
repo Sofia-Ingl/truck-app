@@ -28,6 +28,28 @@ public class Truck {
         Arrays.fill(occupiedCapacityByRow, 0);
     }
 
+
+    public Truck(Integer width, Integer height, char[][] back) {
+
+        occupiedCapacityByRow = new int[height];
+        Arrays.fill(occupiedCapacityByRow, 0);
+
+        this.back = new char[height][width];
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                this.back[i][j] = back[i][j];
+                if (back[i][j] != ' ')
+                    occupiedCapacityByRow[i]++;
+            }
+        }
+
+        this.width = width;
+        this.height = height;
+
+
+    }
+
     public void loadParcel(int x,
                            int y,
                            ParcelType suitableParcel) {

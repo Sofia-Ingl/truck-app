@@ -1,41 +1,26 @@
 package projects.liga;
 
-import projects.liga.config.AlgorithmType;
-import projects.liga.config.Config;
-import projects.liga.config.ConfigFileHandler;
-import projects.liga.config.ConfigFileHandlerImpl;
-import projects.liga.parcel.CommonAlgorithm;
-import projects.liga.parcel.ParcelPackager;
-import projects.liga.parcel.SingleParcelAlgorithm;
-import projects.liga.parcel.file_handling.ParcelFileHandler;
-import projects.liga.parcel.file_handling.ParcelFileHandlerImpl;
-import projects.liga.parcel.entities.ParcelType;
+import projects.liga.config.file_handling.ConfigFileHandler;
+import projects.liga.config.file_handling.ConfigFileHandlerImpl;
+import projects.liga.config.params_handling.ParamsHandler;
+import projects.liga.config.params_handling.ParamsHandlerImpl;
 
-import java.util.NavigableMap;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
 
         try {
             ConfigFileHandler configFileHandler = new ConfigFileHandlerImpl();
-            Config config = configFileHandler.loadConfig();
+            Map<String, String> params = configFileHandler.loadParams();
 
-            ParcelFileHandler parcelFileHandler = new ParcelFileHandlerImpl();
-            NavigableMap<ParcelType, Integer> parcelTypesMap = parcelFileHandler.getParcelQuantityByType(
-                    config.getParcelFileName(),
-                    config.getTruckHeight(),
-                    config.getTruckWidth());
+            ParamsHandler paramsHandler = new ParamsHandlerImpl();
+            List<Optional<Runnable>> tasks = paramsHandler.getRunnableTasksFromParamsMap(params);
 
-            ParcelPackager parcelPackager;
-            if (config.getAlgorithmType() == AlgorithmType.COMMON) {
-                parcelPackager = new CommonAlgorithm();
-            } else {
-                parcelPackager = new SingleParcelAlgorithm();
+            for (Optional<Runnable> task : tasks) {
+                task.ifPresent(Runnable::run);
             }
 
-            parcelPackager.printTrucks(parcelPackager.processPackaging(config.getTruckWidth(),
-                    config.getTruckHeight(),
-                    parcelTypesMap));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -1,4 +1,4 @@
-package projects.liga.parcel.file_handling.validation;
+package projects.liga.parcel.validation;
 
 import java.util.List;
 

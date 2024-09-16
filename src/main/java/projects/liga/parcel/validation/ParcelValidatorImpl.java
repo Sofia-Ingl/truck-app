@@ -1,4 +1,4 @@
-package projects.liga.parcel.file_handling.validation;
+package projects.liga.parcel.validation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class ParcelValidatorImpl implements ParcelValidator {
             PARCEL_TYPE_2, PARCEL_TYPE_3, PARCEL_TYPE_4, PARCEL_TYPE_5,
             PARCEL_TYPE_6, PARCEL_TYPE_7, PARCEL_TYPE_8, PARCEL_TYPE_9};
 
-    private final Map<Integer, List<String>> parcelFillingsAllowed = new HashMap<Integer, List<String>>();
+    private final Map<Integer, List<String>> parcelFillingsAllowed = new HashMap<>();
 
     public ParcelValidatorImpl() {
 

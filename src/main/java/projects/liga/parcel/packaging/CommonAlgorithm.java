@@ -1,4 +1,4 @@
-package projects.liga.parcel;
+package projects.liga.parcel.packaging;
 
 
 import projects.liga.parcel.entities.ParcelType;
@@ -13,7 +13,10 @@ public class CommonAlgorithm implements ParcelPackager {
     public List<Truck> processPackaging(
             int truckWidth,
             int truckHeight,
+            int truckQuantity,
             NavigableMap<ParcelType, Integer> parcelQuantityByType) {
+
+        // TODO change using truckQuantity!!!
 
         List<Truck> trucks = new ArrayList<>();
 

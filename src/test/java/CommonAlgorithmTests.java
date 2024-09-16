@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import projects.liga.parcel.CommonAlgorithm;
-import projects.liga.parcel.ParcelPackager;
+import projects.liga.parcel.packaging.CommonAlgorithm;
+import projects.liga.parcel.packaging.ParcelPackager;
 import projects.liga.parcel.entities.ParcelType;
 import projects.liga.parcel.entities.Truck;
 import projects.liga.parcel.exceptions.ValidationException;
@@ -22,6 +22,7 @@ public class CommonAlgorithmTests {
 
         int truckWidth = 6;
         int truckHeight = 6;
+        int truckQuantity = 10;
 
         NavigableMap<ParcelType, Integer> parcelQuantity =
                 handler.getParcelQuantityByType("src/test/resources/input_test.txt",
@@ -29,7 +30,7 @@ public class CommonAlgorithmTests {
                         truckWidth);
 
         List<Truck> trucks = parcelPackager.processPackaging(
-                truckWidth, truckHeight, parcelQuantity
+                truckWidth, truckHeight, truckQuantity, parcelQuantity
         );
 
         Assertions.assertEquals(1, trucks.size());
@@ -56,6 +57,7 @@ public class CommonAlgorithmTests {
 
         int truckWidth = 6;
         int truckHeight = 6;
+        int truckQuantity = 10;
 
         NavigableMap<ParcelType, Integer> parcelQuantity =
                 handler.getParcelQuantityByType("src/test/resources/no_hanging_test.txt",
@@ -63,7 +65,7 @@ public class CommonAlgorithmTests {
                         truckWidth);
 
         List<Truck> trucks = parcelPackager.processPackaging(
-                truckWidth, truckHeight, parcelQuantity
+                truckWidth, truckHeight, truckQuantity, parcelQuantity
         );
 
         Assertions.assertEquals(1, trucks.size());
@@ -88,6 +90,7 @@ public class CommonAlgorithmTests {
 
         int truckWidth = 6;
         int truckHeight = 6;
+        int truckQuantity = 10;
 
         NavigableMap<ParcelType, Integer> parcelQuantity =
                 handler.getParcelQuantityByType("src/test/resources/2cars_test.txt",
@@ -95,7 +98,7 @@ public class CommonAlgorithmTests {
                         truckWidth);
 
         List<Truck> trucks = parcelPackager.processPackaging(
-                truckWidth, truckHeight, parcelQuantity
+                truckWidth, truckHeight, truckQuantity, parcelQuantity
         );
 
         Assertions.assertEquals(2, trucks.size());
