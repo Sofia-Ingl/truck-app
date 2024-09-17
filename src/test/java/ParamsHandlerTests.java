@@ -1,12 +1,11 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import projects.liga.config.exceptions.ConfigException;
-import projects.liga.config.file_handling.ConfigFileHandler;
-import projects.liga.config.file_handling.ConfigFileHandlerImpl;
-import projects.liga.config.params_handling.ParamsHandler;
-import projects.liga.config.params_handling.ParamsHandlerImpl;
-import projects.liga.parcel.tasks.CountingTask;
-import projects.liga.parcel.tasks.PackagingTask;
+import projects.liga.truckapp.config.file.ConfigFileHandler;
+import projects.liga.truckapp.config.file.ConfigFileHandlerImpl;
+import projects.liga.truckapp.config.params.ParamsHandler;
+import projects.liga.truckapp.config.params.ParamsHandlerImpl;
+import projects.liga.truckapp.parcel.tasks.CountingTask;
+import projects.liga.truckapp.parcel.tasks.PackagingTask;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +48,7 @@ public class ParamsHandlerTests {
     void tasksParamNotFoundTest() throws IOException {
 
         Properties properties = configFileHandler.loadProperties("src/test/resources/no-tasks-param.config");
-        Assertions.assertThrows(ConfigException.class,
+        Assertions.assertThrows(RuntimeException.class,
                 ()-> paramsHandler.createRunnableTasksFromProperties(properties));
 
     }
@@ -59,7 +58,7 @@ public class ParamsHandlerTests {
     void requiredParamMissingTest() throws IOException {
 
         Properties properties = configFileHandler.loadProperties("src/test/resources/packaging-param-missing.config");
-        Assertions.assertThrows(ConfigException.class,
+        Assertions.assertThrows(RuntimeException.class,
                 ()-> paramsHandler.createRunnableTasksFromProperties(properties));
 
     }

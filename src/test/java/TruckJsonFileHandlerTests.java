@@ -1,10 +1,3 @@
-import projects.liga.parcel.file_handling.ParcelFileHandler;
-import projects.liga.parcel.file_handling.ParcelFileHandlerImpl;
-import projects.liga.parcel.json.TruckJsonFileHandler;
-import projects.liga.parcel.json.TruckJsonFileHandlerImpl;
-import projects.liga.parcel.packaging.CommonAlgorithm;
-import projects.liga.parcel.packaging.ParcelPackager;
-
 public class TruckJsonFileHandlerTests {
 
 //    ParcelFileHandler handler = new ParcelFileHandlerImpl();
