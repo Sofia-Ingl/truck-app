@@ -5,45 +5,44 @@ import projects.liga.config.exceptions.ConfigException;
 import projects.liga.parcel.tasks.CountingTask;
 import projects.liga.parcel.tasks.PackagingTask;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class ParamsHandlerImpl implements ParamsHandler {
 
     private final String TASKS_PARAM_NAME = "tasks";
     private final String TASKS_PARAM_VALUE_PACKAGING = "packaging";
-    private final String TASKS_PARAM_VALUE_SCANNING = "counting";
+    private final String TASKS_PARAM_VALUE_COUNTING = "counting";
 
     @Override
-    public List<Optional<Runnable>> getRunnableTasksFromParamsMap(Map<String, String> paramsMap) {
+    public List<Optional<Runnable>> createRunnableTasksFromProperties(Properties properties) {
 
-        if (!paramsMap.containsKey(TASKS_PARAM_NAME)) {
-            throw new ConfigException("Not all required params found!");
+        if (!properties.containsKey(TASKS_PARAM_NAME)) {
+            throw new ConfigException("Not all required params found! Param '"
+                    + TASKS_PARAM_NAME
+                    + "' not found");
         }
 
         List<Optional<Runnable>> runnableTasks = new ArrayList<>();
-        runnableTasks.add(getPackagingTask(paramsMap));
-        runnableTasks.add(getCountingTask(paramsMap));
+        runnableTasks.add(getPackagingTask(properties));
+        runnableTasks.add(getCountingTask(properties));
 
         return runnableTasks;
     }
 
 
-    private Optional<Runnable> getPackagingTask(Map<String, String> paramsMap) {
-        String tasksToRun = paramsMap.get(TASKS_PARAM_NAME);
+    private Optional<Runnable> getPackagingTask(Properties properties) {
+        String tasksToRun = properties.getProperty(TASKS_PARAM_NAME);
         if (tasksToRun == null || !tasksToRun.toLowerCase().contains(TASKS_PARAM_VALUE_PACKAGING)) {
             return Optional.empty();
         }
 
         try {
-            String inputFileName = paramsMap.get("packaging-input");
-            String outputFileName = paramsMap.get("packaging-output");
-            String truckWidth = paramsMap.get("truck-width");
-            String truckHeight = paramsMap.get("truck-height");
-            String truckQuantity = paramsMap.get("truck-quantity");
-            String algorithm = paramsMap.get("algorithm");
+            String inputFileName = properties.getProperty("packaging-input");
+            String outputFileName = properties.getProperty("packaging-output");
+            String truckWidth = properties.getProperty("truck-width");
+            String truckHeight = properties.getProperty("truck-height");
+            String truckQuantity = properties.getProperty("truck-quantity");
+            String algorithm = properties.getProperty("algorithm");
 
             if (algorithm == null || inputFileName == null
                     || outputFileName == null || truckWidth == null
@@ -69,14 +68,14 @@ public class ParamsHandlerImpl implements ParamsHandler {
 
     }
 
-    private Optional<Runnable> getCountingTask(Map<String, String> paramsMap) {
+    private Optional<Runnable> getCountingTask(Properties properties) {
 
-        String tasksToRun = paramsMap.get(TASKS_PARAM_NAME);
-        if (tasksToRun == null || !tasksToRun.toLowerCase().contains(TASKS_PARAM_VALUE_SCANNING)) {
+        String tasksToRun = properties.getProperty(TASKS_PARAM_NAME);
+        if (tasksToRun == null || !tasksToRun.toLowerCase().contains(TASKS_PARAM_VALUE_COUNTING)) {
             return Optional.empty();
         }
 
-        String inputFileName = paramsMap.get("counting-input");
+        String inputFileName = properties.getProperty("counting-input");
 
         if (inputFileName == null) {
             throw new ConfigException("Not all required params for counting task found!");
@@ -86,5 +85,4 @@ public class ParamsHandlerImpl implements ParamsHandler {
         return Optional.of(task);
 
     }
-
 }

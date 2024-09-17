@@ -8,7 +8,7 @@ import java.util.NavigableMap;
 
 public interface ParcelPackager {
 
-    public List<Truck> processPackaging(
+    List<Truck> processPackaging(
             int truckWidth,
             int truckHeight,
             int truckQuantity,

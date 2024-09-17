@@ -1,6 +1,3 @@
-import org.junit.jupiter.api.Test;
-import projects.liga.parcel.entities.ParcelType;
-import projects.liga.parcel.entities.Truck;
 import projects.liga.parcel.file_handling.ParcelFileHandler;
 import projects.liga.parcel.file_handling.ParcelFileHandlerImpl;
 import projects.liga.parcel.json.TruckJsonFileHandler;
@@ -8,15 +5,11 @@ import projects.liga.parcel.json.TruckJsonFileHandlerImpl;
 import projects.liga.parcel.packaging.CommonAlgorithm;
 import projects.liga.parcel.packaging.ParcelPackager;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.NavigableMap;
+public class TruckJsonFileHandlerTests {
 
-public class JsonFileHandlerTests {
-
-    ParcelFileHandler handler = new ParcelFileHandlerImpl();
-    ParcelPackager parcelPackager = new CommonAlgorithm();
-    TruckJsonFileHandler truckJsonFileHandler = new TruckJsonFileHandlerImpl();
+//    ParcelFileHandler handler = new ParcelFileHandlerImpl();
+//    ParcelPackager parcelPackager = new CommonAlgorithm();
+//    TruckJsonFileHandler truckJsonFileHandler = new TruckJsonFileHandlerImpl();
 
 //    @Test
 //    void test() throws IOException {

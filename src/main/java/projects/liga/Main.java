@@ -12,10 +12,10 @@ public class Main {
 
         try {
             ConfigFileHandler configFileHandler = new ConfigFileHandlerImpl();
-            Map<String, String> params = configFileHandler.loadParams();
+            Properties properties = configFileHandler.loadProperties("app.config");
 
             ParamsHandler paramsHandler = new ParamsHandlerImpl();
-            List<Optional<Runnable>> tasks = paramsHandler.getRunnableTasksFromParamsMap(params);
+            List<Optional<Runnable>> tasks = paramsHandler.createRunnableTasksFromProperties(properties);
 
             for (Optional<Runnable> task : tasks) {
                 task.ifPresent(Runnable::run);
