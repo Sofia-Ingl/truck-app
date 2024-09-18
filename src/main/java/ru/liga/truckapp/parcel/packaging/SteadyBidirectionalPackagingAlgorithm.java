@@ -83,10 +83,10 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
                                             int truckIndex,
                                             int[] differencesWithMaxParcelSize) {
 
-        boolean truckIsLoadedSteadilyOnCurrentIter = false;
+        boolean truckIsLoadedSteadilyOnCurrentIteration = false;
 
         // truck is already filled steadily on this iteration; continue with other trucks
-        if (differencesWithMaxParcelSize[truckIndex] == 0) return truckIsLoadedSteadilyOnCurrentIter;
+        if (differencesWithMaxParcelSize[truckIndex] == 0) return truckIsLoadedSteadilyOnCurrentIteration;
 
         int suitableParcelIndex = findIndexOfMaxParcelHavingLessOrEqualSize(
                 differencesWithMaxParcelSize[truckIndex],
@@ -95,8 +95,8 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
         if (suitableParcelIndex == -1) {
             // cannot fill truck better on current iteration
             differencesWithMaxParcelSize[truckIndex] = 0;
-            truckIsLoadedSteadilyOnCurrentIter = true;
-            return truckIsLoadedSteadilyOnCurrentIter;
+            truckIsLoadedSteadilyOnCurrentIteration = true;
+            return truckIsLoadedSteadilyOnCurrentIteration;
         }
 
 
@@ -106,10 +106,10 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
 
         differencesWithMaxParcelSize[truckIndex] -= loadedParcelSize;
         if (differencesWithMaxParcelSize[truckIndex] == 0) {
-            truckIsLoadedSteadilyOnCurrentIter = true;
-            return truckIsLoadedSteadilyOnCurrentIter;
+            truckIsLoadedSteadilyOnCurrentIteration = true;
+            return truckIsLoadedSteadilyOnCurrentIteration;
         }
-        return truckIsLoadedSteadilyOnCurrentIter;
+        return truckIsLoadedSteadilyOnCurrentIteration;
     }
 
 

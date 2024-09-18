@@ -5,44 +5,46 @@ import ru.liga.truckapp.config.file.ConfigFileHandler;
 import ru.liga.truckapp.config.file.ConfigFileHandlerImpl;
 import ru.liga.truckapp.config.params.ParamsHandler;
 import ru.liga.truckapp.config.params.ParamsHandlerImpl;
-import ru.liga.truckapp.parcel.counting.ParcelCounter;
-import ru.liga.truckapp.parcel.counting.ParcelCounterImpl;
-import ru.liga.truckapp.parcel.entities.Parcel;
-import ru.liga.truckapp.parcel.entities.Truck;
-import ru.liga.truckapp.parcel.file.ParcelFileHandler;
-import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
-import ru.liga.truckapp.parcel.json.TruckJsonFileHandler;
-import ru.liga.truckapp.parcel.json.TruckJsonFileHandlerImpl;
-import ru.liga.truckapp.parcel.packaging.OptimizedPackagingAlgorithm;
-import ru.liga.truckapp.parcel.packaging.ParcelPackager;
-import ru.liga.truckapp.parcel.packaging.SteadyBidirectionalPackagingAlgorithm;
 import ru.liga.truckapp.parcel.tasks.CountingTask;
 import ru.liga.truckapp.parcel.tasks.PackagingTask;
-import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
 
 import java.io.IOException;
 import java.util.*;
 
 public class Main {
+
+    private static String DEFAULT_CONFIG_FILE_NAME = "app.config";
+
     public static void main(String[] args) {
 
         try {
-            ConfigFileHandler configFileHandler = new ConfigFileHandlerImpl();
-            Properties properties = configFileHandler.loadProperties("app.config");
 
-            ParamsHandler paramsHandler = new ParamsHandlerImpl();
-            List<Optional<Runnable>> tasks = paramsHandler.createRunnableTasksFromProperties(properties);
-
+            Properties properties = readConfiguration(args);
+            List<Optional<Runnable>> tasks = createTasksFromGivenParameters(properties);
             for (Optional<Runnable> task : tasks) {
                 task.ifPresent(Runnable::run);
             }
-
             consolePhase(properties);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    private static Properties readConfiguration(String[] args) {
+
+        String configFileName = DEFAULT_CONFIG_FILE_NAME;
+        if (args.length > 0) {
+            configFileName = args[0];
+        }
+        ConfigFileHandler configFileHandler = new ConfigFileHandlerImpl();
+        return configFileHandler.loadProperties(configFileName);
+    }
+
+    private static List<Optional<Runnable>> createTasksFromGivenParameters(Properties properties) {
+        ParamsHandler paramsHandler = new ParamsHandlerImpl();
+        return paramsHandler.createRunnableTasksFromProperties(properties);
     }
 
 

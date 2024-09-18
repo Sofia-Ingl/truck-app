@@ -11,7 +11,7 @@ public class Truck {
     private final int width;
     private final int height;
 
-    int[] occupiedCapacityByRow;
+    private int[] occupiedCapacityByRow;
 
     public Truck(Integer width, Integer height) {
         back = new char[height][width];
