@@ -6,7 +6,7 @@ import projects.liga.truckapp.parcel.entities.Truck;
 
 import java.util.*;
 
-public class SteadyPackagingAlgorithm implements ParcelPackager {
+public class SteadyPackagingAlgorithm extends SteadyPackagingAlgorithmAbstract {
 
 
     @Override
@@ -79,118 +79,9 @@ public class SteadyPackagingAlgorithm implements ParcelPackager {
 
         }
 
-        /*
-        while (!parcelsSorted.isEmpty()) {
-
-            Parcel iterationMaxParcel = null;
-
-            for (Truck truck : trucks) {
-
-                int maxParcelIdx = parcelsSorted.size() - 1;
-                Parcel currentMaxParcel = parcelsSorted.get(maxParcelIdx);
-
-                tryLoadParcel(maxParcelIdx,
-                        parcelsSorted,
-                        truck);
-
-                if (iterationMaxParcel == null) {
-                    iterationMaxParcel = currentMaxParcel;
-                }
-
-                int difference = iterationMaxParcel.getTypeCode() - currentMaxParcel.getTypeCode();
-                while (difference > 0) {
-
-                    int suitableParcelIndex = findIndexOfMaxParcelHavingLessOrEqualSize(difference, parcelsSorted);
-                    if (suitableParcelIndex == -1) {
-                        break;
-                    }
-
-                    Parcel suitableParcel = parcelsSorted.get(suitableParcelIndex);
-                    tryLoadParcel(suitableParcelIndex, parcelsSorted, truck);
-
-                    difference -= suitableParcel.getTypeCode();
-
-                }
-
-
-            }
-
-        }
-
-         */
-
         return trucks;
     }
 
-    private int findIndexOfMaxParcelHavingLessOrEqualSize(int size,
-                                                          List<Parcel> parcelsSortedAscending) {
 
-        Parcel maxSuitableParcelInAbstract = Parcel.builder()
-                .typeCode(size)
-                .build();
-
-        int binarySearchResult = Collections.binarySearch(
-                parcelsSortedAscending,
-                maxSuitableParcelInAbstract,
-                Comparator.comparing(Parcel::getTypeCode)
-        );
-        int upperBoundIndexNotIncluded;
-        // read Collections.binarySearch return contract
-        if (binarySearchResult < 0) {
-            // key not present -> result = -(insertion point) - 1 -> insertion point = -result - 1
-            upperBoundIndexNotIncluded = -binarySearchResult - 1;
-        } else {
-            // key not present -> return EXACTLY idx of key
-            // so we need to add 1 to get upper bound not included
-            upperBoundIndexNotIncluded = binarySearchResult + 1;
-        }
-        return upperBoundIndexNotIncluded - 1;
-    }
-
-
-    private Slot findNextPlaceForParcel(Truck truck,
-                                        Parcel parcel) {
-
-        for (int y = 0; y < truck.getHeight() - parcel.getHeight(); y++) {
-
-            int widthAvailable = truck.getWidth() - truck.getOccupiedCapacityByRow()[y];
-            if (widthAvailable >= parcel.getMaxWidth()) {
-
-                for (int x = 0; x < truck.getWidth() - parcel.getMaxWidth(); x++) {
-                    if (truck.getBack()[y][x] == ' '
-                            && truck.checkParcelBottomWillNotHang(x, y, parcel.getMaxWidth())
-                            && truck.canLoadParcel(x, y, parcel)) {
-                        return new Slot(
-                                x,
-                                y,
-                                truck.getWidth() - x,
-                                truck.getHeight() - y
-                        );
-                    }
-                }
-
-            }
-        }
-        return new Slot(truck.getWidth(), truck.getHeight(), 0, 0);
-
-    }
-
-
-    private int tryLoadParcel(int parcelIndex,
-                               List<Parcel> parcelsSortedAscending,
-                               Truck truck) {
-
-        Parcel suitableParcel = parcelsSortedAscending.get(parcelIndex);
-        int size = suitableParcel.getTypeCode();
-
-        Slot slot = findNextPlaceForParcel(truck, suitableParcel);
-        if (slot.getWidth() == 0 || slot.getHeight() == 0) {
-            throw new RuntimeException("Cannot load parcels steadily");
-        }
-
-        truck.loadParcel(slot.getX(), slot.getY(), suitableParcel);
-        parcelsSortedAscending.remove(parcelIndex);
-        return size;
-    }
 
 }
