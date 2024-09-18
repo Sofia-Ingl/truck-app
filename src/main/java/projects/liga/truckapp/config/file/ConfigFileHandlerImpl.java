@@ -14,7 +14,7 @@ public class ConfigFileHandlerImpl implements ConfigFileHandler {
             properties.load(new FileReader(filename));
             return properties;
         } catch (IOException e) {
-            throw new RuntimeException("IOException occurred: " + e.getMessage());
+            throw new IllegalStateException("IOException occurred: " + e.getMessage());
         }
     }
 

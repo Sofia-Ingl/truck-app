@@ -61,7 +61,7 @@ public class ParamsHandlerImpl implements ParamsHandler {
 
         } catch (IllegalArgumentException e) {
 
-            throw new RuntimeException("Invalid param value for packaging task!");
+            throw new IllegalStateException("Invalid param value for packaging task!");
 
         }
 
@@ -77,7 +77,7 @@ public class ParamsHandlerImpl implements ParamsHandler {
         String inputFileName = properties.getProperty("counting-input");
 
         if (inputFileName == null) {
-            throw new RuntimeException("Not all required params for counting task found!");
+            throw new IllegalStateException("Not all required params for counting task found!");
         }
 
         Runnable task = new CountingTask(inputFileName);

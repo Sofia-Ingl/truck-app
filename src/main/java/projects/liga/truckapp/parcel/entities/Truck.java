@@ -80,8 +80,8 @@ public class Truck {
 
 
     public boolean canLoadParcel(int x,
-                                       int y,
-                                       Parcel suitableParcel) {
+                                 int y,
+                                 Parcel suitableParcel) {
 
         if (suitableParcel.getHeight() > height - y || suitableParcel.getMaxWidth() > width - x) {
             return false;
@@ -114,20 +114,20 @@ public class Truck {
     }
 
 
-    public boolean checkParcelBottomWillNotHang(int x, int y) {
+    public boolean checkParcelBottomWillNotHang(int x, int y, int parcelWidth) {
         if (y <= 0) return true;
 
         int blanks = 0;
-        for (int i = x; i < width; i++) {
-            if (back[i][y - 1] == ' ') blanks++;
+        for (int i = x; i < x + parcelWidth; i++) {
+            if (back[y - 1][i] == ' ') blanks++;
         }
-        return blanks * 2 < width - x;
+        return blanks * 2 < parcelWidth;
     }
 
     public void print() {
 
         System.out.print("\n");
-        for (int i = height-1; i >= 0; i--) {
+        for (int i = height - 1; i >= 0; i--) {
             System.out.print("+");
             for (int j = 0; j < width; j++) {
                 System.out.print(back[i][j]);

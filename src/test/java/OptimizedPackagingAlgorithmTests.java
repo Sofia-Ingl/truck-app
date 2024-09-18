@@ -16,21 +16,21 @@ public class OptimizedPackagingAlgorithmTests {
 
     ParcelFileHandler handler = new ParcelFileHandlerImpl();
     ParcelPackager parcelPackager = new OptimizedPackagingAlgorithm();
-/*
+
     @Test
-    public void testDensity() throws ValidationException, IOException {
+    public void testDensity() {
 
         int truckWidth = 6;
         int truckHeight = 6;
         int truckQuantity = 10;
 
-        NavigableMap<Parcel, Integer> parcelQuantity =
-                handler.getParcelQuantityByType("src/test/resources/input_test.txt",
+        List<Parcel> parcels =
+                handler.readAllParcels("src/test/resources/input_test.txt",
                         truckHeight,
                         truckWidth);
 
         List<Truck> trucks = parcelPackager.processPackaging(
-                truckWidth, truckHeight, truckQuantity, parcelQuantity
+                truckWidth, truckHeight, truckQuantity, parcels
         );
 
         Assertions.assertEquals(1, trucks.size());
@@ -53,19 +53,19 @@ public class OptimizedPackagingAlgorithmTests {
 
 
     @Test
-    public void testNoHanging() throws ValidationException, IOException {
+    public void testNoHanging()  {
 
         int truckWidth = 6;
         int truckHeight = 6;
         int truckQuantity = 10;
 
-        NavigableMap<Parcel, Integer> parcelQuantity =
-                handler.getParcelQuantityByType("src/test/resources/no_hanging_test.txt",
+        List<Parcel> parcels =
+                handler.readAllParcels("src/test/resources/no_hanging_test.txt",
                         truckHeight,
                         truckWidth);
 
         List<Truck> trucks = parcelPackager.processPackaging(
-                truckWidth, truckHeight, truckQuantity, parcelQuantity
+                truckWidth, truckHeight, truckQuantity, parcels
         );
 
         Assertions.assertEquals(1, trucks.size());
@@ -86,19 +86,19 @@ public class OptimizedPackagingAlgorithmTests {
 
 
     @Test
-    public void testNotEnoughSpace() throws ValidationException, IOException {
+    public void testNotEnoughSpaceInOneTruck() {
 
         int truckWidth = 6;
         int truckHeight = 6;
         int truckQuantity = 10;
 
-        NavigableMap<Parcel, Integer> parcelQuantity =
-                handler.getParcelQuantityByType("src/test/resources/2cars_test.txt",
+        List<Parcel> parcels =
+                handler.readAllParcels("src/test/resources/2cars_test.txt",
                         truckHeight,
                         truckWidth);
 
         List<Truck> trucks = parcelPackager.processPackaging(
-                truckWidth, truckHeight, truckQuantity, parcelQuantity
+                truckWidth, truckHeight, truckQuantity, parcels
         );
 
         Assertions.assertEquals(2, trucks.size());
@@ -115,7 +115,6 @@ public class OptimizedPackagingAlgorithmTests {
     }
 
 
- */
 
 
 

@@ -50,7 +50,7 @@ public class SteadyPackagingAlgorithm implements ParcelPackager {
                     // truck is already filled steadily on this iteration; continue with other trucks
                     if (differencesWithMaxParcelSize[i] == 0) continue;
 
-                    int suitableParcelIndex = findMaxParcelOfLessOrEqualSizeIndex(
+                    int suitableParcelIndex = findIndexOfMaxParcelHavingLessOrEqualSize(
                             differencesWithMaxParcelSize[i],
                             parcelsSorted);
 
@@ -59,17 +59,14 @@ public class SteadyPackagingAlgorithm implements ParcelPackager {
                         trucksLoadedSteadilyInIteration++;
                         differencesWithMaxParcelSize[i] = 0;
                         continue;
-//                        trucksLoadedSteadilyInIteration = trucks.size();
-//                        break;
                     }
 
-                    Parcel suitableParcel = parcelsSorted.get(suitableParcelIndex);
 
-                    tryLoadParcel(suitableParcelIndex,
+                    int loadedParcelSize = tryLoadParcel(suitableParcelIndex,
                             parcelsSorted,
                             truck);
 
-                    differencesWithMaxParcelSize[i] -= suitableParcel.getTypeCode();
+                    differencesWithMaxParcelSize[i] -= loadedParcelSize;
                     if (differencesWithMaxParcelSize[i] == 0) {
                         trucksLoadedSteadilyInIteration++;
                     }
@@ -103,7 +100,7 @@ public class SteadyPackagingAlgorithm implements ParcelPackager {
                 int difference = iterationMaxParcel.getTypeCode() - currentMaxParcel.getTypeCode();
                 while (difference > 0) {
 
-                    int suitableParcelIndex = findMaxParcelOfLessOrEqualSizeIndex(difference, parcelsSorted);
+                    int suitableParcelIndex = findIndexOfMaxParcelHavingLessOrEqualSize(difference, parcelsSorted);
                     if (suitableParcelIndex == -1) {
                         break;
                     }
@@ -125,11 +122,11 @@ public class SteadyPackagingAlgorithm implements ParcelPackager {
         return trucks;
     }
 
-    private int findMaxParcelOfLessOrEqualSizeIndex(int difference,
-                                                    List<Parcel> parcelsSortedAscending) {
+    private int findIndexOfMaxParcelHavingLessOrEqualSize(int size,
+                                                          List<Parcel> parcelsSortedAscending) {
 
         Parcel maxSuitableParcelInAbstract = Parcel.builder()
-                .typeCode(difference)
+                .typeCode(size)
                 .build();
 
         int binarySearchResult = Collections.binarySearch(
@@ -154,15 +151,14 @@ public class SteadyPackagingAlgorithm implements ParcelPackager {
     private Slot findNextPlaceForParcel(Truck truck,
                                         Parcel parcel) {
 
-        // TODO: implement
         for (int y = 0; y < truck.getHeight() - parcel.getHeight(); y++) {
 
             int widthAvailable = truck.getWidth() - truck.getOccupiedCapacityByRow()[y];
             if (widthAvailable >= parcel.getMaxWidth()) {
 
-                for (int x = 0; x < truck.getWidth(); x++) {
+                for (int x = 0; x < truck.getWidth() - parcel.getMaxWidth(); x++) {
                     if (truck.getBack()[y][x] == ' '
-                            && truck.checkParcelBottomWillNotHang(x, y)
+                            && truck.checkParcelBottomWillNotHang(x, y, parcel.getMaxWidth())
                             && truck.canLoadParcel(x, y, parcel)) {
                         return new Slot(
                                 x,
@@ -180,11 +176,13 @@ public class SteadyPackagingAlgorithm implements ParcelPackager {
     }
 
 
-    private void tryLoadParcel(int parcelIndex,
+    private int tryLoadParcel(int parcelIndex,
                                List<Parcel> parcelsSortedAscending,
                                Truck truck) {
 
         Parcel suitableParcel = parcelsSortedAscending.get(parcelIndex);
+        int size = suitableParcel.getTypeCode();
+
         Slot slot = findNextPlaceForParcel(truck, suitableParcel);
         if (slot.getWidth() == 0 || slot.getHeight() == 0) {
             throw new RuntimeException("Cannot load parcels steadily");
@@ -192,6 +190,7 @@ public class SteadyPackagingAlgorithm implements ParcelPackager {
 
         truck.loadParcel(slot.getX(), slot.getY(), suitableParcel);
         parcelsSortedAscending.remove(parcelIndex);
+        return size;
     }
 
 }

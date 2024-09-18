@@ -8,14 +8,13 @@ import projects.liga.truckapp.parcel.exceptions.ValidationException;
 import projects.liga.truckapp.parcel.file.ParcelFileHandler;
 import projects.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.NavigableMap;
 
 public class SteadyPackagingAlgorithmTests {
 
     ParcelFileHandler handler = new ParcelFileHandlerImpl();
     ParcelPackager parcelPackager = new SteadyPackagingAlgorithm();
+
+
 /*
     @Test
     public void testTrucksNumber() throws ValidationException, IOException {
