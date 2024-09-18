@@ -8,9 +8,9 @@ import java.util.Arrays;
 @Getter
 public class Truck {
 
-    private char[][] back;
-    private int width;
-    private int height;
+    private final char[][] back;
+    private final int width;
+    private final int height;
 
     int[] occupiedCapacityByRow;
 

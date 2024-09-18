@@ -6,6 +6,6 @@ import java.util.Map;
 
 public interface ParcelCounter {
 
-    Map<String, Integer> countParcels(Truck truck);
+    Map<Integer, Integer> countParcels(Truck truck);
 
 }

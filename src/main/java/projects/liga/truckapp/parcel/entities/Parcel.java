@@ -11,11 +11,11 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class Parcel implements Comparable<Parcel> {
 
-    private Integer typeCode;
-    private Integer maxWidth;
-    private Integer height;
-    private Boolean isRectangle;
-    private char[][] filling;
+    private final Integer typeCode;
+    private final Integer maxWidth;
+    private final Integer height;
+    private final Boolean isRectangle;
+    private final char[][] filling;
 
     @Override
     public int compareTo(Parcel o) {

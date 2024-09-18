@@ -23,9 +23,9 @@ public class CountingTask implements Runnable {
             TruckJsonFileHandler truckJsonFileHandler = new TruckJsonFileHandlerImpl();
             Truck truck = truckJsonFileHandler.readTruck(inputFileName);
             ParcelCounter parcelCounter = new ParcelCounterImpl();
-            Map<String, Integer> parcelsQuantityByType = parcelCounter.countParcels(truck);
+            Map<Integer, Integer> parcelsQuantityByType = parcelCounter.countParcels(truck);
 
-            for (String type : parcelsQuantityByType.keySet()) {
+            for (Integer type : parcelsQuantityByType.keySet()) {
                 System.out.println(type + ": " + parcelsQuantityByType.get(type));
                 // TODO logging COMMON REPORT OUT
             }

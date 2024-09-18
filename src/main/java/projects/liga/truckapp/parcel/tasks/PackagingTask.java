@@ -31,10 +31,6 @@ public class PackagingTask implements Runnable {
 
         try {
             ParcelFileHandler parcelFileHandler = new ParcelFileHandlerImpl();
-//            NavigableMap<Parcel, Integer> parcelTypesMap = parcelFileHandler.getParcelQuantityByType(
-//                    inputFileName,
-//                    truckHeight,
-//                    truckWidth);
 
             List<Parcel> parcels = parcelFileHandler.readAllParcels(
                     inputFileName,
@@ -47,12 +43,6 @@ public class PackagingTask implements Runnable {
             } else {
                 parcelPackager = new SteadyPackagingAlgorithm();
             }
-
-            // TODO add quantity
-//            List<Truck> trucks = parcelPackager.processPackaging(truckWidth,
-//                    truckHeight,
-//                    truckQuantity,
-//                    parcelTypesMap);
 
             List<Truck> trucks = parcelPackager.processPackaging(truckWidth,
                     truckHeight,
