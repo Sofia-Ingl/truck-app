@@ -5,11 +5,17 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 @Builder
 @Getter
 @AllArgsConstructor
 public class Parcel implements Comparable<Parcel> {
+
+    public final static Comparator<Parcel> typeCodeComparator
+            = Comparator.comparing(Parcel::getTypeCode);
+    public final static Comparator<Parcel> widthComparator
+            = Parcel::compareTo;
 
     private final Integer typeCode;
     private final Integer maxWidth;

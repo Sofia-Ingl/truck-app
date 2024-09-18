@@ -1,13 +1,14 @@
 import ru.liga.truckapp.parcel.packaging.ParcelPackager;
-import ru.liga.truckapp.parcel.packaging.SteadyPackagingAlgorithm;
+import ru.liga.truckapp.parcel.packaging.SteadyBidirectionalPackagingAlgorithm;
 import ru.liga.truckapp.parcel.file.ParcelFileHandler;
 import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
+import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
 
 
 public class SteadyPackagingAlgorithmTests {
 
-    ParcelFileHandler handler = new ParcelFileHandlerImpl();
-    ParcelPackager parcelPackager = new SteadyPackagingAlgorithm();
+    ParcelFileHandler handler = new ParcelFileHandlerImpl(new ParcelValidatorImpl());
+    ParcelPackager parcelPackager = new SteadyBidirectionalPackagingAlgorithm();
 
 
 /*

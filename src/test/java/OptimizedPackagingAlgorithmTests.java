@@ -6,12 +6,13 @@ import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Truck;
 import ru.liga.truckapp.parcel.file.ParcelFileHandler;
 import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
+import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
 
 import java.util.List;
 
 public class OptimizedPackagingAlgorithmTests {
 
-    ParcelFileHandler handler = new ParcelFileHandlerImpl();
+    ParcelFileHandler handler = new ParcelFileHandlerImpl(new ParcelValidatorImpl());
     ParcelPackager parcelPackager = new OptimizedPackagingAlgorithm();
 
     @Test

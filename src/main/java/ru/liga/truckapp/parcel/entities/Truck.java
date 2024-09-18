@@ -1,7 +1,6 @@
 package ru.liga.truckapp.parcel.entities;
 
 import lombok.*;
-import ru.liga.truckapp.parcel.exceptions.TruckException;
 
 import java.util.Arrays;
 
@@ -55,7 +54,7 @@ public class Truck {
 
 
         if (!canLoadParcel(x, y, suitableParcel)) {
-            throw new TruckException("Can't load parcel on position " + x + ", " + y);
+            throw new RuntimeException("Can't load parcel into truck on position " + x + ", " + y);
         }
 
         for (int i = 0; i < suitableParcel.getHeight(); i++) {

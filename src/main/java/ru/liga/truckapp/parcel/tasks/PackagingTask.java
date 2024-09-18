@@ -8,10 +8,10 @@ import ru.liga.truckapp.parcel.json.TruckJsonFileHandlerImpl;
 import ru.liga.truckapp.parcel.packaging.OptimizedPackagingAlgorithm;
 import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.packaging.SteadyBidirectionalPackagingAlgorithm;
-import ru.liga.truckapp.parcel.packaging.SteadyPackagingAlgorithm;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.file.ParcelFileHandler;
 import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
+import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +30,7 @@ public class PackagingTask implements Runnable {
     public void run() {
 
         try {
-            ParcelFileHandler parcelFileHandler = new ParcelFileHandlerImpl();
+            ParcelFileHandler parcelFileHandler = new ParcelFileHandlerImpl(new ParcelValidatorImpl());
 
             List<Parcel> parcels = parcelFileHandler.readAllParcels(
                     inputFileName,
@@ -39,7 +39,6 @@ public class PackagingTask implements Runnable {
 
             ParcelPackager parcelPackager = switch (algorithm) {
                 case OPTIMIZED -> new OptimizedPackagingAlgorithm();
-                case STEADY -> new SteadyPackagingAlgorithm();
                 case STEADY_BIDIRECTIONAL -> new SteadyBidirectionalPackagingAlgorithm();
             };
 

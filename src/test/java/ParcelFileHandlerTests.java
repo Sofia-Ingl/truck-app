@@ -4,13 +4,14 @@ import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.exceptions.ValidationException;
 import ru.liga.truckapp.parcel.file.ParcelFileHandler;
 import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
+import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
 
 import java.io.IOException;
 import java.util.NavigableMap;
 
 public class ParcelFileHandlerTests {
 
-    ParcelFileHandler handler = new ParcelFileHandlerImpl();
+    ParcelFileHandler handler = new ParcelFileHandlerImpl(new ParcelValidatorImpl());
 
     @Test
     void readParcelsTest() throws ValidationException, IOException {

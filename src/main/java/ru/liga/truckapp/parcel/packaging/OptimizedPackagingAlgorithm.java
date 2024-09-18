@@ -17,7 +17,7 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
                                         List<Parcel> parcels) {
 
         List<Parcel> parcelsSorted = new ArrayList<>(parcels);
-        Collections.sort(parcelsSorted);
+        Collections.sort(parcelsSorted, Parcel.widthComparator);
 
         List<Truck> trucks = new ArrayList<>();
 
@@ -100,7 +100,10 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
                 .typeCode(Integer.MAX_VALUE)
                 .build();
 
-        int upperBoundNotIncludedIndex = Collections.binarySearch(parcelsAscending, maxSuitableParcelInAbstract);
+        int upperBoundNotIncludedIndex = Collections.binarySearch(parcelsAscending,
+                maxSuitableParcelInAbstract,
+                Parcel.widthComparator);
+
         if (upperBoundNotIncludedIndex < 0) {
             // read Collections.binarySearch return contract
             upperBoundNotIncludedIndex = -upperBoundNotIncludedIndex - 1;
