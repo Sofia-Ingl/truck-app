@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import projects.liga.truckapp.parcel.entities.Parcel;
-import projects.liga.truckapp.parcel.exceptions.ValidationException;
-import projects.liga.truckapp.parcel.file.ParcelFileHandler;
-import projects.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
+import ru.liga.truckapp.parcel.entities.Parcel;
+import ru.liga.truckapp.parcel.exceptions.ValidationException;
+import ru.liga.truckapp.parcel.file.ParcelFileHandler;
+import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
 
 import java.io.IOException;
 import java.util.NavigableMap;

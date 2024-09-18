@@ -1,11 +1,11 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import projects.liga.truckapp.config.file.ConfigFileHandler;
-import projects.liga.truckapp.config.file.ConfigFileHandlerImpl;
-import projects.liga.truckapp.config.params.ParamsHandler;
-import projects.liga.truckapp.config.params.ParamsHandlerImpl;
-import projects.liga.truckapp.parcel.tasks.CountingTask;
-import projects.liga.truckapp.parcel.tasks.PackagingTask;
+import ru.liga.truckapp.config.file.ConfigFileHandler;
+import ru.liga.truckapp.config.file.ConfigFileHandlerImpl;
+import ru.liga.truckapp.config.params.ParamsHandler;
+import ru.liga.truckapp.config.params.ParamsHandlerImpl;
+import ru.liga.truckapp.parcel.tasks.CountingTask;
+import ru.liga.truckapp.parcel.tasks.PackagingTask;
 
 import java.io.IOException;
 import java.util.List;

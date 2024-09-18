@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import projects.liga.truckapp.parcel.validation.ParcelValidator;
-import projects.liga.truckapp.parcel.validation.ParcelValidatorImpl;
+import ru.liga.truckapp.parcel.validation.ParcelValidator;
+import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
 
 import java.util.ArrayList;
 import java.util.List;

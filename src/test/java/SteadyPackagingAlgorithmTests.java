@@ -1,12 +1,7 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import projects.liga.truckapp.parcel.packaging.ParcelPackager;
-import projects.liga.truckapp.parcel.packaging.SteadyPackagingAlgorithm;
-import projects.liga.truckapp.parcel.entities.Parcel;
-import projects.liga.truckapp.parcel.entities.Truck;
-import projects.liga.truckapp.parcel.exceptions.ValidationException;
-import projects.liga.truckapp.parcel.file.ParcelFileHandler;
-import projects.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
+import ru.liga.truckapp.parcel.packaging.ParcelPackager;
+import ru.liga.truckapp.parcel.packaging.SteadyPackagingAlgorithm;
+import ru.liga.truckapp.parcel.file.ParcelFileHandler;
+import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
 
 
 public class SteadyPackagingAlgorithmTests {

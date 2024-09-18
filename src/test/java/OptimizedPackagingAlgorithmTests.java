@@ -1,16 +1,13 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import projects.liga.truckapp.parcel.packaging.OptimizedPackagingAlgorithm;
-import projects.liga.truckapp.parcel.packaging.ParcelPackager;
-import projects.liga.truckapp.parcel.entities.Parcel;
-import projects.liga.truckapp.parcel.entities.Truck;
-import projects.liga.truckapp.parcel.exceptions.ValidationException;
-import projects.liga.truckapp.parcel.file.ParcelFileHandler;
-import projects.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
+import ru.liga.truckapp.parcel.packaging.OptimizedPackagingAlgorithm;
+import ru.liga.truckapp.parcel.packaging.ParcelPackager;
+import ru.liga.truckapp.parcel.entities.Parcel;
+import ru.liga.truckapp.parcel.entities.Truck;
+import ru.liga.truckapp.parcel.file.ParcelFileHandler;
+import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.NavigableMap;
 
 public class OptimizedPackagingAlgorithmTests {
 
