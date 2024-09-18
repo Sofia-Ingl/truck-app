@@ -7,7 +7,7 @@ import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
 import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
 
 import java.io.IOException;
-import java.util.NavigableMap;
+import java.util.List;
 
 public class ParcelFileHandlerTests {
 
@@ -16,15 +16,13 @@ public class ParcelFileHandlerTests {
     @Test
     void readParcelsTest() throws ValidationException, IOException {
 
-        NavigableMap<Parcel, Integer> parcelQuantity =
-                handler.getParcelQuantityByType("src/test/resources/parcel_file_handler_test.txt",
+
+        List<Parcel> parcels =
+                handler.readAllParcels("src/test/resources/parcel_file_handler_test.txt",
                         6,
                         6);
 
-        Assertions.assertEquals(9, parcelQuantity.size());
-        Assertions.assertEquals(3, parcelQuantity.firstEntry().getValue());
-        Assertions.assertEquals(1, parcelQuantity.lastEntry().getValue());
-
+        Assertions.assertEquals(11, parcels.size());
     }
 
 
@@ -33,7 +31,7 @@ public class ParcelFileHandlerTests {
 
         Assertions.assertThrows(ValidationException.class,
                 () -> {
-                    handler.getParcelQuantityByType("src/test/resources/parcel_file_handler_test_invalid.txt",
+                    handler.readAllParcels("src/test/resources/parcel_file_handler_test_invalid.txt",
                             6,
                             6);
                 });
@@ -46,7 +44,7 @@ public class ParcelFileHandlerTests {
 
         Assertions.assertThrows(ValidationException.class,
                 () -> {
-                    handler.getParcelQuantityByType("src/test/resources/parcel_file_handler_test_valid.txt",
+                    handler.readAllParcels("src/test/resources/parcel_file_handler_test_valid.txt",
                             2,
                             2);
                 });

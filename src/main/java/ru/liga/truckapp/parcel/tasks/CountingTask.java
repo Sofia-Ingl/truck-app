@@ -25,10 +25,8 @@ public class CountingTask implements Runnable {
             ParcelCounter parcelCounter = new ParcelCounterImpl();
             Map<Integer, Integer> parcelsQuantityByType = parcelCounter.countParcels(truck);
 
-            for (Integer type : parcelsQuantityByType.keySet()) {
-                System.out.println(type + ": " + parcelsQuantityByType.get(type));
-                // TODO logging COMMON REPORT OUT
-            }
+            System.out.println("Parcels quantity by type in a truck:");
+            System.out.println(parcelsQuantityByType);
 
         } catch (IOException e) {
             // TODO logging
