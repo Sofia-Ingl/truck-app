@@ -1,14 +1,14 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.parcel.validation.ParcelValidator;
-import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
+import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParcelValidationTests {
 
-    ParcelValidator validator = new ParcelValidatorImpl();
+    ParcelValidator validator = new DefaultParcelValidator();
 
     @Test
     void testValidType() {

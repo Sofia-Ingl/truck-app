@@ -4,8 +4,6 @@ import ru.liga.truckapp.config.creators.*;
 import ru.liga.truckapp.config.entities.AlgorithmType;
 import ru.liga.truckapp.config.file.ConfigFileHandler;
 import ru.liga.truckapp.config.file.ConfigFileHandlerImpl;
-import ru.liga.truckapp.parcel.tasks.CountingTask;
-import ru.liga.truckapp.parcel.tasks.PackagingTask;
 
 import java.io.IOException;
 import java.util.*;
@@ -54,7 +52,7 @@ public class Main {
                                                                            PackagingTaskCreator packagingTaskCreator) {
 
 
-        RunnableListCreator runnableListCreator = new RunnableListCreatorImpl(
+        RunnableListCreator runnableListCreator = new DefaultRunnableListCreator(
                 countingTaskCreator,
                 packagingTaskCreator
         );

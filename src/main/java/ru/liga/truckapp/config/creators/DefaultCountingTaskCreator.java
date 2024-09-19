@@ -6,7 +6,7 @@ import ru.liga.truckapp.parcel.counting.ParcelCounterImpl;
 import ru.liga.truckapp.parcel.json.TruckFileHandler;
 import ru.liga.truckapp.parcel.json.TruckJsonFileHandler;
 import ru.liga.truckapp.parcel.printing.ParcelQuantityPrinter;
-import ru.liga.truckapp.parcel.printing.ParcelQuantityPrinterImpl;
+import ru.liga.truckapp.parcel.printing.DefaultParcelQuantityPrinter;
 import ru.liga.truckapp.parcel.tasks.CountingTask;
 
 
@@ -19,7 +19,7 @@ public class DefaultCountingTaskCreator implements CountingTaskCreator {
     public Runnable createCountingTask(String inputFileName) {
         TruckFileHandler truckFileHandler = new TruckJsonFileHandler();
         ParcelCounter parcelCounter = new ParcelCounterImpl();
-        ParcelQuantityPrinter parcelQuantityPrinter = new ParcelQuantityPrinterImpl();
+        ParcelQuantityPrinter parcelQuantityPrinter = new DefaultParcelQuantityPrinter();
         return new CountingTask(
                 inputFileName,
                 truckFileHandler,

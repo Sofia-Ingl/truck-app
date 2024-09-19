@@ -4,7 +4,7 @@ import java.util.List;
 
 import static ru.liga.truckapp.parcel.validation.ParcelValidationConstants.PARCEL_FILLINGS_ALLOWED;
 
-public class ParcelValidatorImpl implements ParcelValidator {
+public class DefaultParcelValidator implements ParcelValidator {
 
     @Override
     public boolean isValid(List<String> parcel) {

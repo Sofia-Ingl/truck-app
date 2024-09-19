@@ -3,15 +3,15 @@ import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.exceptions.ValidationException;
 import ru.liga.truckapp.parcel.file.ParcelFileHandler;
-import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
-import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
+import ru.liga.truckapp.parcel.file.DefaultParcelFileHandler;
+import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ParcelFileHandlerTests {
 
-    ParcelFileHandler handler = new ParcelFileHandlerImpl(new ParcelValidatorImpl());
+    ParcelFileHandler handler = new DefaultParcelFileHandler(new DefaultParcelValidator());
 
     @Test
     void readParcelsTest() throws ValidationException, IOException {

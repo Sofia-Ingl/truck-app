@@ -5,14 +5,14 @@ import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Truck;
 import ru.liga.truckapp.parcel.file.ParcelFileHandler;
-import ru.liga.truckapp.parcel.file.ParcelFileHandlerImpl;
-import ru.liga.truckapp.parcel.validation.ParcelValidatorImpl;
+import ru.liga.truckapp.parcel.file.DefaultParcelFileHandler;
+import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
 
 import java.util.List;
 
 public class OptimizedPackagingAlgorithmTests {
 
-    ParcelFileHandler handler = new ParcelFileHandlerImpl(new ParcelValidatorImpl());
+    ParcelFileHandler handler = new DefaultParcelFileHandler(new DefaultParcelValidator());
     ParcelPackager parcelPackager = new OptimizedPackagingAlgorithm();
 
     @Test

@@ -2,12 +2,9 @@ package ru.liga.truckapp.parcel.tasks;
 
 import lombok.AllArgsConstructor;
 import ru.liga.truckapp.parcel.counting.ParcelCounter;
-import ru.liga.truckapp.parcel.counting.ParcelCounterImpl;
 import ru.liga.truckapp.parcel.entities.Truck;
 import ru.liga.truckapp.parcel.json.TruckFileHandler;
-import ru.liga.truckapp.parcel.json.TruckJsonFileHandler;
 import ru.liga.truckapp.parcel.printing.ParcelQuantityPrinter;
-import ru.liga.truckapp.parcel.printing.ParcelQuantityPrinterImpl;
 
 import java.io.IOException;
 import java.util.List;

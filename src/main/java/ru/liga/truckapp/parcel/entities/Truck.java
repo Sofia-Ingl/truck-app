@@ -125,7 +125,6 @@ public class Truck {
 
     public void print() {
 
-        System.out.print("\n");
         for (int i = height - 1; i >= 0; i--) {
             System.out.print("+");
             for (int j = 0; j < width; j++) {

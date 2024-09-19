@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.config.file.ConfigFileHandler;
 import ru.liga.truckapp.config.file.ConfigFileHandlerImpl;
 import ru.liga.truckapp.config.creators.RunnableListCreator;
-import ru.liga.truckapp.config.creators.RunnableListCreatorImpl;
+import ru.liga.truckapp.config.creators.DefaultRunnableListCreator;
 import ru.liga.truckapp.parcel.tasks.CountingTask;
 import ru.liga.truckapp.parcel.tasks.PackagingTask;
 
@@ -15,7 +15,7 @@ import java.util.Properties;
 public class RunnableListCreatorTests {
 
     ConfigFileHandler configFileHandler = new ConfigFileHandlerImpl();
-    RunnableListCreator runnableListCreator = new RunnableListCreatorImpl();
+    RunnableListCreator runnableListCreator = new DefaultRunnableListCreator();
 
     @Test
     void packagingOnlyTest() throws IOException {

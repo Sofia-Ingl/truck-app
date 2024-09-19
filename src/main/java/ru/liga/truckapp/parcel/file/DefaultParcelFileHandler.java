@@ -6,14 +6,13 @@ import ru.liga.truckapp.parcel.validation.ParcelValidator;
 import ru.liga.truckapp.parcel.exceptions.ValidationException;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
 
 @AllArgsConstructor
-public class ParcelFileHandlerImpl implements ParcelFileHandler {
+public class DefaultParcelFileHandler implements ParcelFileHandler {
 
     private final ParcelValidator validator;
 

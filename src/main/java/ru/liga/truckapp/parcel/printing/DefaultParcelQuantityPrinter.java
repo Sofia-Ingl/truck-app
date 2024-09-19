@@ -4,7 +4,7 @@ import ru.liga.truckapp.parcel.entities.Truck;
 
 import java.util.Map;
 
-public class ParcelQuantityPrinterImpl implements ParcelQuantityPrinter {
+public class DefaultParcelQuantityPrinter implements ParcelQuantityPrinter {
 
     @Override
     public void print(Truck truck, Map<Integer, Integer> parcelQuantity) {

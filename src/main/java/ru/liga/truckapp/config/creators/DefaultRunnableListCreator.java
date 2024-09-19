@@ -2,13 +2,11 @@ package ru.liga.truckapp.config.creators;
 
 import lombok.AllArgsConstructor;
 import ru.liga.truckapp.config.entities.AlgorithmType;
-import ru.liga.truckapp.parcel.tasks.CountingTask;
-import ru.liga.truckapp.parcel.tasks.PackagingTask;
 
 import java.util.*;
 
 @AllArgsConstructor
-public class RunnableListCreatorImpl implements RunnableListCreator {
+public class DefaultRunnableListCreator implements RunnableListCreator {
 
     private final String TASKS_PARAM_NAME = "tasks";
     private final String TASKS_PARAM_VALUE_PACKAGING = "packaging";
