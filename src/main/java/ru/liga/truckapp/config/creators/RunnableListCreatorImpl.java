@@ -1,16 +1,21 @@
-package ru.liga.truckapp.config.params;
+package ru.liga.truckapp.config.creators;
 
+import lombok.AllArgsConstructor;
 import ru.liga.truckapp.config.entities.AlgorithmType;
 import ru.liga.truckapp.parcel.tasks.CountingTask;
 import ru.liga.truckapp.parcel.tasks.PackagingTask;
 
 import java.util.*;
 
-public class ParamsHandlerImpl implements ParamsHandler {
+@AllArgsConstructor
+public class RunnableListCreatorImpl implements RunnableListCreator {
 
     private final String TASKS_PARAM_NAME = "tasks";
     private final String TASKS_PARAM_VALUE_PACKAGING = "packaging";
     private final String TASKS_PARAM_VALUE_COUNTING = "counting";
+
+    private final CountingTaskCreator countingTaskCreator;
+    private final PackagingTaskCreator packagingTaskCreator;
 
     @Override
     public List<Optional<Runnable>> createRunnableTasksFromProperties(Properties properties) {
@@ -22,14 +27,14 @@ public class ParamsHandlerImpl implements ParamsHandler {
         }
 
         List<Optional<Runnable>> runnableTasks = new ArrayList<>();
-        runnableTasks.add(getPackagingTask(properties));
-        runnableTasks.add(getCountingTask(properties));
+        runnableTasks.add(createPackagingTask(properties));
+        runnableTasks.add(createCountingTask(properties));
 
         return runnableTasks;
     }
 
 
-    private Optional<Runnable> getPackagingTask(Properties properties) {
+    private Optional<Runnable> createPackagingTask(Properties properties) {
         String tasksToRun = properties.getProperty(TASKS_PARAM_NAME);
         if (tasksToRun == null || !tasksToRun.toLowerCase().contains(TASKS_PARAM_VALUE_PACKAGING)) {
             return Optional.empty();
@@ -49,12 +54,13 @@ public class ParamsHandlerImpl implements ParamsHandler {
                 throw new RuntimeException("Not all required params for packaging task found!");
             }
 
-            Runnable task = new PackagingTask(
+            Runnable task = packagingTaskCreator.createPackagingTask(
                     inputFileName, outputFileName,
                     Integer.parseInt(truckWidth),
                     Integer.parseInt(truckHeight),
                     Integer.parseInt(truckQuantity),
                     AlgorithmType.valueOf(algorithm.toUpperCase())
+
             );
 
             return Optional.of(task);
@@ -67,7 +73,7 @@ public class ParamsHandlerImpl implements ParamsHandler {
 
     }
 
-    private Optional<Runnable> getCountingTask(Properties properties) {
+    private Optional<Runnable> createCountingTask(Properties properties) {
 
         String tasksToRun = properties.getProperty(TASKS_PARAM_NAME);
         if (tasksToRun == null || !tasksToRun.toLowerCase().contains(TASKS_PARAM_VALUE_COUNTING)) {
@@ -79,8 +85,8 @@ public class ParamsHandlerImpl implements ParamsHandler {
         if (inputFileName == null) {
             throw new IllegalStateException("Not all required params for counting task found!");
         }
-
-        Runnable task = new CountingTask(inputFileName);
+        // TaskCreator опирается на properties, и чтобы
+        Runnable task = countingTaskCreator.createCountingTask(inputFileName);
         return Optional.of(task);
 
     }

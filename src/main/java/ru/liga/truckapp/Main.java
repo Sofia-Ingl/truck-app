@@ -1,10 +1,9 @@
 package ru.liga.truckapp;
 
+import ru.liga.truckapp.config.creators.*;
 import ru.liga.truckapp.config.entities.AlgorithmType;
 import ru.liga.truckapp.config.file.ConfigFileHandler;
 import ru.liga.truckapp.config.file.ConfigFileHandlerImpl;
-import ru.liga.truckapp.config.params.ParamsHandler;
-import ru.liga.truckapp.config.params.ParamsHandlerImpl;
 import ru.liga.truckapp.parcel.tasks.CountingTask;
 import ru.liga.truckapp.parcel.tasks.PackagingTask;
 
@@ -20,11 +19,19 @@ public class Main {
         try {
 
             Properties properties = readConfiguration(args);
-            List<Optional<Runnable>> tasks = createTasksFromGivenParameters(properties);
+
+            CountingTaskCreator countingTaskCreator = new DefaultCountingTaskCreator();
+            PackagingTaskCreator packagingTaskCreator = new DefaultPackagingTaskCreator();
+
+            List<Optional<Runnable>> tasks = createTasksFromGivenParameters(
+                    properties,
+                    countingTaskCreator,
+                    packagingTaskCreator
+            );
             for (Optional<Runnable> task : tasks) {
                 task.ifPresent(Runnable::run);
             }
-            consolePhase(properties);
+            consolePhase(properties, countingTaskCreator, packagingTaskCreator);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -42,13 +49,23 @@ public class Main {
         return configFileHandler.loadProperties(configFileName);
     }
 
-    private static List<Optional<Runnable>> createTasksFromGivenParameters(Properties properties) {
-        ParamsHandler paramsHandler = new ParamsHandlerImpl();
-        return paramsHandler.createRunnableTasksFromProperties(properties);
+    private static List<Optional<Runnable>> createTasksFromGivenParameters(Properties properties,
+                                                                           CountingTaskCreator countingTaskCreator,
+                                                                           PackagingTaskCreator packagingTaskCreator) {
+
+
+        RunnableListCreator runnableListCreator = new RunnableListCreatorImpl(
+                countingTaskCreator,
+                packagingTaskCreator
+        );
+        return runnableListCreator.createRunnableTasksFromProperties(properties);
     }
 
 
-    private static void consolePhase(Properties properties) throws IOException {
+    private static void consolePhase(Properties properties,
+                                     CountingTaskCreator countingTaskCreator,
+                                     PackagingTaskCreator packagingTaskCreator) throws IOException {
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("All tasks from config file done");
 
@@ -58,10 +75,10 @@ public class Main {
             String taskType = chooseTaskType(scanner);
             switch (taskType) {
                 case "1":
-                    processCountingTask(scanner);
+                    processCountingTask(scanner, countingTaskCreator);
                     break;
                 case "2":
-                    processPackagingTask(scanner, properties);
+                    processPackagingTask(scanner, properties, packagingTaskCreator);
                     break;
                 default:
                     System.out.println("Ok, you don't want to use me. Bye");
@@ -88,17 +105,18 @@ public class Main {
         return scanner.nextLine().trim();
     }
 
-    private static void processCountingTask(Scanner scanner) throws IOException {
+    private static void processCountingTask(Scanner scanner, CountingTaskCreator countingTaskCreator) throws IOException {
         System.out.println("You have chosen counting task");
         System.out.println("Input your json file name here");
         String filename = scanner.nextLine().trim();
-        Runnable task = new CountingTask(filename);
+        Runnable task = countingTaskCreator.createCountingTask(filename);
         task.run();
         System.out.println("Counting task successfully finished");
     }
 
     private static void processPackagingTask(Scanner scanner,
-                                             Properties properties) throws IOException {
+                                             Properties properties,
+                                             PackagingTaskCreator packagingTaskCreator) throws IOException {
         System.out.println("You have chosen parcel packaging task");
         System.out.println("Input your input & output file names here separated by ,");
         String[] filenames = scanner.nextLine().trim().split(",");
@@ -127,7 +145,7 @@ public class Main {
         int truckWidth = Integer.parseInt(properties.getProperty("truck-width"));
         int truckHeight = Integer.parseInt(properties.getProperty("truck-height"));
 
-        Runnable task = new PackagingTask(
+        Runnable task = packagingTaskCreator.createPackagingTask(
                 in, out,
                 truckWidth,
                 truckHeight,

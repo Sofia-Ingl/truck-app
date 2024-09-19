@@ -2,17 +2,14 @@ package ru.liga.truckapp.parcel.counting;
 
 import ru.liga.truckapp.parcel.entities.Truck;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ru.liga.truckapp.parcel.validation.ParcelValidationConstants.PARCEL_FILLINGS_ALLOWED;
 
 public class ParcelCounterImpl implements ParcelCounter {
 
     @Override
-    public Map<Integer, Integer> countParcels(Truck truck) {
+    public Map<Integer, Integer> countParcelsInTruck(Truck truck) {
 
         Map<Integer, Integer> parcelsNumberByTypes = new HashMap<>();
 
@@ -57,6 +54,15 @@ public class ParcelCounterImpl implements ParcelCounter {
 
         }
         return parcelsNumberByTypes;
+    }
+
+    @Override
+    public List<Map<Integer, Integer>> countParcels(List<Truck> trucks) {
+        List<Map<Integer, Integer>> parcelsQuantityInEveryTruck = new ArrayList<>();
+        for (Truck truck : trucks) {
+            parcelsQuantityInEveryTruck.add(countParcelsInTruck(truck));
+        }
+        return parcelsQuantityInEveryTruck;
     }
 
 

@@ -2,7 +2,7 @@ public class TruckJsonFileHandlerTests {
 
 //    ParcelFileHandler handler = new ParcelFileHandlerImpl();
 //    ParcelPackager parcelPackager = new CommonAlgorithm();
-//    TruckJsonFileHandler truckJsonFileHandler = new TruckJsonFileHandlerImpl();
+//    TruckFileHandler truckJsonFileHandler = new TruckJsonFileHandlerImpl();
 
 //    @Test
 //    void test() throws IOException {

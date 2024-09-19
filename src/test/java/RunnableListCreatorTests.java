@@ -2,8 +2,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.config.file.ConfigFileHandler;
 import ru.liga.truckapp.config.file.ConfigFileHandlerImpl;
-import ru.liga.truckapp.config.params.ParamsHandler;
-import ru.liga.truckapp.config.params.ParamsHandlerImpl;
+import ru.liga.truckapp.config.creators.RunnableListCreator;
+import ru.liga.truckapp.config.creators.RunnableListCreatorImpl;
 import ru.liga.truckapp.parcel.tasks.CountingTask;
 import ru.liga.truckapp.parcel.tasks.PackagingTask;
 
@@ -12,17 +12,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-public class ParamsHandlerTests {
+public class RunnableListCreatorTests {
 
     ConfigFileHandler configFileHandler = new ConfigFileHandlerImpl();
-    ParamsHandler paramsHandler = new ParamsHandlerImpl();
+    RunnableListCreator runnableListCreator = new RunnableListCreatorImpl();
 
     @Test
     void packagingOnlyTest() throws IOException {
 
         /* TODO create props manually */
         Properties properties = configFileHandler.loadProperties("src/test/resources/packaging-only.config");
-        List<Optional<Runnable>> tasks = paramsHandler.createRunnableTasksFromProperties(properties);
+        List<Optional<Runnable>> tasks = runnableListCreator.createRunnableTasksFromProperties(properties);
 
         Assertions.assertEquals(2, tasks.size());
         Assertions.assertNotNull(tasks.get(0).orElse(null));
@@ -35,7 +35,7 @@ public class ParamsHandlerTests {
     void countingOnlyTest() throws IOException {
 
         Properties properties = configFileHandler.loadProperties("src/test/resources/counting-only.config");
-        List<Optional<Runnable>> tasks = paramsHandler.createRunnableTasksFromProperties(properties);
+        List<Optional<Runnable>> tasks = runnableListCreator.createRunnableTasksFromProperties(properties);
 
         Assertions.assertEquals(2, tasks.size());
         Assertions.assertNull(tasks.get(0).orElse(null));
@@ -49,7 +49,7 @@ public class ParamsHandlerTests {
 
         Properties properties = configFileHandler.loadProperties("src/test/resources/no-tasks-param.config");
         Assertions.assertThrows(RuntimeException.class,
-                ()-> paramsHandler.createRunnableTasksFromProperties(properties));
+                ()-> runnableListCreator.createRunnableTasksFromProperties(properties));
 
     }
 
@@ -59,7 +59,7 @@ public class ParamsHandlerTests {
 
         Properties properties = configFileHandler.loadProperties("src/test/resources/packaging-param-missing.config");
         Assertions.assertThrows(RuntimeException.class,
-                ()-> paramsHandler.createRunnableTasksFromProperties(properties));
+                ()-> runnableListCreator.createRunnableTasksFromProperties(properties));
 
     }
 

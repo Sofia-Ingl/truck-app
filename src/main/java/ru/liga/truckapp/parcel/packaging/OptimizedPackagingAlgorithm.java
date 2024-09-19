@@ -109,17 +109,17 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
             upperBoundNotIncludedIndex = -upperBoundNotIncludedIndex - 1;
         }
 
-        int[] gapsNumberCumulative = new int[underlyingRow.length];
-        gapsNumberCumulative[0] = (underlyingRow[0] == ' ') ? 1 : 0;
+        int[] gapsQuantityCumulative = new int[underlyingRow.length];
+        gapsQuantityCumulative[0] = (underlyingRow[0] == ' ') ? 1 : 0;
         for (int i = 1; i < underlyingRow.length; i++) {
-            gapsNumberCumulative[i] = (underlyingRow[i] == ' ') ? gapsNumberCumulative[i - 1] + 1 : gapsNumberCumulative[i - 1];
+            gapsQuantityCumulative[i] = (underlyingRow[i] == ' ') ? gapsQuantityCumulative[i - 1] + 1 : gapsQuantityCumulative[i - 1];
         }
 
         for (int i = upperBoundNotIncludedIndex - 1; i >= 0; i--) {
 
             Parcel suitableParcel = parcelsAscending.get(i);
             int basicRowLength = suitableParcel.getMaxWidth();
-            int gaps = gapsNumberCumulative[basicRowLength - 1];
+            int gaps = gapsQuantityCumulative[basicRowLength - 1];
 
             if (basicRowLength > gaps * 2 && suitableParcel.getHeight() <= heightToFill) {
                 return i;
