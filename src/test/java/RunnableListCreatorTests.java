@@ -1,55 +1,102 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.liga.truckapp.config.file.ConfigFileHandler;
-import ru.liga.truckapp.config.file.ConfigFileHandlerImpl;
+import ru.liga.truckapp.config.creators.DefaultCountingTaskCreator;
+import ru.liga.truckapp.config.creators.DefaultPackagingTaskCreator;
 import ru.liga.truckapp.config.creators.RunnableListCreator;
 import ru.liga.truckapp.config.creators.DefaultRunnableListCreator;
 import ru.liga.truckapp.parcel.tasks.CountingTask;
 import ru.liga.truckapp.parcel.tasks.PackagingTask;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 public class RunnableListCreatorTests {
 
-    ConfigFileHandler configFileHandler = new ConfigFileHandlerImpl();
-    RunnableListCreator runnableListCreator = new DefaultRunnableListCreator();
+    private final RunnableListCreator runnableListCreator = new DefaultRunnableListCreator(
+            new DefaultCountingTaskCreator(),
+            new DefaultPackagingTaskCreator()
+    );
 
     @Test
     void packagingOnlyTest() throws IOException {
 
-        /* TODO create props manually */
-        Properties properties = configFileHandler.loadProperties("src/test/resources/packaging-only.config");
+        String config = """
+                packaging-input=src/main/resources/packaging-input.txt
+                algorithm=optimized
+                truck-width=6
+                truck-height=6
+                truck-quantity=10
+                packaging-output=src/main/resources/packaging-output.json
+                
+                counting-input=src/main/resources/input.json
+                
+                tasks=packaging
+                """;
+        Properties properties = new Properties();
+        properties.load(new StringReader(config));
+
+
         List<Optional<Runnable>> tasks = runnableListCreator.createRunnableTasksFromProperties(properties);
 
-        Assertions.assertEquals(2, tasks.size());
-        Assertions.assertNotNull(tasks.get(0).orElse(null));
-        Assertions.assertInstanceOf(PackagingTask.class, tasks.get(0).orElse(null));
-        Assertions.assertNull(tasks.get(1).orElse(null));
+        assertThat(tasks.size()).isEqualTo(2);
+        assertThat(tasks.get(0).orElse(null)).isNotNull();
+        assertThat(tasks.get(0).orElse(null)).isInstanceOf(PackagingTask.class);
+        assertThat(tasks.get(1).orElse(null)).isNull();
 
     }
 
     @Test
     void countingOnlyTest() throws IOException {
 
-        Properties properties = configFileHandler.loadProperties("src/test/resources/counting-only.config");
+        String config = """
+                packaging-input=src/main/resources/packaging-input.txt
+                algorithm=optimized
+                truck-width=6
+                truck-height=6
+                truck-quantity=10
+                packaging-output=src/main/resources/packaging-output.json
+                
+                counting-input=src/main/resources/input.json
+                
+                tasks=counting
+                """;
+        Properties properties = new Properties();
+        properties.load(new StringReader(config));
+
         List<Optional<Runnable>> tasks = runnableListCreator.createRunnableTasksFromProperties(properties);
 
-        Assertions.assertEquals(2, tasks.size());
-        Assertions.assertNull(tasks.get(0).orElse(null));
-        Assertions.assertNotNull(tasks.get(1).orElse(null));
-        Assertions.assertInstanceOf(CountingTask.class, tasks.get(1).orElse(null));
+        assertThat(tasks.size()).isEqualTo(2);
+        assertThat(tasks.get(0).orElse(null)).isNull();
+        assertThat(tasks.get(1).orElse(null)).isNotNull();
+        assertThat(tasks.get(1).orElse(null)).isInstanceOf(CountingTask.class);
+
 
     }
 
     @Test
     void tasksParamNotFoundTest() throws IOException {
 
-        Properties properties = configFileHandler.loadProperties("src/test/resources/no-tasks-param.config");
-        Assertions.assertThrows(RuntimeException.class,
-                ()-> runnableListCreator.createRunnableTasksFromProperties(properties));
+        String config = """
+                packaging-input=src/main/resources/packaging-input.txt
+                algorithm=optimized
+                truck-width=6
+                truck-height=6
+                truck-quantity=10
+                packaging-output=src/main/resources/packaging-output.json
+                
+                counting-input=src/main/resources/input.json
+                """;
+        Properties properties = new Properties();
+        properties.load(new StringReader(config));
+
+
+        assertThatThrownBy(() -> runnableListCreator.createRunnableTasksFromProperties(properties))
+                .isInstanceOf(RuntimeException.class);
 
     }
 
@@ -57,9 +104,48 @@ public class RunnableListCreatorTests {
     @Test
     void requiredParamMissingTest() throws IOException {
 
-        Properties properties = configFileHandler.loadProperties("src/test/resources/packaging-param-missing.config");
-        Assertions.assertThrows(RuntimeException.class,
-                ()-> runnableListCreator.createRunnableTasksFromProperties(properties));
+        String config = """
+                packaging-input=src/main/resources/packaging-input.txt
+                algorithm=optimized
+                truck-width=6
+                truck-height=6
+                packaging-output=src/main/resources/packaging-output.json
+                
+                counting-input=src/main/resources/input.json
+                
+                tasks=packaging,counting
+                """;
+        Properties properties = new Properties();
+        properties.load(new StringReader(config));
+
+        assertThatThrownBy(() -> runnableListCreator.createRunnableTasksFromProperties(properties))
+                .isInstanceOf(RuntimeException.class);
+
+    }
+
+
+    @Test
+    void emptyTasksParamTest() throws IOException {
+
+        String config = """
+                packaging-input=src/main/resources/packaging-input.txt
+                algorithm=optimized
+                truck-width=6
+                truck-height=6
+                packaging-output=src/main/resources/packaging-output.json
+                
+                counting-input=src/main/resources/input.json
+                
+                tasks=
+                """;
+        Properties properties = new Properties();
+        properties.load(new StringReader(config));
+
+        List<Optional<Runnable>> tasks = runnableListCreator.createRunnableTasksFromProperties(properties);
+
+        assertThat(tasks.size()).isEqualTo(2);
+        assertThat(tasks.get(0).orElse(null)).isNull();
+        assertThat(tasks.get(1).orElse(null)).isNull();
 
     }
 

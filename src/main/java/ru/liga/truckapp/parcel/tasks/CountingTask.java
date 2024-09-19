@@ -22,18 +22,13 @@ public class CountingTask implements Runnable {
     @Override
     public void run() {
 
-        try {
-            List<Truck> trucks = truckFileHandler.readTrucks(inputFileName);
-            List<Map<Integer, Integer>> parcelsQuantityByTypeForEveryTruck
-                    = parcelCounter.countParcels(trucks);
-            for (int i = 0; i < trucks.size(); i++) {
-                Truck truck = trucks.get(i);
-                Map<Integer, Integer> parcelQuantitiesForTruck = parcelsQuantityByTypeForEveryTruck.get(i);
-                parcelQuantityPrinter.print(truck, parcelQuantitiesForTruck);
-            }
-
-        } catch (IOException e) {
-            // TODO logging
+        List<Truck> trucks = truckFileHandler.readTrucks(inputFileName);
+        List<Map<Integer, Integer>> parcelsQuantityByTypeForEveryTruck
+                = parcelCounter.countParcels(trucks);
+        for (int i = 0; i < trucks.size(); i++) {
+            Truck truck = trucks.get(i);
+            Map<Integer, Integer> parcelQuantitiesForTruck = parcelsQuantityByTypeForEveryTruck.get(i);
+            parcelQuantityPrinter.print(truck, parcelQuantitiesForTruck);
         }
 
     }

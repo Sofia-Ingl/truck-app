@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface TruckFileHandler {
 
-    Truck readTruck(String filename) throws IOException ;
+    Truck readTruck(String filename);
 
-    List<Truck> readTrucks(String filename) throws IOException ;
+    List<Truck> readTrucks(String filename);
 
-    void writeTrucks(String filename, List<Truck> trucks)  throws IOException;
+    void writeTrucks(String filename, List<Truck> trucks);
 
 }

@@ -12,6 +12,13 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
     private final String TASKS_PARAM_VALUE_PACKAGING = "packaging";
     private final String TASKS_PARAM_VALUE_COUNTING = "counting";
 
+    private final String PACKAGING_INPUT_PROPERTY = "packaging-input";
+    private final String PACKAGING_OUTPUT_PROPERTY = "packaging-output";
+    private final String TRUCK_WIDTH_PROPERTY = "truck-width";
+    private final String TRUCK_HEIGHT_PROPERTY = "truck-height";
+    private final String TRUCK_QUANTITY_PROPERTY = "truck-quantity";
+    private final String ALGORITHM_PROPERTY = "algorithm";
+
     private final CountingTaskCreator countingTaskCreator;
     private final PackagingTaskCreator packagingTaskCreator;
 
@@ -39,17 +46,18 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
         }
 
         try {
-            String inputFileName = properties.getProperty("packaging-input");
-            String outputFileName = properties.getProperty("packaging-output");
-            String truckWidth = properties.getProperty("truck-width");
-            String truckHeight = properties.getProperty("truck-height");
-            String truckQuantity = properties.getProperty("truck-quantity");
-            String algorithm = properties.getProperty("algorithm");
+
+            String inputFileName = properties.getProperty(PACKAGING_INPUT_PROPERTY);
+            String outputFileName = properties.getProperty(PACKAGING_OUTPUT_PROPERTY);
+            String truckWidth = properties.getProperty(TRUCK_WIDTH_PROPERTY);
+            String truckHeight = properties.getProperty(TRUCK_HEIGHT_PROPERTY);
+            String truckQuantity = properties.getProperty(TRUCK_QUANTITY_PROPERTY);
+            String algorithm = properties.getProperty(ALGORITHM_PROPERTY);
 
             if (algorithm == null || inputFileName == null
                     || outputFileName == null || truckWidth == null
                     || truckHeight == null || truckQuantity == null) {
-                throw new RuntimeException("Not all required params for packaging task found!");
+                throw new RuntimeException("Not all required params for packaging task found");
             }
 
             Runnable task = packagingTaskCreator.createPackagingTask(
@@ -65,7 +73,7 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
 
         } catch (IllegalArgumentException e) {
 
-            throw new IllegalStateException("Invalid param value for packaging task!");
+            throw new RuntimeException("Invalid param value for packaging task: " + e.getMessage());
 
         }
 
@@ -81,9 +89,9 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
         String inputFileName = properties.getProperty("counting-input");
 
         if (inputFileName == null) {
-            throw new IllegalStateException("Not all required params for counting task found!");
+            throw new RuntimeException("Not all required params for counting task found");
         }
-        // TaskCreator опирается на properties, и чтобы
+
         Runnable task = countingTaskCreator.createCountingTask(inputFileName);
         return Optional.of(task);
 

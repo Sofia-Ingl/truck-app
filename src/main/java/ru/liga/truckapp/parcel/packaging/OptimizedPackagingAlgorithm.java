@@ -142,7 +142,6 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
 
         int currentLoadedCapacity = truck.getOccupiedCapacityByRow()[startingYPoint];
 
-        // find new coordinates
         if (startingXPoint >= truck.getWidth()) {
 
             for (int i = y + 1; i < truck.getHeight(); i++) {

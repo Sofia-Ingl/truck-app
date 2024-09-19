@@ -16,7 +16,6 @@ import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
 @AllArgsConstructor
 public class DefaultPackagingTaskCreator implements PackagingTaskCreator {
 
-
     @Override
     public Runnable createPackagingTask(
             String inputFileName,

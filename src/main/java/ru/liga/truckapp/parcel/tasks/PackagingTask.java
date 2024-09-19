@@ -6,6 +6,7 @@ import ru.liga.truckapp.parcel.json.TruckFileHandler;
 import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.file.ParcelFileHandler;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -25,22 +26,18 @@ public class PackagingTask implements Runnable {
     @Override
     public void run() {
 
-        try {
 
-            List<Parcel> parcels = parcelFileHandler.readAllParcels(
-                    inputFileName,
-                    truckHeight,
-                    truckWidth);
+        List<Parcel> parcels = parcelFileHandler.readAllParcels(
+                inputFileName,
+                truckHeight,
+                truckWidth);
 
-            List<Truck> trucks = parcelPackager.processPackaging(truckWidth,
-                    truckHeight,
-                    truckQuantity,
-                    parcels);
+        List<Truck> trucks = parcelPackager.processPackaging(truckWidth,
+                truckHeight,
+                truckQuantity,
+                parcels);
 
-            truckFileHandler.writeTrucks(outputFileName, trucks);
+        truckFileHandler.writeTrucks(outputFileName, trucks);
 
-        } catch (IOException e) {
-            // TODO logging
-        }
     }
 }

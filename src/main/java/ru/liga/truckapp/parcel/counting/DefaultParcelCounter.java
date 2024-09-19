@@ -6,7 +6,7 @@ import java.util.*;
 
 import static ru.liga.truckapp.parcel.validation.ParcelValidationConstants.PARCEL_FILLINGS_ALLOWED;
 
-public class ParcelCounterImpl implements ParcelCounter {
+public class DefaultParcelCounter implements ParcelCounter {
 
     @Override
     public Map<Integer, Integer> countParcelsInTruck(Truck truck) {
@@ -41,7 +41,7 @@ public class ParcelCounterImpl implements ParcelCounter {
                             scannedPlaces
                     );
                     if (!isValidParcel) {
-                        throw new RuntimeException("Invalid parcel occurred");
+                        throw new IllegalArgumentException("Invalid parcel occurred");
                     }
                     if (parcelsNumberByTypes.containsKey(typeCode)) {
                         parcelsNumberByTypes.put(typeCode, parcelsNumberByTypes.get(typeCode) + 1);

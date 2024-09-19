@@ -1,119 +1,143 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.parcel.packaging.OptimizedPackagingAlgorithm;
 import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Truck;
-import ru.liga.truckapp.parcel.file.ParcelFileHandler;
-import ru.liga.truckapp.parcel.file.DefaultParcelFileHandler;
-import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
-
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class OptimizedPackagingAlgorithmTests {
 
-    ParcelFileHandler handler = new DefaultParcelFileHandler(new DefaultParcelValidator());
     ParcelPackager parcelPackager = new OptimizedPackagingAlgorithm();
 
     @Test
-    public void testDensity() {
+    public void densityTest() {
 
         int truckWidth = 6;
         int truckHeight = 6;
         int truckQuantity = 10;
 
-        List<Parcel> parcels =
-                handler.readAllParcels("src/test/resources/input_test.txt",
-                        truckHeight,
-                        truckWidth);
+
+        List<Parcel> parcels = List.of(
+                TestingConstants.PARCEL_TYPES.get(1),
+                TestingConstants.PARCEL_TYPES.get(2),
+                TestingConstants.PARCEL_TYPES.get(3),
+                TestingConstants.PARCEL_TYPES.get(5),
+                TestingConstants.PARCEL_TYPES.get(7)
+        );
+
 
         List<Truck> trucks = parcelPackager.processPackaging(
                 truckWidth, truckHeight, truckQuantity, parcels
         );
 
-        Assertions.assertEquals(1, trucks.size());
+        assertThat(trucks.size()).isEqualTo(1);
 
         Truck truck = trucks.get(0);
 
-        Assertions.assertEquals(truckWidth, truck.getWidth());
-        Assertions.assertEquals(truckHeight, truck.getHeight());
-
-        Assertions.assertEquals(6, truck.getOccupiedCapacityByRow()[0]);
-        Assertions.assertEquals(6, truck.getOccupiedCapacityByRow()[1]);
-        Assertions.assertEquals(6, truck.getOccupiedCapacityByRow()[2]);
-        Assertions.assertEquals(0, truck.getOccupiedCapacityByRow()[3]);
-
-        Assertions.assertEquals('5', truck.getBack()[0][0]);
-        Assertions.assertEquals('7', truck.getBack()[1][0]);
-        Assertions.assertEquals('7', truck.getBack()[2][0]);
+        assertThat(truck.getWidth()).isEqualTo(truckWidth);
+        assertThat(truck.getHeight()).isEqualTo(truckHeight);
+        assertThat(truck.getOccupiedCapacityByRow())
+                .containsExactly(6, 6, 6, 0, 0, 0);
+        assertThat(truck.getBack()[0]).containsExactly('5', '5', '5', '5', '5', '1');
+        assertThat(truck.getBack()[1]).containsExactly('7', '7', '7', '7', '2', '2');
+        assertThat(truck.getBack()[2]).containsExactly('7', '7', '7', '3', '3', '3');
 
     }
 
 
     @Test
-    public void testNoHanging()  {
+    public void noHangingTest() {
 
         int truckWidth = 6;
         int truckHeight = 6;
         int truckQuantity = 10;
 
-        List<Parcel> parcels =
-                handler.readAllParcels("src/test/resources/no_hanging_test.txt",
-                        truckHeight,
-                        truckWidth);
+        List<Parcel> parcels = List.of(
+                TestingConstants.PARCEL_TYPES.get(2),
+                TestingConstants.PARCEL_TYPES.get(4),
+                TestingConstants.PARCEL_TYPES.get(5)
+        );
 
         List<Truck> trucks = parcelPackager.processPackaging(
                 truckWidth, truckHeight, truckQuantity, parcels
         );
 
-        Assertions.assertEquals(1, trucks.size());
+        assertThat(trucks.size()).isEqualTo(1);
 
         Truck truck = trucks.get(0);
 
-        Assertions.assertEquals(5, truck.getOccupiedCapacityByRow()[0]);
-        Assertions.assertEquals(4, truck.getOccupiedCapacityByRow()[1]);
-        Assertions.assertEquals(2, truck.getOccupiedCapacityByRow()[2]);
-        Assertions.assertEquals(0, truck.getOccupiedCapacityByRow()[3]);
+        assertThat(truck.getWidth()).isEqualTo(truckWidth);
+        assertThat(truck.getHeight()).isEqualTo(truckHeight);
+        assertThat(truck.getOccupiedCapacityByRow())
+                .containsExactly(5, 4, 2, 0, 0, 0);
+        assertThat(truck.getBack()[0]).containsExactly('5', '5', '5', '5', '5', ' ');
+        assertThat(truck.getBack()[1]).containsExactly('4', '4', '4', '4', ' ', ' ');
+        assertThat(truck.getBack()[2]).containsExactly('2', '2', ' ', ' ', ' ', ' ');
 
-        Assertions.assertEquals('5', truck.getBack()[0][0]);
-        Assertions.assertEquals('4', truck.getBack()[1][0]);
-        Assertions.assertEquals('2', truck.getBack()[2][0]);
 
     }
 
 
-
     @Test
-    public void testNotEnoughSpaceInOneTruck() {
+    public void moreThanOneTruckRequiredTest() {
 
         int truckWidth = 6;
         int truckHeight = 6;
         int truckQuantity = 10;
 
-        List<Parcel> parcels =
-                handler.readAllParcels("src/test/resources/2cars_test.txt",
-                        truckHeight,
-                        truckWidth);
+        List<Parcel> parcels = List.of(
+                TestingConstants.PARCEL_TYPES.get(7),
+                TestingConstants.PARCEL_TYPES.get(7),
+                TestingConstants.PARCEL_TYPES.get(9)
+        );
 
         List<Truck> trucks = parcelPackager.processPackaging(
                 truckWidth, truckHeight, truckQuantity, parcels
         );
 
-        Assertions.assertEquals(2, trucks.size());
+        assertThat(trucks.size()).isEqualTo(2);
 
-        Truck truck = trucks.get(1);
+        Truck truck = trucks.get(0);
 
-        Assertions.assertEquals(3, truck.getOccupiedCapacityByRow()[0]);
-        Assertions.assertEquals(3, truck.getOccupiedCapacityByRow()[1]);
-        Assertions.assertEquals(3, truck.getOccupiedCapacityByRow()[2]);
-        Assertions.assertEquals(0, truck.getOccupiedCapacityByRow()[3]);
+        assertThat(truck.getOccupiedCapacityByRow())
+                .containsExactly(4, 3, 4, 3, 0, 0);
+        assertThat(truck.getBack()[0]).containsExactly('7', '7', '7', '7', ' ', ' ');
+        assertThat(truck.getBack()[1]).containsExactly('7', '7', '7', ' ', ' ', ' ');
+        assertThat(truck.getBack()[2]).containsExactly('7', '7', '7', '7', ' ', ' ');
+        assertThat(truck.getBack()[3]).containsExactly('7', '7', '7', ' ', ' ', ' ');
 
-        Assertions.assertEquals('9', truck.getBack()[0][0]);
+        Truck truck1 = trucks.get(1);
+
+        assertThat(truck1.getOccupiedCapacityByRow())
+                .containsExactly(3, 3, 3, 0, 0, 0);
+        assertThat(truck1.getBack()[0]).containsExactly('9', '9', '9', ' ', ' ', ' ');
+        assertThat(truck1.getBack()[1]).containsExactly('9', '9', '9', ' ', ' ', ' ');
+        assertThat(truck1.getBack()[2]).containsExactly('9', '9', '9', ' ', ' ', ' ');
 
     }
 
 
+    @Test
+    public void trucksQuantityNotEnoughTest() {
 
+        int truckWidth = 6;
+        int truckHeight = 6;
+        int truckQuantity = 1;
+
+        List<Parcel> parcels = List.of(
+                TestingConstants.PARCEL_TYPES.get(7),
+                TestingConstants.PARCEL_TYPES.get(7),
+                TestingConstants.PARCEL_TYPES.get(9)
+        );
+
+        assertThatThrownBy(() ->
+                parcelPackager.processPackaging(truckWidth, truckHeight, truckQuantity, parcels)
+        ).isInstanceOf(RuntimeException.class);
+
+    }
 
 
 }

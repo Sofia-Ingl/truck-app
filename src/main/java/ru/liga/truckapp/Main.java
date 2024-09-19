@@ -3,14 +3,14 @@ package ru.liga.truckapp;
 import ru.liga.truckapp.config.creators.*;
 import ru.liga.truckapp.config.entities.AlgorithmType;
 import ru.liga.truckapp.config.file.ConfigFileHandler;
-import ru.liga.truckapp.config.file.ConfigFileHandlerImpl;
+import ru.liga.truckapp.config.file.DefaultConfigFileHandler;
 
 import java.io.IOException;
 import java.util.*;
 
 public class Main {
 
-    private static String DEFAULT_CONFIG_FILE_NAME = "app.config";
+    private static String DEFAULT_CONFIG_FILE_NAME = "src/main/resources/app.config";
 
     public static void main(String[] args) {
 
@@ -43,7 +43,7 @@ public class Main {
         if (args.length > 0) {
             configFileName = args[0];
         }
-        ConfigFileHandler configFileHandler = new ConfigFileHandlerImpl();
+        ConfigFileHandler configFileHandler = new DefaultConfigFileHandler();
         return configFileHandler.loadProperties(configFileName);
     }
 
@@ -90,9 +90,9 @@ public class Main {
 
 
     private static boolean askForStop(Scanner scanner) {
-        System.out.println("Do you want to stop the program? (yes/...)");
+        System.out.println("Do you want to continue the program? (yes/...)");
         String answer = scanner.nextLine();
-        return answer.trim().equalsIgnoreCase("yes");
+        return !answer.trim().equalsIgnoreCase("yes");
     }
 
     private static String chooseTaskType(Scanner scanner) {

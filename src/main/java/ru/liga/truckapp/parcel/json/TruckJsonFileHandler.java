@@ -20,32 +20,41 @@ public class TruckJsonFileHandler implements TruckFileHandler {
             .create();
 
     @Override
-    public Truck readTruck(String filename) throws IOException {
+    public Truck readTruck(String filename) {
 
-        String jsonTruck = Files.readString(Paths.get(filename));
+        try {
+            String jsonTruck = Files.readString(Paths.get(filename));
 
-        return gson.fromJson(jsonTruck, Truck.class);
+            return gson.fromJson(jsonTruck, Truck.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public List<Truck> readTrucks(String filename) throws IOException {
-
-        String jsonTrucks = Files.readString(Paths.get(filename));
-        Type type = new TypeToken<List<Truck>>() {}.getType();
-
-        return gson.fromJson(jsonTrucks, type);
+    public List<Truck> readTrucks(String filename) {
+        try {
+            String jsonTrucks = Files.readString(Paths.get(filename));
+            Type type = new TypeToken<List<Truck>>() {
+            }.getType();
+            return gson.fromJson(jsonTrucks, type);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void writeTrucks(String filename, List<Truck> trucks) throws IOException  {
+    public void writeTrucks(String filename, List<Truck> trucks) {
 
-        String jsonTrucks = gson.toJson(trucks);
-        Files.writeString(Paths.get(filename), jsonTrucks);
+        try {
+            String jsonTrucks = gson.toJson(trucks);
+            Files.writeString(Paths.get(filename), jsonTrucks);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
-
-
-
 
 
 }

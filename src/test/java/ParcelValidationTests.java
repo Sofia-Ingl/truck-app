@@ -6,54 +6,56 @@ import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class ParcelValidationTests {
 
     ParcelValidator validator = new DefaultParcelValidator();
 
     @Test
-    void testValidType() {
+    void validTypeTest() {
 
         List<String> validParcel = new ArrayList<>();
         validParcel.add("777");
         validParcel.add("7777");
 
-        Assertions.assertTrue(validator.isValid(validParcel));
+        assertThat(validator.isValid(validParcel)).isTrue();
 
     }
 
 
     @Test
-    void testInvalidTypes() {
+    void invalidTypesTest() {
 
         List<String> invalidParcel = new ArrayList<>();
         invalidParcel.add("777");
         invalidParcel.add("7778");
 
-        Assertions.assertFalse(validator.isValid(invalidParcel));
+        assertThat(validator.isValid(invalidParcel)).isFalse();
 
         invalidParcel.clear();
 
         invalidParcel.add(" 777");
         invalidParcel.add("7777");
 
-        Assertions.assertFalse(validator.isValid(invalidParcel));
+        assertThat(validator.isValid(invalidParcel)).isFalse();
 
         invalidParcel.add("7 77");
         invalidParcel.add("7777");
 
-        Assertions.assertFalse(validator.isValid(invalidParcel));
+        assertThat(validator.isValid(invalidParcel)).isFalse();
 
         invalidParcel.clear();
 
         invalidParcel.add("7777");
         invalidParcel.add("7777");
 
-        Assertions.assertFalse(validator.isValid(invalidParcel));
+        assertThat(validator.isValid(invalidParcel)).isFalse();;
 
     }
 
     @Test
-    void testFitsTruck() {
+    void fitsTruckTest() {
 
         List<String> validParcel = new ArrayList<>();
         validParcel.add("777");
@@ -62,13 +64,13 @@ public class ParcelValidationTests {
         int truckHeight = 6;
         int truckWidth = 6;
 
-        Assertions.assertTrue(validator.fitsTruck(validParcel, truckHeight, truckWidth));
+        assertThat(validator.fitsTruck(validParcel, truckHeight, truckWidth)).isTrue();
 
     }
 
 
     @Test
-    void testTruckTooSmall() {
+    void truckTooSmallTest() {
 
         List<String> validParcel = new ArrayList<>();
         validParcel.add("777");
@@ -77,7 +79,7 @@ public class ParcelValidationTests {
         int truckHeight = 3;
         int truckWidth = 3;
 
-        Assertions.assertFalse(validator.fitsTruck(validParcel, truckHeight, truckWidth));
+        assertThat(validator.fitsTruck(validParcel, truckHeight, truckWidth)).isFalse();
 
     }
 

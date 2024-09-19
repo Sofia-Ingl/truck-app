@@ -1,57 +1,140 @@
+import org.junit.jupiter.api.Test;
+import ru.liga.truckapp.parcel.entities.Parcel;
+import ru.liga.truckapp.parcel.entities.Truck;
 import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.packaging.SteadyBidirectionalPackagingAlgorithm;
-import ru.liga.truckapp.parcel.file.ParcelFileHandler;
-import ru.liga.truckapp.parcel.file.DefaultParcelFileHandler;
-import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class SteadyPackagingAlgorithmTests {
 
-    ParcelFileHandler handler = new DefaultParcelFileHandler(new DefaultParcelValidator());
     ParcelPackager parcelPackager = new SteadyBidirectionalPackagingAlgorithm();
 
-
-/*
     @Test
-    public void testTrucksNumber() throws ValidationException, IOException {
+    public void trucksQuantityBiggerThanNumberOfParcelsTest() {
 
         int truckWidth = 6;
         int truckHeight = 6;
         int truckQuantity = 10;
 
-
-        NavigableMap<Parcel, Integer> parcelQuantity =
-                handler.getParcelQuantityByType("src/test/resources/input_test.txt",
-                        truckHeight,
-                        truckWidth);
-
-        List<Truck> trucks = parcelPackager.processPackaging(
-                truckWidth, truckHeight, truckQuantity, parcelQuantity
+        List<Parcel> parcels = List.of(
+                TestingConstants.PARCEL_TYPES.get(1),
+                TestingConstants.PARCEL_TYPES.get(2),
+                TestingConstants.PARCEL_TYPES.get(3)
         );
 
-        Assertions.assertEquals(5, trucks.size());
+        List<Truck> trucks = parcelPackager.processPackaging(
+                truckWidth, truckHeight, truckQuantity, parcels
+        );
+
+        assertThat(trucks.size()).isEqualTo(3);
 
         Truck truck = trucks.get(0);
 
-        Assertions.assertEquals('1', truck.getBack()[0][0]);
+        assertThat(truck.getOccupiedCapacityByRow())
+                .containsExactly(3, 0, 0, 0, 0, 0);
+        assertThat(truck.getBack()[0]).containsExactly('3', '3', '3', ' ', ' ', ' ');
 
         truck = trucks.get(1);
 
-        Assertions.assertEquals('2', truck.getBack()[0][0]);
+        assertThat(truck.getOccupiedCapacityByRow())
+                .containsExactly(2, 0, 0, 0, 0, 0);
+        assertThat(truck.getBack()[0]).containsExactly('2', '2', ' ', ' ', ' ', ' ');
 
         truck = trucks.get(2);
 
-        Assertions.assertEquals('3', truck.getBack()[0][0]);
+        assertThat(truck.getOccupiedCapacityByRow())
+                .containsExactly(1, 0, 0, 0, 0, 0);
+        assertThat(truck.getBack()[0]).containsExactly('1', ' ', ' ', ' ', ' ', ' ');
 
-        truck = trucks.get(3);
-
-        Assertions.assertEquals('7', truck.getBack()[0][0]);
-
-        truck = trucks.get(4);
-
-        Assertions.assertEquals('5', truck.getBack()[0][0]);
 
     }
 
- */
+
+
+    @Test
+    public void trucksQuantityLessThanNumberOfParcelsTest() {
+
+        int truckWidth = 6;
+        int truckHeight = 6;
+        int truckQuantity = 1;
+
+        List<Parcel> parcels = List.of(
+                TestingConstants.PARCEL_TYPES.get(1),
+                TestingConstants.PARCEL_TYPES.get(2),
+                TestingConstants.PARCEL_TYPES.get(3)
+        );
+
+        List<Truck> trucks = parcelPackager.processPackaging(
+                truckWidth, truckHeight, truckQuantity, parcels
+        );
+        assertThat(trucks.size()).isEqualTo(1);
+
+        Truck truck = trucks.get(0);
+
+        assertThat(truck.getOccupiedCapacityByRow())
+                .containsExactly(6, 0, 0, 0, 0, 0);
+        assertThat(truck.getBack()[0]).containsExactly('3', '3', '3', '2', '2', '1');
+    }
+
+
+    @Test
+    public void stabilityTest() {
+
+        int truckWidth = 6;
+        int truckHeight = 6;
+        int truckQuantity = 3;
+
+        List<Parcel> parcels = List.of(
+                TestingConstants.PARCEL_TYPES.get(7),
+                TestingConstants.PARCEL_TYPES.get(7),
+                TestingConstants.PARCEL_TYPES.get(9),
+                TestingConstants.PARCEL_TYPES.get(2),
+                TestingConstants.PARCEL_TYPES.get(2),
+                TestingConstants.PARCEL_TYPES.get(6),
+                TestingConstants.PARCEL_TYPES.get(6),
+                TestingConstants.PARCEL_TYPES.get(6),
+                TestingConstants.PARCEL_TYPES.get(3),
+                TestingConstants.PARCEL_TYPES.get(3),
+                TestingConstants.PARCEL_TYPES.get(3)
+        );
+
+        List<Truck> trucks = parcelPackager.processPackaging(
+                truckWidth, truckHeight, truckQuantity, parcels
+        );
+
+
+        assertThat(trucks.size()).isEqualTo(3);
+
+        Truck truck = trucks.get(0);
+
+        assertThat(truck.getOccupiedCapacityByRow())
+                .containsExactly(6, 6, 6, 0, 0, 0);
+        assertThat(truck.getBack()[0]).containsExactly('9', '9', '9', '6', '6', '6');
+        assertThat(truck.getBack()[1]).containsExactly('9', '9', '9', '6', '6', '6');
+        assertThat(truck.getBack()[2]).containsExactly('9', '9', '9', '3', '3', '3');
+
+        Truck truck1 = trucks.get(1);
+
+        assertThat(truck1.getOccupiedCapacityByRow())
+                .containsExactly(6, 6, 6, 0, 0, 0);
+        assertThat(truck1.getBack()[0]).containsExactly('7', '7', '7', '7', '2', '2');
+        assertThat(truck1.getBack()[1]).containsExactly('7', '7', '7', '6', '6', '6');
+        assertThat(truck1.getBack()[2]).containsExactly('3', '3', '3', '6', '6', '6');
+
+
+        Truck truck2 = trucks.get(2);
+
+        assertThat(truck2.getOccupiedCapacityByRow())
+                .containsExactly(6, 6, 6, 0, 0, 0);
+        assertThat(truck2.getBack()[0]).containsExactly('7', '7', '7', '7', '2', '2');
+        assertThat(truck2.getBack()[1]).containsExactly('7', '7', '7', '6', '6', '6');
+        assertThat(truck2.getBack()[2]).containsExactly('3', '3', '3', '6', '6', '6');
+
+
+    }
+
 }

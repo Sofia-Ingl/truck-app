@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ConfigFileHandlerImpl implements ConfigFileHandler {
+public class DefaultConfigFileHandler implements ConfigFileHandler {
 
     @Override
     public Properties loadProperties(String filename) {
