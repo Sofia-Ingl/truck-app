@@ -1,35 +1,33 @@
 package ru.liga.truckapp.parcel.file;
 
+import lombok.AllArgsConstructor;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.validation.ParcelValidator;
 import ru.liga.truckapp.parcel.exceptions.ValidationException;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+
+@AllArgsConstructor
 public class ParcelFileHandlerImpl implements ParcelFileHandler {
 
     private final ParcelValidator validator;
 
-    public ParcelFileHandlerImpl(ParcelValidator validator) {
-        this.validator = validator;
-    }
-
-
     @Override
     public List<Parcel> readAllParcels(String filename, int truckHeight, int truckWidth) {
 
-        try {
-            File parcelFile = new File(filename);
-            Scanner parcelScanner = new Scanner(parcelFile);
+        try (BufferedReader bufferedParcelReader = new BufferedReader(new FileReader(filename))) {
 
             List<Parcel> parcels = new ArrayList<>();
 
             List<String> currentParcel = new ArrayList<>();
+            String line;
+            while ((line = bufferedParcelReader.readLine()) != null) {
 
-            while (parcelScanner.hasNextLine()) {
-                String line = parcelScanner.nextLine();
                 if (!line.isEmpty()) {
                     currentParcel.add(line);
                 } else {
@@ -85,7 +83,7 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
     private void validate(List<String> currentParcel,
                           int truckHeight,
                           int truckWidth) {
-        if (!validator.isValid(currentParcel) ) {
+        if (!validator.isValid(currentParcel)) {
             StringBuilder message = new StringBuilder("Invalid parcel!");
             message.append("\n");
             for (String line : currentParcel) {
@@ -93,7 +91,7 @@ public class ParcelFileHandlerImpl implements ParcelFileHandler {
             }
             throw new ValidationException(message.toString());
         }
-        if (!validator.fitsTruck(currentParcel, truckHeight, truckWidth) ) {
+        if (!validator.fitsTruck(currentParcel, truckHeight, truckWidth)) {
             StringBuilder message = new StringBuilder("Invalid parcel size!");
             message.append("\n");
             for (String line : currentParcel) {

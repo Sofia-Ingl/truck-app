@@ -70,7 +70,9 @@ public class Main {
 
             stop = askForStop(scanner);
         }
+        scanner.close();
     }
+
 
     private static boolean askForStop(Scanner scanner) {
         System.out.println("Do you want to stop the program? (yes/...)");
@@ -111,7 +113,6 @@ public class Main {
         switch (choice) {
             case "1":
                 System.out.println("You have chosen optimized algorithm");
-                algorithmType = AlgorithmType.OPTIMIZED;
                 break;
             case "2":
                 System.out.println("You have chosen steady bidirectional algorithm");
