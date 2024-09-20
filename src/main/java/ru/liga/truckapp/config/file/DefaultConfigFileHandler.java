@@ -22,6 +22,7 @@ public class DefaultConfigFileHandler implements ConfigFileHandler {
             return properties;
 
         } catch (IOException e) {
+            log.error("IOException occurred: {}", e.getMessage());
             throw new ConfigException("IOException occurred: " + e.getMessage());
         }
     }
