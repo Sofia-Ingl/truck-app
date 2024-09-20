@@ -54,7 +54,8 @@ public class Truck {
 
 
         if (!canLoadParcel(x, y, suitableParcel)) {
-            throw new RuntimeException("Can't load parcel into truck on position " + x + ", " + y);
+            throw new IllegalArgumentException("Can't load parcel into truck on position "
+                    + x + ", " + y + "; truck:\n" + this +"\n" + "parcel:\n" + suitableParcel);
         }
 
         for (int i = 0; i < suitableParcel.getHeight(); i++) {
@@ -125,17 +126,23 @@ public class Truck {
 
     public void print() {
 
-        for (int i = height - 1; i >= 0; i--) {
-            System.out.print("+");
-            for (int j = 0; j < width; j++) {
-                System.out.print(back[i][j]);
-            }
-            System.out.print("+\n");
-        }
-        for (int i = 0; i < width + 2; i++) {
-            System.out.print("+");
-        }
-        System.out.print("\n");
+        System.out.println(this);
 
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = height - 1; i >= 0; i--) {
+            sb.append("+");
+            for (int j = 0; j < width; j++) {
+                sb.append(back[i][j]);
+            }
+            sb.append("+\n");
+        }
+        sb.append("+".repeat(Math.max(0, width + 2)));
+
+        return sb.toString();
     }
 }

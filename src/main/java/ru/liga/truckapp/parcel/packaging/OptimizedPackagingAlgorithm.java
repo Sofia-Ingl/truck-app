@@ -4,6 +4,7 @@ package ru.liga.truckapp.parcel.packaging;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Slot;
 import ru.liga.truckapp.parcel.entities.Truck;
+import ru.liga.truckapp.parcel.exceptions.PackagingException;
 
 import java.util.*;
 
@@ -24,7 +25,7 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
         while (!parcelsSorted.isEmpty()) {
 
             if (trucks.size() >= truckQuantity) {
-                throw new RuntimeException("Cannot pack all the parcels: not enough trucks");
+                throw new PackagingException("Cannot pack all the parcels: not enough trucks");
             }
 
             Truck truck = new Truck(truckWidth, truckHeight);

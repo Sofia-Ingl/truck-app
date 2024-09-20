@@ -2,6 +2,7 @@ package ru.liga.truckapp.parcel.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.google.gson.reflect.TypeToken;
 import ru.liga.truckapp.parcel.entities.Truck;
 
@@ -39,7 +40,7 @@ public class TruckJsonFileHandler implements TruckFileHandler {
             }.getType();
             return gson.fromJson(jsonTrucks, type);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new JsonIOException(e);
         }
     }
 
@@ -50,7 +51,7 @@ public class TruckJsonFileHandler implements TruckFileHandler {
             String jsonTrucks = gson.toJson(trucks);
             Files.writeString(Paths.get(filename), jsonTrucks);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new JsonIOException(e);
         }
 
 

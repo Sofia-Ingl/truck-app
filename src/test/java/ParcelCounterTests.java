@@ -114,7 +114,7 @@ public class ParcelCounterTests {
         );
 
         assertThatThrownBy(() -> parcelCounter.countParcelsInTruck(truck))
-                .isInstanceOf(RuntimeException.class);
+                .isInstanceOf(IllegalArgumentException.class);
 
 
         char[][] back1 = new char[][]{
@@ -130,7 +130,7 @@ public class ParcelCounterTests {
         );
 
         assertThatThrownBy(() -> parcelCounter.countParcelsInTruck(truck1))
-                .isInstanceOf(RuntimeException.class);
+                .isInstanceOf(IllegalArgumentException.class);
 
     }
 

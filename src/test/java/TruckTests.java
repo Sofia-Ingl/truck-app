@@ -79,7 +79,7 @@ public class TruckTests {
         assertThat(canLoad).isFalse();
 
         assertThatThrownBy(() -> truck.loadParcel(0, 0, parcel))
-                .isInstanceOf(RuntimeException.class);
+                .isInstanceOf(IllegalArgumentException.class);
 
 
         char[] slice = truck.getRowSlice(0, 0);

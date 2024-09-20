@@ -1,6 +1,8 @@
 package ru.liga.truckapp.config.file;
 
 
+import ru.liga.truckapp.config.exceptions.ConfigException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
@@ -17,7 +19,7 @@ public class DefaultConfigFileHandler implements ConfigFileHandler {
             return properties;
 
         } catch (IOException e) {
-            throw new IllegalStateException("IOException occurred: " + e.getMessage());
+            throw new ConfigException("IOException occurred: " + e.getMessage());
         }
     }
 

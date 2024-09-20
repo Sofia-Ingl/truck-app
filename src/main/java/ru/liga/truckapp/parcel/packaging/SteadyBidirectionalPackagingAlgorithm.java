@@ -3,6 +3,7 @@ package ru.liga.truckapp.parcel.packaging;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Slot;
 import ru.liga.truckapp.parcel.entities.Truck;
+import ru.liga.truckapp.parcel.exceptions.PackagingException;
 
 import java.util.*;
 
@@ -113,7 +114,6 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
     }
 
 
-
     protected int tryLoadParcel(int parcelIndex,
                                 List<Parcel> parcelsSortedAscending,
                                 Truck truck) {
@@ -123,7 +123,8 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
 
         Slot slot = findNextPlaceForParcel(truck, suitableParcel);
         if (slot.getWidth() == 0 || slot.getHeight() == 0) {
-            throw new RuntimeException("Cannot load parcels steadily");
+            throw new PackagingException("Cannot load parcels steadily; truck current state:\n"
+                    + truck + "\n" + "trying to load parcel:\n" + suitableParcel);
         }
 
         truck.loadParcel(slot.getX(), slot.getY(), suitableParcel);

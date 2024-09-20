@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+import ru.liga.truckapp.parcel.exceptions.PackagingException;
 import ru.liga.truckapp.parcel.packaging.OptimizedPackagingAlgorithm;
 import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.entities.Parcel;
@@ -135,7 +136,7 @@ public class OptimizedPackagingAlgorithmTests {
 
         assertThatThrownBy(() ->
                 parcelPackager.processPackaging(truckWidth, truckHeight, truckQuantity, parcels)
-        ).isInstanceOf(RuntimeException.class);
+        ).isInstanceOf(PackagingException.class);
 
     }
 

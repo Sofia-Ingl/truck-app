@@ -50,7 +50,7 @@ public class DefaultParcelFileHandler implements ParcelFileHandler {
 
 
         } catch (IOException e) {
-            throw new IllegalStateException("IOException occurred while reading parcel file: " + e.getMessage());
+            throw new RuntimeException("IOException occurred while reading parcel file: " + e.getMessage());
         }
     }
 

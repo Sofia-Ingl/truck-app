@@ -6,7 +6,6 @@ import ru.liga.truckapp.parcel.entities.Truck;
 import ru.liga.truckapp.parcel.json.TruckFileHandler;
 import ru.liga.truckapp.parcel.printing.ParcelQuantityPrinter;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 

@@ -3,6 +3,7 @@ import ru.liga.truckapp.config.creators.DefaultCountingTaskCreator;
 import ru.liga.truckapp.config.creators.DefaultPackagingTaskCreator;
 import ru.liga.truckapp.config.creators.RunnableListCreator;
 import ru.liga.truckapp.config.creators.DefaultRunnableListCreator;
+import ru.liga.truckapp.config.exceptions.ConfigException;
 import ru.liga.truckapp.parcel.tasks.CountingTask;
 import ru.liga.truckapp.parcel.tasks.PackagingTask;
 
@@ -96,7 +97,7 @@ public class RunnableListCreatorTests {
 
 
         assertThatThrownBy(() -> runnableListCreator.createRunnableTasksFromProperties(properties))
-                .isInstanceOf(RuntimeException.class);
+                .isInstanceOf(ConfigException.class);
 
     }
 
@@ -119,7 +120,7 @@ public class RunnableListCreatorTests {
         properties.load(new StringReader(config));
 
         assertThatThrownBy(() -> runnableListCreator.createRunnableTasksFromProperties(properties))
-                .isInstanceOf(RuntimeException.class);
+                .isInstanceOf(ConfigException.class);
 
     }
 

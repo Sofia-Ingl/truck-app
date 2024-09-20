@@ -19,7 +19,6 @@ public class TruckSerializer implements JsonSerializer<Truck> {
             ));
         }
         back.add("+".repeat(Math.max(0, truck.getWidth() + 2)));
-
         return back;
     }
 

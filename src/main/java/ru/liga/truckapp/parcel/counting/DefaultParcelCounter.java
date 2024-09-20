@@ -41,7 +41,7 @@ public class DefaultParcelCounter implements ParcelCounter {
                             scannedPlaces
                     );
                     if (!isValidParcel) {
-                        throw new IllegalArgumentException("Invalid parcel occurred");
+                        throw new IllegalArgumentException("Invalid parcel occurred in a truck:\n" + truck);
                     }
                     if (parcelsNumberByTypes.containsKey(typeCode)) {
                         parcelsNumberByTypes.put(typeCode, parcelsNumberByTypes.get(typeCode) + 1);

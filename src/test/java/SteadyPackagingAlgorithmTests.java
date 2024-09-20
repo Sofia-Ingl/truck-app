@@ -1,12 +1,14 @@
 import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Truck;
+import ru.liga.truckapp.parcel.exceptions.PackagingException;
 import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.packaging.SteadyBidirectionalPackagingAlgorithm;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 public class SteadyPackagingAlgorithmTests {
@@ -134,6 +136,28 @@ public class SteadyPackagingAlgorithmTests {
         assertThat(truck2.getBack()[1]).containsExactly('7', '7', '7', '6', '6', '6');
         assertThat(truck2.getBack()[2]).containsExactly('3', '3', '3', '6', '6', '6');
 
+
+    }
+
+
+    @Test
+    public void trucksQuantityNotEnoughTest() {
+
+        int truckWidth = 6;
+        int truckHeight = 6;
+        int truckQuantity = 2;
+
+        List<Parcel> parcels = List.of(
+                TestingConstants.PARCEL_TYPES.get(7),
+                TestingConstants.PARCEL_TYPES.get(7),
+                TestingConstants.PARCEL_TYPES.get(9),
+                TestingConstants.PARCEL_TYPES.get(7),
+                TestingConstants.PARCEL_TYPES.get(9)
+        );
+
+        assertThatThrownBy(() ->
+                parcelPackager.processPackaging(truckWidth, truckHeight, truckQuantity, parcels)
+        ).isInstanceOf(PackagingException.class);
 
     }
 

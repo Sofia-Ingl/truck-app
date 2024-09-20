@@ -2,6 +2,7 @@ package ru.liga.truckapp.config.creators;
 
 import lombok.AllArgsConstructor;
 import ru.liga.truckapp.config.entities.AlgorithmType;
+import ru.liga.truckapp.config.exceptions.ConfigException;
 
 import java.util.*;
 
@@ -11,6 +12,8 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
     private final String TASKS_PARAM_NAME = "tasks";
     private final String TASKS_PARAM_VALUE_PACKAGING = "packaging";
     private final String TASKS_PARAM_VALUE_COUNTING = "counting";
+
+    private final String COUNTING_INPUT_PROPERTY = "counting-input";
 
     private final String PACKAGING_INPUT_PROPERTY = "packaging-input";
     private final String PACKAGING_OUTPUT_PROPERTY = "packaging-output";
@@ -26,7 +29,7 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
     public List<Optional<Runnable>> createRunnableTasksFromProperties(Properties properties) {
 
         if (!properties.containsKey(TASKS_PARAM_NAME)) {
-            throw new RuntimeException("Not all required params found! Param '"
+            throw new ConfigException("Not all required params found. Param '"
                     + TASKS_PARAM_NAME
                     + "' not found");
         }
@@ -57,7 +60,10 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
             if (algorithm == null || inputFileName == null
                     || outputFileName == null || truckWidth == null
                     || truckHeight == null || truckQuantity == null) {
-                throw new RuntimeException("Not all required params for packaging task found");
+                throw new ConfigException("Not all required params for packaging task found, check: " +
+                        PACKAGING_INPUT_PROPERTY + ", " + PACKAGING_OUTPUT_PROPERTY
+                        + ", " + TRUCK_WIDTH_PROPERTY + ", " + TRUCK_HEIGHT_PROPERTY
+                        + ", " + TRUCK_QUANTITY_PROPERTY + ", " + ALGORITHM_PROPERTY);
             }
 
             Runnable task = packagingTaskCreator.createPackagingTask(
@@ -73,7 +79,7 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
 
         } catch (IllegalArgumentException e) {
 
-            throw new RuntimeException("Invalid param value for packaging task: " + e.getMessage());
+            throw new ConfigException("Invalid param value for packaging task: " + e.getMessage());
 
         }
 
@@ -86,10 +92,11 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
             return Optional.empty();
         }
 
-        String inputFileName = properties.getProperty("counting-input");
+        String inputFileName = properties.getProperty(COUNTING_INPUT_PROPERTY);
 
         if (inputFileName == null) {
-            throw new RuntimeException("Not all required params for counting task found");
+            throw new ConfigException("Not all required params for counting task found: missing "
+                    + COUNTING_INPUT_PROPERTY);
         }
 
         Runnable task = countingTaskCreator.createCountingTask(inputFileName);
