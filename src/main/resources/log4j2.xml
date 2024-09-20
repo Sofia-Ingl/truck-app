@@ -18,7 +18,7 @@
             <Policies>
                 <TimeBasedTriggeringPolicy interval = "1" />
                 <SizeBasedTriggeringPolicy
-                        size="25 kB" />
+                        size="1 MB" />
             </Policies>
         </RollingFile>
     </Appenders>
