@@ -44,6 +44,7 @@ public class Main {
             log.info("Stopping application...");
 
         } catch (Exception e) {
+            log.error("Error occurred in application: {}", e.getMessage());
             System.out.println(e.getMessage());
         }
 
