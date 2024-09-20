@@ -12,7 +12,7 @@ import java.util.*;
 @Slf4j
 public class Main {
 
-    private static String DEFAULT_CONFIG_FILE_NAME = "src/main/resources/app.config";
+    private static final String DEFAULT_CONFIG_FILE_NAME = "src/main/resources/app.config";
 
     public static void main(String[] args) {
 
