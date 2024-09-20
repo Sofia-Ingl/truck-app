@@ -1,4 +1,4 @@
-package ru.liga.truckapp.parcel.file;
+package ru.liga.truckapp.parcel.file.parcel;
 
 import ru.liga.truckapp.parcel.entities.Parcel;
 

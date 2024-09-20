@@ -1,4 +1,4 @@
-package ru.liga.truckapp.parcel.json;
+package ru.liga.truckapp.parcel.file.truck;
 
 import com.google.gson.*;
 import ru.liga.truckapp.parcel.entities.Truck;

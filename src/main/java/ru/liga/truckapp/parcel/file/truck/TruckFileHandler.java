@@ -1,8 +1,7 @@
-package ru.liga.truckapp.parcel.json;
+package ru.liga.truckapp.parcel.file.truck;
 
 import ru.liga.truckapp.parcel.entities.Truck;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface TruckFileHandler {

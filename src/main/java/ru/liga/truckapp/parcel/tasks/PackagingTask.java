@@ -1,15 +1,16 @@
 package ru.liga.truckapp.parcel.tasks;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ru.liga.truckapp.parcel.entities.Truck;
-import ru.liga.truckapp.parcel.json.TruckFileHandler;
+import ru.liga.truckapp.parcel.file.truck.TruckFileHandler;
 import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.entities.Parcel;
-import ru.liga.truckapp.parcel.file.ParcelFileHandler;
+import ru.liga.truckapp.parcel.file.parcel.ParcelFileHandler;
 
-import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @AllArgsConstructor
 public class PackagingTask implements Runnable {
 
@@ -26,18 +27,23 @@ public class PackagingTask implements Runnable {
     @Override
     public void run() {
 
-
+        log.info("Starting packaging task...");
         List<Parcel> parcels = parcelFileHandler.readAllParcels(
                 inputFileName,
                 truckHeight,
                 truckWidth);
+
+        log.debug("Found {} parcels", parcels.size());
 
         List<Truck> trucks = parcelPackager.processPackaging(truckWidth,
                 truckHeight,
                 truckQuantity,
                 parcels);
 
+        log.debug("Final trucks quantity is {}", trucks.size());
+
         truckFileHandler.writeTrucks(outputFileName, trucks);
+        log.info("Packaging task finished");
 
     }
 }
