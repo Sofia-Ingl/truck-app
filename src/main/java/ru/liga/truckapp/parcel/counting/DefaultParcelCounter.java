@@ -1,11 +1,13 @@
 package ru.liga.truckapp.parcel.counting;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.liga.truckapp.parcel.entities.Truck;
 
 import java.util.*;
 
 import static ru.liga.truckapp.parcel.validation.ParcelValidationConstants.PARCEL_FILLINGS_ALLOWED;
 
+@Slf4j
 public class DefaultParcelCounter implements ParcelCounter {
 
     @Override
@@ -19,6 +21,8 @@ public class DefaultParcelCounter implements ParcelCounter {
         }
 
         char[][] back = truck.getBack();
+
+        log.debug("Current truck back: {}", Arrays.deepToString(back));
 
         for (int i = 0; i < truck.getHeight(); i++) {
 
@@ -41,6 +45,7 @@ public class DefaultParcelCounter implements ParcelCounter {
                             scannedPlaces
                     );
                     if (!isValidParcel) {
+                        log.error("Invalid parcel found in truck");
                         throw new IllegalArgumentException("Invalid parcel occurred in a truck:\n" + truck);
                     }
                     if (parcelsNumberByTypes.containsKey(typeCode)) {
@@ -53,6 +58,8 @@ public class DefaultParcelCounter implements ParcelCounter {
             }
 
         }
+
+        log.debug("parcelsNumberByTypes: {}",parcelsNumberByTypes);
         return parcelsNumberByTypes;
     }
 
@@ -72,6 +79,7 @@ public class DefaultParcelCounter implements ParcelCounter {
                                       Truck truck,
                                       boolean[][] scannedPlaces) {
 
+        log.debug("Scanning parcel with type code: {} - from position (x={},y={})", typeCode, initialX, initialY);
 
         if (PARCEL_FILLINGS_ALLOWED.containsKey(typeCode)) {
 

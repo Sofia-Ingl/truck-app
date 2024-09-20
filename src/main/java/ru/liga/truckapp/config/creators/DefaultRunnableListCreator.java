@@ -1,11 +1,13 @@
 package ru.liga.truckapp.config.creators;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ru.liga.truckapp.config.entities.AlgorithmType;
 import ru.liga.truckapp.config.exceptions.ConfigException;
 
 import java.util.*;
 
+@Slf4j
 @AllArgsConstructor
 public class DefaultRunnableListCreator implements RunnableListCreator {
 
@@ -29,6 +31,9 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
     public List<Optional<Runnable>> createRunnableTasksFromProperties(Properties properties) {
 
         if (!properties.containsKey(TASKS_PARAM_NAME)) {
+
+            log.error("'tasks' property not found");
+
             throw new ConfigException("Not all required params found. Param '"
                     + TASKS_PARAM_NAME
                     + "' not found");
@@ -45,6 +50,7 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
     private Optional<Runnable> createPackagingTask(Properties properties) {
         String tasksToRun = properties.getProperty(TASKS_PARAM_NAME);
         if (tasksToRun == null || !tasksToRun.toLowerCase().contains(TASKS_PARAM_VALUE_PACKAGING)) {
+            log.debug("Empty packaging task created");
             return Optional.empty();
         }
 
@@ -60,6 +66,7 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
             if (algorithm == null || inputFileName == null
                     || outputFileName == null || truckWidth == null
                     || truckHeight == null || truckQuantity == null) {
+                log.error("Not all required params for packaging task found");
                 throw new ConfigException("Not all required params for packaging task found, check: " +
                         PACKAGING_INPUT_PROPERTY + ", " + PACKAGING_OUTPUT_PROPERTY
                         + ", " + TRUCK_WIDTH_PROPERTY + ", " + TRUCK_HEIGHT_PROPERTY
@@ -75,10 +82,11 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
 
             );
 
+            log.debug("Packaging task created");
             return Optional.of(task);
 
         } catch (IllegalArgumentException e) {
-
+            log.error("Invalid param value for packaging task");
             throw new ConfigException("Invalid param value for packaging task: " + e.getMessage());
 
         }
@@ -89,17 +97,20 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
 
         String tasksToRun = properties.getProperty(TASKS_PARAM_NAME);
         if (tasksToRun == null || !tasksToRun.toLowerCase().contains(TASKS_PARAM_VALUE_COUNTING)) {
+            log.debug("Empty counting task created");
             return Optional.empty();
         }
 
         String inputFileName = properties.getProperty(COUNTING_INPUT_PROPERTY);
 
         if (inputFileName == null) {
+            log.error("Not all required params for counting task found");
             throw new ConfigException("Not all required params for counting task found: missing "
                     + COUNTING_INPUT_PROPERTY);
         }
 
         Runnable task = countingTaskCreator.createCountingTask(inputFileName);
+        log.debug("Counting task created");
         return Optional.of(task);
 
     }

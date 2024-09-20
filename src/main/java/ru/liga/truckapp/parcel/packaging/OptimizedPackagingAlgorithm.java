@@ -1,6 +1,7 @@
 package ru.liga.truckapp.parcel.packaging;
 
 
+import lombok.extern.slf4j.Slf4j;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Slot;
 import ru.liga.truckapp.parcel.entities.Truck;
@@ -8,6 +9,7 @@ import ru.liga.truckapp.parcel.exceptions.PackagingException;
 
 import java.util.*;
 
+@Slf4j
 public class OptimizedPackagingAlgorithm implements ParcelPackager {
 
 
@@ -25,10 +27,15 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
         while (!parcelsSorted.isEmpty()) {
 
             if (trucks.size() >= truckQuantity) {
+
+                log.error("Cannot pack all the parcels: not enough trucks ({})", truckQuantity);
                 throw new PackagingException("Cannot pack all the parcels: not enough trucks");
             }
 
             Truck truck = new Truck(truckWidth, truckHeight);
+
+            log.debug("Processing truck with idx={}", trucks.size());
+            log.debug("Parcels list: {}", parcelsSorted);
 
             int x = 0;
             int y = 0;
@@ -48,6 +55,9 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
 
                 if (suitableParcelIndex == -1) {
 
+                    log.debug("Not found parcel to fill gap {}x{} starting from (x={},y={})",
+                            currentWidthToFill, currentHeightToFill, x, y);
+
                     if (x + currentWidthToFill == truckWidth && y + currentHeightToFill == truckHeight) {
                         break;
                     }
@@ -57,12 +67,19 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
 
                 } else {
 
+                    log.debug("Found parcel with idx={} to fill gap {}x{} starting from (x={},y={})",
+                            suitableParcelIndex, currentWidthToFill, currentHeightToFill, x, y);
+
                     Parcel suitableParcel = parcelsSorted.get(suitableParcelIndex);
+
                     truck.loadParcel(x, y, suitableParcel);
+
+                    log.debug("Parcel loaded to truck: {}", suitableParcel);
 
                     parcelsSorted.remove(suitableParcelIndex);
 
                     if (parcelsSorted.isEmpty()) {
+                        log.debug("All parcels packed");
                         break;
                     }
 
@@ -71,18 +88,29 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
 
                 }
 
+                log.debug("Starting point for new slot to find: x={}, y={}", startingXPointForNewSlot, startingYPointForNewSlot);
+
                 Slot freeSlot = findNextPlaceForAnyParcel(truck,
                         startingXPointForNewSlot,
                         startingYPointForNewSlot);
+
+                log.debug("Slot found: x={}, y={}, width={}, height={}",
+                        freeSlot.getX(), freeSlot.getY(), freeSlot.getWidth(), freeSlot.getHeight());
 
                 x = freeSlot.getX();
                 y = freeSlot.getY();
                 currentHeightToFill = freeSlot.getHeight();
                 currentWidthToFill = freeSlot.getWidth();
 
+                if (x == truckWidth && y == truckHeight) {
+                    log.debug("Do not have place in current truck");
+                }
+
             }
 
             trucks.add(truck);
+
+            log.debug("Truck added to list: {}", Arrays.deepToString(truck.getBack()));
         }
 
 

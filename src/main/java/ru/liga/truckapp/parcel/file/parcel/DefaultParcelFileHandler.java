@@ -1,6 +1,7 @@
-package ru.liga.truckapp.parcel.file;
+package ru.liga.truckapp.parcel.file.parcel;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.validation.ParcelValidator;
 import ru.liga.truckapp.parcel.exceptions.ValidationException;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 
+@Slf4j
 @AllArgsConstructor
 public class DefaultParcelFileHandler implements ParcelFileHandler {
 
@@ -32,8 +34,9 @@ public class DefaultParcelFileHandler implements ParcelFileHandler {
                 } else {
                     if (!currentParcel.isEmpty()) {
                         validate(currentParcel, truckHeight, truckWidth);
-                        Parcel currentType = extractParcel(currentParcel);
-                        parcels.add(currentType);
+                        Parcel parcelExtracted = extractParcel(currentParcel);
+                        log.debug("Parcel extracted: {}", parcelExtracted);
+                        parcels.add(parcelExtracted);
                         currentParcel.clear();
                     }
                 }
@@ -45,11 +48,12 @@ public class DefaultParcelFileHandler implements ParcelFileHandler {
                 Parcel currentType = extractParcel(currentParcel);
                 parcels.add(currentType);
             }
-
+            log.debug("Parcels read: {}", parcels);
             return parcels;
 
 
         } catch (IOException e) {
+            log.error("IOException occurred while reading parcel file '{}': {}", filename, e.getMessage());
             throw new RuntimeException("IOException occurred while reading parcel file: " + e.getMessage());
         }
     }
@@ -83,19 +87,21 @@ public class DefaultParcelFileHandler implements ParcelFileHandler {
                           int truckHeight,
                           int truckWidth) {
         if (!validator.isValid(currentParcel)) {
-            StringBuilder message = new StringBuilder("Invalid parcel!");
+            StringBuilder message = new StringBuilder("Invalid parcel.");
             message.append("\n");
             for (String line : currentParcel) {
                 message.append(line).append("\n");
             }
+            log.error("ValidationException: {}", message);
             throw new ValidationException(message.toString());
         }
         if (!validator.fitsTruck(currentParcel, truckHeight, truckWidth)) {
-            StringBuilder message = new StringBuilder("Invalid parcel size!");
+            StringBuilder message = new StringBuilder("Invalid parcel size.");
             message.append("\n");
             for (String line : currentParcel) {
                 message.append(line).append("\n");
             }
+            log.error("ValidationException: {}", message);
             throw new ValidationException(message.toString());
         }
     }

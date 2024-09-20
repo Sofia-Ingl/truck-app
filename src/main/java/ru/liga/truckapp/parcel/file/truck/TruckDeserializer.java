@@ -1,4 +1,4 @@
-package ru.liga.truckapp.parcel.json;
+package ru.liga.truckapp.parcel.file.truck;
 
 import com.google.gson.*;
 import ru.liga.truckapp.parcel.entities.Truck;
@@ -20,7 +20,7 @@ public class TruckDeserializer implements JsonDeserializer<Truck> {
         for (int i = 0; i < height; i++) {
             String line = jsonBack.get(i).getAsString();
             if (width != line.length() - 2) {
-                throw new JsonParseException("Truck line has wrong length");
+                throw new JsonParseException("Truck line has wrong length: " + width + " instead of " + (line.length() - 2));
             }
             if (line.charAt(0) != '+' || line.charAt(line.length() - 1) != '+') {
                 throw new JsonParseException("Truck has wrong borders: " + line);

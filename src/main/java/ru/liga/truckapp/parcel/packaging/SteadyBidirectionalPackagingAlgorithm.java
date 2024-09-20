@@ -1,5 +1,6 @@
 package ru.liga.truckapp.parcel.packaging;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Slot;
 import ru.liga.truckapp.parcel.entities.Truck;
@@ -7,6 +8,7 @@ import ru.liga.truckapp.parcel.exceptions.PackagingException;
 
 import java.util.*;
 
+@Slf4j
 public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
 
 
@@ -26,6 +28,10 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
             trucks.add(new Truck(truckWidth, truckHeight));
         }
 
+        log.debug("Trucks created: {}", trucks.size());
+
+        boolean directPhase = true;
+
         while (!parcelsSorted.isEmpty()) {
 
             int trucksLoadedSteadilyInIteration = 0;
@@ -35,45 +41,63 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
             Parcel iterationMaxParcel = parcelsSorted.get(maxParcelIdx);
             Arrays.fill(differencesWithMaxParcelSize, iterationMaxParcel.getTypeCode());
 
-            for (int i = 0; i < trucks.size(); i++) {
 
-                boolean isFilledOnCurrentIter = loadNextParcelIntoTruck(
-                        parcelsSorted,
-                        trucks.get(i),
-                        i,
-                        differencesWithMaxParcelSize
-                );
-                if (isFilledOnCurrentIter) {
-                    trucksLoadedSteadilyInIteration++;
-                }
-
-                if (parcelsSorted.isEmpty()) break;
-
+            if (directPhase) {
+                log.debug("Processing direct initial packaging phase on iteration");
+                trucksLoadedSteadilyInIteration += directPhase(trucks, parcelsSorted, differencesWithMaxParcelSize);
+            } else {
+                log.debug("Processing reversed initial packaging phase on iteration");
+                trucksLoadedSteadilyInIteration += reversedPhase(trucks, parcelsSorted, differencesWithMaxParcelSize);
             }
+
+//            for (int i = 0; i < trucks.size(); i++) {
+//
+//                boolean isFilledOnCurrentIter = loadNextParcelIntoTruck(
+//                        parcelsSorted,
+//                        trucks.get(i),
+//                        i,
+//                        differencesWithMaxParcelSize
+//                );
+//                if (isFilledOnCurrentIter) {
+//                    trucksLoadedSteadilyInIteration++;
+//                }
+//
+//                if (parcelsSorted.isEmpty()) break;
+//
+//            }
 
 
             while (trucksLoadedSteadilyInIteration < trucks.size()
                     && !parcelsSorted.isEmpty()) {
 
-                for (int i = trucks.size() - 1; i >= 0; i--) {
 
-                    boolean isFilledOnCurrentIter = loadNextParcelIntoTruck(
-                            parcelsSorted,
-                            trucks.get(i),
-                            i,
-                            differencesWithMaxParcelSize
-                    );
-                    if (isFilledOnCurrentIter) {
-                        trucksLoadedSteadilyInIteration++;
-                    }
-
-                    if (parcelsSorted.isEmpty()) break;
-
+//                for (int i = trucks.size() - 1; i >= 0; i--) {
+//
+//                    boolean isFilledOnCurrentIter = loadNextParcelIntoTruck(
+//                            parcelsSorted,
+//                            trucks.get(i),
+//                            i,
+//                            differencesWithMaxParcelSize
+//                    );
+//                    if (isFilledOnCurrentIter) {
+//                        trucksLoadedSteadilyInIteration++;
+//                    }
+//
+//                    if (parcelsSorted.isEmpty()) break;
+//
+//                }
+                if (!directPhase) {
+                    log.debug("Processing reversed additional packaging phase on iteration");
+                    trucksLoadedSteadilyInIteration += directPhase(trucks, parcelsSorted, differencesWithMaxParcelSize);
+                } else {
+                    log.debug("Processing direct additional packaging phase on iteration");
+                    trucksLoadedSteadilyInIteration += reversedPhase(trucks, parcelsSorted, differencesWithMaxParcelSize);
                 }
 
             }
 
-
+            directPhase = !directPhase;
+            log.debug("Phase direction changed. Now phase is {}", directPhase ? "direct" : "reversed");
         }
 
         return trucks;
@@ -84,6 +108,7 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
                                             int truckIndex,
                                             int[] differencesWithMaxParcelSize) {
 
+        log.debug("Working with truck: {}", Arrays.deepToString(truck.getBack()));
         boolean truckIsLoadedSteadilyOnCurrentIteration = false;
 
         // truck is already filled steadily on this iteration; continue with other trucks
@@ -94,7 +119,8 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
                 parcelsSorted);
 
         if (suitableParcelIndex == -1) {
-            // cannot fill truck better on current iteration
+            log.debug("Cannot fill truck better on current iteration: no suitable parcels available " +
+                    "-> truck is loaded steadily on current iteration");
             differencesWithMaxParcelSize[truckIndex] = 0;
             truckIsLoadedSteadilyOnCurrentIteration = true;
             return truckIsLoadedSteadilyOnCurrentIteration;
@@ -105,7 +131,12 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
                 parcelsSorted,
                 truck);
 
+        log.debug("Working with truck: {}", Arrays.deepToString(truck.getBack()));
+
         differencesWithMaxParcelSize[truckIndex] -= loadedParcelSize;
+
+        log.debug("Free space in a truck left to fill on current iteration: {}", differencesWithMaxParcelSize[truckIndex]);
+
         if (differencesWithMaxParcelSize[truckIndex] == 0) {
             truckIsLoadedSteadilyOnCurrentIteration = true;
             return truckIsLoadedSteadilyOnCurrentIteration;
@@ -119,10 +150,14 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
                                 Truck truck) {
 
         Parcel suitableParcel = parcelsSortedAscending.get(parcelIndex);
+
+        log.debug("Parcel to load: {}", suitableParcel);
+
         int size = suitableParcel.getTypeCode();
 
         Slot slot = findNextPlaceForParcel(truck, suitableParcel);
         if (slot.getWidth() == 0 || slot.getHeight() == 0) {
+            log.error("Cannot load parcels steadily");
             throw new PackagingException("Cannot load parcels steadily; truck current state:\n"
                     + truck + "\n" + "trying to load parcel:\n" + suitableParcel);
         }
@@ -184,6 +219,56 @@ public class SteadyBidirectionalPackagingAlgorithm implements ParcelPackager {
         }
         return new Slot(truck.getWidth(), truck.getHeight(), 0, 0);
 
+    }
+
+
+    private int directPhase(List<Truck> trucks,
+                             List<Parcel> parcelsSorted,
+                             int[] differencesWithMaxParcelSize) {
+
+        int trucksLoadedSteadilyInIteration = 0;
+        for (int i = 0; i < trucks.size(); i++) {
+
+            boolean isFilledOnCurrentIter = loadNextParcelIntoTruck(
+                    parcelsSorted,
+                    trucks.get(i),
+                    i,
+                    differencesWithMaxParcelSize
+            );
+
+            if (isFilledOnCurrentIter) {
+                trucksLoadedSteadilyInIteration++;
+            }
+
+            if (parcelsSorted.isEmpty()) break;
+
+        }
+        return trucksLoadedSteadilyInIteration;
+    }
+
+
+
+    private int reversedPhase(List<Truck> trucks,
+                            List<Parcel> parcelsSorted,
+                            int[] differencesWithMaxParcelSize) {
+
+        int trucksLoadedSteadilyInIteration = 0;
+        for (int i = trucks.size() - 1; i >= 0; i--) {
+
+            boolean isFilledOnCurrentIter = loadNextParcelIntoTruck(
+                    parcelsSorted,
+                    trucks.get(i),
+                    i,
+                    differencesWithMaxParcelSize
+            );
+            if (isFilledOnCurrentIter) {
+                trucksLoadedSteadilyInIteration++;
+            }
+
+            if (parcelsSorted.isEmpty()) break;
+
+        }
+        return trucksLoadedSteadilyInIteration;
     }
 
 

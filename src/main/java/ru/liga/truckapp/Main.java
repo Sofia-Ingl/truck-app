@@ -1,5 +1,6 @@
 package ru.liga.truckapp;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.liga.truckapp.config.creators.*;
 import ru.liga.truckapp.config.entities.AlgorithmType;
 import ru.liga.truckapp.config.file.ConfigFileHandler;
@@ -8,6 +9,7 @@ import ru.liga.truckapp.config.file.DefaultConfigFileHandler;
 import java.io.IOException;
 import java.util.*;
 
+@Slf4j
 public class Main {
 
     private static String DEFAULT_CONFIG_FILE_NAME = "src/main/resources/app.config";
@@ -16,7 +18,11 @@ public class Main {
 
         try {
 
+            log.info("Starting application...");
+
             Properties properties = readConfiguration(args);
+
+            log.debug("Properties loaded");
 
             CountingTaskCreator countingTaskCreator = new DefaultCountingTaskCreator();
             PackagingTaskCreator packagingTaskCreator = new DefaultPackagingTaskCreator();
@@ -26,10 +32,14 @@ public class Main {
                     countingTaskCreator,
                     packagingTaskCreator
             );
+            log.debug("Runnable tasks created");
+
             for (Optional<Runnable> task : tasks) {
                 task.ifPresent(Runnable::run);
             }
-            consolePhase(properties, countingTaskCreator, packagingTaskCreator);
+//            consolePhase(properties, countingTaskCreator, packagingTaskCreator);
+
+            log.info("Stopping application...");
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -43,6 +53,7 @@ public class Main {
         if (args.length > 0) {
             configFileName = args[0];
         }
+        log.debug("Config file: {}", configFileName);
         ConfigFileHandler configFileHandler = new DefaultConfigFileHandler();
         return configFileHandler.loadProperties(configFileName);
     }
