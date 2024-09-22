@@ -4,8 +4,8 @@ import ru.liga.truckapp.config.creators.DefaultPackagingTaskCreator;
 import ru.liga.truckapp.config.creators.RunnableListCreator;
 import ru.liga.truckapp.config.creators.DefaultRunnableListCreator;
 import ru.liga.truckapp.config.exceptions.ConfigException;
-import ru.liga.truckapp.parcel.tasks.CountingTask;
-import ru.liga.truckapp.parcel.tasks.PackagingTask;
+import ru.liga.truckapp.parcel.tasks.DefaultCountingTask;
+import ru.liga.truckapp.parcel.tasks.DefaultPackagingTask;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -46,7 +46,7 @@ public class RunnableListCreatorTests {
 
         assertThat(tasks.size()).isEqualTo(2);
         assertThat(tasks.get(0).orElse(null)).isNotNull();
-        assertThat(tasks.get(0).orElse(null)).isInstanceOf(PackagingTask.class);
+        assertThat(tasks.get(0).orElse(null)).isInstanceOf(DefaultPackagingTask.class);
         assertThat(tasks.get(1).orElse(null)).isNull();
 
     }
@@ -74,7 +74,7 @@ public class RunnableListCreatorTests {
         assertThat(tasks.size()).isEqualTo(2);
         assertThat(tasks.get(0).orElse(null)).isNull();
         assertThat(tasks.get(1).orElse(null)).isNotNull();
-        assertThat(tasks.get(1).orElse(null)).isInstanceOf(CountingTask.class);
+        assertThat(tasks.get(1).orElse(null)).isInstanceOf(DefaultCountingTask.class);
 
 
     }

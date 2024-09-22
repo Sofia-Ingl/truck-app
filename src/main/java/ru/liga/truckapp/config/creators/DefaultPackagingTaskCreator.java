@@ -9,7 +9,9 @@ import ru.liga.truckapp.parcel.file.truck.TruckJsonFileHandler;
 import ru.liga.truckapp.parcel.packaging.OptimizedPackagingAlgorithm;
 import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.packaging.SteadyBidirectionalPackagingAlgorithm;
-import ru.liga.truckapp.parcel.tasks.PackagingTask;
+import ru.liga.truckapp.parcel.printing.DefaultTruckPrinter;
+import ru.liga.truckapp.parcel.printing.TruckPrinter;
+import ru.liga.truckapp.parcel.tasks.DefaultPackagingTask;
 import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
 
 
@@ -32,8 +34,9 @@ public class DefaultPackagingTaskCreator implements PackagingTaskCreator {
             case STEADY_BIDIRECTIONAL -> new SteadyBidirectionalPackagingAlgorithm();
         };
         TruckFileHandler truckFileHandler = new TruckJsonFileHandler();
+        TruckPrinter truckPrinter = new DefaultTruckPrinter();
 
-        return new PackagingTask(
+        return new DefaultPackagingTask(
                 inputFileName,
                 outputFileName,
                 truckWidth,
@@ -41,7 +44,8 @@ public class DefaultPackagingTaskCreator implements PackagingTaskCreator {
                 truckQuantity,
                 parcelFileHandler,
                 parcelPackager,
-                truckFileHandler
+                truckFileHandler,
+                truckPrinter
         );
     }
 }

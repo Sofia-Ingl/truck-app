@@ -17,7 +17,7 @@ public class ParcelFileHandlerTests {
     ParcelFileHandler handler = new DefaultParcelFileHandler(new DefaultParcelValidator());
 
     @Test
-    void readParcelsTest() throws ValidationException, IOException {
+    void readParcelsTest() {
 
 
         List<Parcel> parcels =
@@ -30,7 +30,7 @@ public class ParcelFileHandlerTests {
 
 
     @Test
-    void readInvalidParcelTest() throws ValidationException, IOException {
+    void readInvalidParcelTest() {
 
         assertThatThrownBy(
                 () -> {
@@ -44,7 +44,7 @@ public class ParcelFileHandlerTests {
 
 
     @Test
-    void readNotFittingParcelTest() throws ValidationException, IOException {
+    void readNotFittingParcelTest() {
 
         assertThatThrownBy(
                 () -> {

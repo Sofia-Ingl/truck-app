@@ -78,28 +78,29 @@ public class Main {
                                      CountingTaskCreator countingTaskCreator,
                                      PackagingTaskCreator packagingTaskCreator) throws IOException {
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("All tasks from config file done");
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("All tasks from config file done");
 
-        boolean stop = askForStop(scanner);
-        while (!stop) {
+            boolean stop = askForStop(scanner);
+            while (!stop) {
 
-            String taskType = chooseTaskType(scanner);
-            switch (taskType) {
-                case "1":
-                    processCountingTask(scanner, countingTaskCreator);
-                    break;
-                case "2":
-                    processPackagingTask(scanner, properties, packagingTaskCreator);
-                    break;
-                default:
-                    System.out.println("Ok, you don't want to use me. Bye");
-                    return;
+                String taskType = chooseTaskType(scanner);
+                switch (taskType) {
+                    case "1":
+                        processCountingTask(scanner, countingTaskCreator);
+                        break;
+                    case "2":
+                        processPackagingTask(scanner, properties, packagingTaskCreator);
+                        break;
+                    default:
+                        System.out.println("Ok, you don't want to use me. Bye");
+                        return;
+                }
+
+                stop = askForStop(scanner);
             }
-
-            stop = askForStop(scanner);
         }
-        scanner.close();
+
     }
 
 
