@@ -1,6 +1,5 @@
 package ru.liga.truckapp.parcel.packaging;
 
-
 import lombok.extern.slf4j.Slf4j;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Slot;

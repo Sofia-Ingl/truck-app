@@ -38,11 +38,7 @@ public class DefaultUserIOProcessor implements UserIOProcessor {
                     case PACK:
                         processPackagingTask(scanner, packagers, properties);
                         break;
-                    default:
-                        userOutput.println("Ok, you don't want to use me. Bye");
-                        return;
                 }
-
                 stop = askForStop(scanner);
             }
         }

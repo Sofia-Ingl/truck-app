@@ -3,7 +3,7 @@ package ru.liga.truckapp.io.creators;
 import ru.liga.truckapp.io.enums.CountingAlgorithmType;
 import ru.liga.truckapp.parcel.tasks.CountingTaskTemplate;
 
-public interface CountingTaskCreator {
+public interface CountingTaskTemplateCreator {
 
-    CountingTaskTemplate createCountingTask(CountingAlgorithmType algorithmType);
+    CountingTaskTemplate create(CountingAlgorithmType algorithmType);
 }

@@ -13,45 +13,12 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-public class DefaultPackagingTaskTemplate implements Runnable, PackagingTaskTemplate {
-
-//    private final String inputFileName;
-//    private final String outputFileName;
-//    private final int truckWidth;
-//    private final int truckHeight;
-//    private final int truckQuantity;
+public class DefaultPackagingTaskTemplate implements PackagingTaskTemplate {
 
     private final ParcelFileHandler parcelFileHandler;
     private final ParcelPackager parcelPackager;
     private final TruckFileHandler truckFileHandler;
     private final TruckPrinter truckPrinter;
-
-    @Override
-    public void run() {
-
-//        log.info("Starting packaging task...");
-//        List<Parcel> parcels = parcelFileHandler.readAllParcels(
-//                inputFileName,
-//                truckHeight,
-//                truckWidth);
-//
-//        log.debug("Found {} parcels", parcels.size());
-//
-//        List<Truck> trucks = parcelPackager.processPackaging(truckWidth,
-//                truckHeight,
-//                truckQuantity,
-//                parcels);
-//
-//        for (Truck truck : trucks) {
-//            truckPrinter.printTruck(truck);
-//        }
-//
-//        log.debug("Final trucks quantity is {}", trucks.size());
-//
-//        truckFileHandler.writeTrucks(outputFileName, trucks);
-//        log.info("Packaging task finished");
-
-    }
 
     @Override
     public void execute(String inputFileName, String outputFileName, int truckWidth, int truckHeight, int truckQuantity) {

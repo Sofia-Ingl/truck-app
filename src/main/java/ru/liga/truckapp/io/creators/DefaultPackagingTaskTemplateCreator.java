@@ -14,9 +14,9 @@ import ru.liga.truckapp.parcel.tasks.DefaultPackagingTaskTemplate;
 import ru.liga.truckapp.parcel.tasks.PackagingTaskTemplate;
 import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
 
-public class DefaultPackagingTaskCreator implements PackagingTaskCreator {
+public class DefaultPackagingTaskTemplateCreator implements PackagingTaskTemplateCreator {
     @Override
-    public PackagingTaskTemplate createPackagingTask(PackagingAlgorithmType algorithm) {
+    public PackagingTaskTemplate create(PackagingAlgorithmType algorithm) {
 
         ParcelFileHandler parcelFileHandler = new DefaultParcelFileHandler(new DefaultParcelValidator());
         ParcelPackager parcelPackager = switch (algorithm) {
