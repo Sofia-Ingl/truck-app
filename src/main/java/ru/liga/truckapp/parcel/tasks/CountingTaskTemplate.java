@@ -1,6 +1,6 @@
 package ru.liga.truckapp.parcel.tasks;
 
-public interface CountingTask {
+public interface CountingTaskTemplate {
 
     void execute(String inputFileName);
 

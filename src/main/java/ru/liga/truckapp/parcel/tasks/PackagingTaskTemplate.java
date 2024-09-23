@@ -1,6 +1,6 @@
 package ru.liga.truckapp.parcel.tasks;
 
-public interface PackagingTask {
+public interface PackagingTaskTemplate {
 
     void execute(String inputFileName,
                  String outputFileName,

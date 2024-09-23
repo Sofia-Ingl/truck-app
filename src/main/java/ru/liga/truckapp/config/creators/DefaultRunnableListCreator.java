@@ -2,7 +2,7 @@ package ru.liga.truckapp.config.creators;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.liga.truckapp.config.entities.AlgorithmType;
+import ru.liga.truckapp.io.enums.PackagingAlgorithmType;
 import ru.liga.truckapp.config.exceptions.ConfigException;
 
 import java.util.*;
@@ -78,7 +78,7 @@ public class DefaultRunnableListCreator implements RunnableListCreator {
                     Integer.parseInt(truckWidth),
                     Integer.parseInt(truckHeight),
                     Integer.parseInt(truckQuantity),
-                    AlgorithmType.valueOf(algorithm.toUpperCase())
+                    PackagingAlgorithmType.valueOf(algorithm.toUpperCase())
 
             );
 

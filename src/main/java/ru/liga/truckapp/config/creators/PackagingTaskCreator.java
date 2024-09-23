@@ -1,6 +1,6 @@
 package ru.liga.truckapp.config.creators;
 
-import ru.liga.truckapp.config.entities.AlgorithmType;
+import ru.liga.truckapp.io.enums.PackagingAlgorithmType;
 
 public interface PackagingTaskCreator {
 
@@ -10,6 +10,6 @@ public interface PackagingTaskCreator {
             int truckWidth,
             int truckHeight,
             int truckQuantity,
-            AlgorithmType algorithm
+            PackagingAlgorithmType algorithm
     );
 }

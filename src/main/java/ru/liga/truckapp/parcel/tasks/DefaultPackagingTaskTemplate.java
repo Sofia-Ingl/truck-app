@@ -10,17 +10,16 @@ import ru.liga.truckapp.parcel.file.parcel.ParcelFileHandler;
 import ru.liga.truckapp.parcel.printing.TruckPrinter;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @AllArgsConstructor
-public class DefaultPackagingTask implements Runnable, PackagingTask {
+public class DefaultPackagingTaskTemplate implements Runnable, PackagingTaskTemplate {
 
-    private final String inputFileName;
-    private final String outputFileName;
-    private final int truckWidth;
-    private final int truckHeight;
-    private final int truckQuantity;
+//    private final String inputFileName;
+//    private final String outputFileName;
+//    private final int truckWidth;
+//    private final int truckHeight;
+//    private final int truckQuantity;
 
     private final ParcelFileHandler parcelFileHandler;
     private final ParcelPackager parcelPackager;
@@ -30,27 +29,27 @@ public class DefaultPackagingTask implements Runnable, PackagingTask {
     @Override
     public void run() {
 
-        log.info("Starting packaging task...");
-        List<Parcel> parcels = parcelFileHandler.readAllParcels(
-                inputFileName,
-                truckHeight,
-                truckWidth);
-
-        log.debug("Found {} parcels", parcels.size());
-
-        List<Truck> trucks = parcelPackager.processPackaging(truckWidth,
-                truckHeight,
-                truckQuantity,
-                parcels);
-
-        for (Truck truck : trucks) {
-            truckPrinter.printTruck(truck);
-        }
-
-        log.debug("Final trucks quantity is {}", trucks.size());
-
-        truckFileHandler.writeTrucks(outputFileName, trucks);
-        log.info("Packaging task finished");
+//        log.info("Starting packaging task...");
+//        List<Parcel> parcels = parcelFileHandler.readAllParcels(
+//                inputFileName,
+//                truckHeight,
+//                truckWidth);
+//
+//        log.debug("Found {} parcels", parcels.size());
+//
+//        List<Truck> trucks = parcelPackager.processPackaging(truckWidth,
+//                truckHeight,
+//                truckQuantity,
+//                parcels);
+//
+//        for (Truck truck : trucks) {
+//            truckPrinter.printTruck(truck);
+//        }
+//
+//        log.debug("Final trucks quantity is {}", trucks.size());
+//
+//        truckFileHandler.writeTrucks(outputFileName, trucks);
+//        log.info("Packaging task finished");
 
     }
 
