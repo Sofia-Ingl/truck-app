@@ -1,9 +1,9 @@
+package ru.liga.truckapp.parcel.packaging;
+
 import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Truck;
 import ru.liga.truckapp.parcel.exceptions.PackagingException;
-import ru.liga.truckapp.parcel.packaging.ParcelPackager;
-import ru.liga.truckapp.parcel.packaging.SteadyBidirectionalPackagingAlgorithm;
 
 import java.util.List;
 

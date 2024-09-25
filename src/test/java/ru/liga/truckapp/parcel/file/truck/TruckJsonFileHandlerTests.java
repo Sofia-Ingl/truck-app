@@ -1,8 +1,8 @@
+package ru.liga.truckapp.parcel.file.truck;
+
 import com.google.gson.JsonParseException;
 import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.parcel.entities.Truck;
-import ru.liga.truckapp.parcel.file.truck.TruckFileHandler;
-import ru.liga.truckapp.parcel.file.truck.TruckJsonFileHandler;
 
 
 import java.util.List;

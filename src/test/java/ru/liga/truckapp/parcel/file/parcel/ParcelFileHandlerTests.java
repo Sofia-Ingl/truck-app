@@ -1,11 +1,10 @@
+package ru.liga.truckapp.parcel.file.parcel;
+
 import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.exceptions.ValidationException;
-import ru.liga.truckapp.parcel.file.parcel.ParcelFileHandler;
-import ru.liga.truckapp.parcel.file.parcel.DefaultParcelFileHandler;
 import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;

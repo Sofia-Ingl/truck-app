@@ -1,7 +1,7 @@
+package ru.liga.truckapp.parcel.packaging;
+
 import org.junit.jupiter.api.Test;
 import ru.liga.truckapp.parcel.exceptions.PackagingException;
-import ru.liga.truckapp.parcel.packaging.OptimizedPackagingAlgorithm;
-import ru.liga.truckapp.parcel.packaging.ParcelPackager;
 import ru.liga.truckapp.parcel.entities.Parcel;
 import ru.liga.truckapp.parcel.entities.Truck;
 import java.util.List;
@@ -19,7 +19,6 @@ public class OptimizedPackagingAlgorithmTests {
         int truckWidth = 6;
         int truckHeight = 6;
         int truckQuantity = 10;
-
 
         List<Parcel> parcels = List.of(
                 TestingConstants.PARCEL_TYPES.get(1),

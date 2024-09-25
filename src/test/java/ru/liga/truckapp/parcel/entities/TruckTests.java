@@ -1,6 +1,6 @@
+package ru.liga.truckapp.parcel.entities;
+
 import org.junit.jupiter.api.Test;
-import ru.liga.truckapp.parcel.entities.Parcel;
-import ru.liga.truckapp.parcel.entities.Truck;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

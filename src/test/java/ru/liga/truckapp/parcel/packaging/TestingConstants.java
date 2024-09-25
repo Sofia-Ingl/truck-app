@@ -1,3 +1,5 @@
+package ru.liga.truckapp.parcel.packaging;
+
 import ru.liga.truckapp.parcel.entities.Parcel;
 
 import java.util.HashMap;
@@ -5,7 +7,7 @@ import java.util.Map;
 
 public final class TestingConstants {
 
-    final static Map<Integer, Parcel> PARCEL_TYPES = new HashMap<>();
+    public final static Map<Integer, Parcel> PARCEL_TYPES = new HashMap<>();
 
     static {
         Parcel parcel1 = new Parcel(

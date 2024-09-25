@@ -1,6 +1,6 @@
+package ru.liga.truckapp.parcel.counting;
+
 import org.junit.jupiter.api.Test;
-import ru.liga.truckapp.parcel.counting.ParcelCounter;
-import ru.liga.truckapp.parcel.counting.DefaultParcelCounter;
 import ru.liga.truckapp.parcel.entities.Truck;
 
 import java.util.List;
