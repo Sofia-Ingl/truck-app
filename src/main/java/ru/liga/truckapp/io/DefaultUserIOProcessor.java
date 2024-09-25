@@ -72,7 +72,7 @@ public class DefaultUserIOProcessor implements UserIOProcessor {
         userOutput.println("Available algorithm types:");
         userOutput.println("a. optimized");
         userOutput.println("b. steady_bidirectional");
-        userOutput.println("Choose your choice here (print full name):");
+        userOutput.println("Write your choice here (print full name):");
         String userAlgorithmChoice = scanner.nextLine().trim().toUpperCase();
         log.debug("User packaging algorithm choice: {}", userAlgorithmChoice);
         return PackagingAlgorithmType.valueOf(userAlgorithmChoice);
