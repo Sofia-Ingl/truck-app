@@ -29,8 +29,7 @@ public class TruckJsonFileHandler implements TruckFileHandler {
             String jsonTruck = Files.readString(Paths.get(filename));
             return gson.fromJson(jsonTruck, Truck.class);
         } catch (IOException e) {
-            log.error(e.getMessage());
-            throw new RuntimeException(e);
+            throw new JsonIOException(e);
         }
     }
 
@@ -42,7 +41,6 @@ public class TruckJsonFileHandler implements TruckFileHandler {
             }.getType();
             return gson.fromJson(jsonTrucks, type);
         } catch (IOException e) {
-            log.error(e.getMessage());
             throw new JsonIOException(e);
         }
     }
@@ -54,7 +52,6 @@ public class TruckJsonFileHandler implements TruckFileHandler {
             String jsonTrucks = gson.toJson(trucks);
             Files.writeString(Paths.get(filename), jsonTrucks);
         } catch (IOException e) {
-            log.error(e.getMessage());
             throw new JsonIOException(e);
         }
 

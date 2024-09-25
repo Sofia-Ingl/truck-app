@@ -28,10 +28,15 @@ public class Main {
             log.info("Starting application...");
             CommandLineArgumentsParser cliArgsParser = new TruckCommandLineArgumentsParser(new DefaultParser());
             Properties properties = cliArgsParser.parse(args);
+
+            log.debug("Properties loaded: {}", properties);
+
             UserIOProcessor userIOProcessor = new DefaultUserIOProcessor(
                     System.in,
                     System.out
             );
+
+            log.debug("User IO processor created");
 
             Map<PackagingAlgorithmType, PackagingTaskTemplate> packagers = new HashMap<>();
             PackagingTaskTemplateCreator packagersCreator = new DefaultPackagingTaskTemplateCreator();

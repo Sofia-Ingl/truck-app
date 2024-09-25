@@ -29,7 +29,6 @@ public class DefaultUserIOProcessor implements UserIOProcessor {
         try (Scanner scanner = new Scanner(userInput)) {
             boolean stop = false;
             while (!stop) {
-
                 TaskType taskType = chooseTaskType(scanner);
                 switch (taskType) {
                     case COUNT:
@@ -56,7 +55,9 @@ public class DefaultUserIOProcessor implements UserIOProcessor {
         userOutput.println("a. count");
         userOutput.println("b. pack");
         userOutput.println("Write your choice here (print full name):");
-        return TaskType.valueOf(scanner.nextLine().trim().toUpperCase());
+        String userTaskChoice = scanner.nextLine().trim().toUpperCase();
+        log.debug("User task choice: {}", userTaskChoice);
+        return TaskType.valueOf(userTaskChoice);
     }
 
 
@@ -65,46 +66,63 @@ public class DefaultUserIOProcessor implements UserIOProcessor {
         userOutput.println("a. optimized");
         userOutput.println("b. steady_bidirectional");
         userOutput.println("Choose your choice here (print full name):");
-        return PackagingAlgorithmType.valueOf(scanner.nextLine().trim().toUpperCase());
+        String userAlgorithmChoice = scanner.nextLine().trim().toUpperCase();
+        log.debug("User packaging algorithm choice: {}", userAlgorithmChoice);
+        return PackagingAlgorithmType.valueOf(userAlgorithmChoice);
     }
 
     private void processCountingTask(Scanner scanner,
                                      Map<CountingAlgorithmType, CountingTaskTemplate> countersAvailable) {
-        userOutput.println("You have chosen counting task");
-        userOutput.println("Input your json file name here");
-        String filename = scanner.nextLine().trim();
-        CountingTaskTemplate countingTask = countersAvailable.get(CountingAlgorithmType.DEFAULT);
-        if (countingTask == null) throw new RuntimeException("Counting task template not found");
-        countingTask.execute(filename);
+        try {
+            userOutput.println("You have chosen counting task");
+            userOutput.println("Input your json file name here");
+            String filename = scanner.nextLine().trim();
+            log.debug("Filename for counting task: {}", filename);
+            CountingTaskTemplate countingTask = countersAvailable.get(CountingAlgorithmType.DEFAULT);
+            countingTask.execute(filename);
+        } catch (Exception e) {
+            log.error("Error processing counting task: {}", e.getMessage());
+        }
+
     }
 
     private void processPackagingTask(Scanner scanner,
                                       Map<PackagingAlgorithmType, PackagingTaskTemplate> packagers,
                                       Properties properties) {
-        String[] filenames = {};
-        while (filenames.length != 2) {
+
+        try {
             userOutput.println("You have chosen parcel packaging task");
             userOutput.println("Input your input & output file names here separated by ,");
-            filenames = scanner.nextLine().trim().split(",");
+            String input = scanner.nextLine().trim();
+            log.debug("Filenames for packaging task: {}", userInput);
+            String[] filenames = input.split(",");
+            String inputFileName = filenames[0].trim();
+            String outputFileName = filenames[1].trim();
+
+            PackagingAlgorithmType packagingAlgorithmType = choosePackagingAlgorithmType(scanner);
+
+            userOutput.println("Input truck quantity:");
+
+            input = scanner.nextLine().trim();
+            log.debug("Truck quantity: {}; truck width: {}; truck height: {}",
+                    input,
+                    properties.getProperty("truck-width"),
+                    properties.getProperty("truck-height"));
+
+            int truckQuantity = Integer.parseInt(input);
+            int truckWidth = Integer.parseInt(properties.getProperty("truck-width"));
+            int truckHeight = Integer.parseInt(properties.getProperty("truck-height"));
+
+            PackagingTaskTemplate packagingTask = packagers.get(packagingAlgorithmType);
+            packagingTask.execute(
+                    inputFileName,
+                    outputFileName,
+                    truckWidth,
+                    truckHeight,
+                    truckQuantity
+            );
+        } catch (Exception e) {
+            log.error("Error processing packaging task: {}", e.getMessage());
         }
-        String inputFileName = filenames[0].trim();
-        String outputFileName = filenames[1].trim();
-
-        PackagingAlgorithmType packagingAlgorithmType = choosePackagingAlgorithmType(scanner);
-
-        userOutput.println("Input truck quantity:");
-
-        int truckQuantity = Integer.parseInt(scanner.nextLine().trim());
-        int truckWidth = Integer.parseInt(properties.getProperty("truck-width"));
-        int truckHeight = Integer.parseInt(properties.getProperty("truck-height"));
-
-        PackagingTaskTemplate packagingTask = packagers.get(packagingAlgorithmType);
-        packagingTask.execute(
-                inputFileName,
-                outputFileName,
-                truckWidth,
-                truckHeight,
-                truckQuantity
-        );
     }
 }
