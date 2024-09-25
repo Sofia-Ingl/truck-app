@@ -49,7 +49,7 @@ public class ParcelValidationTests {
         invalidParcel.add("7777");
         invalidParcel.add("7777");
 
-        assertThat(validator.isValid(invalidParcel)).isFalse();;
+        assertThat(validator.isValid(invalidParcel)).isFalse();
 
     }
 

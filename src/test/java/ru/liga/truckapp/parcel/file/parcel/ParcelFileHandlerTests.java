@@ -32,11 +32,9 @@ public class ParcelFileHandlerTests {
     void readInvalidParcelTest() {
 
         assertThatThrownBy(
-                () -> {
-                    handler.readAllParcels("src/test/resources/parcel_file_handler_test_invalid.txt",
-                            6,
-                            6);
-                }
+                () -> handler.readAllParcels("src/test/resources/parcel_file_handler_test_invalid.txt",
+                        6,
+                        6)
         ).isInstanceOf(ValidationException.class);
 
     }
@@ -46,11 +44,9 @@ public class ParcelFileHandlerTests {
     void readNotFittingParcelTest() {
 
         assertThatThrownBy(
-                () -> {
-                    handler.readAllParcels("src/test/resources/parcel_file_handler_test_valid.txt",
-                            2,
-                            2);
-                }
+                () -> handler.readAllParcels("src/test/resources/parcel_file_handler_test_valid.txt",
+                        2,
+                        2)
         ).isInstanceOf(ValidationException.class);
 
     }
