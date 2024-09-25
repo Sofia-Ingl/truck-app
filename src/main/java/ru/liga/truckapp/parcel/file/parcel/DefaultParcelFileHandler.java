@@ -18,6 +18,16 @@ public class DefaultParcelFileHandler implements ParcelFileHandler {
 
     private final ParcelValidator validator;
 
+    /**
+     * Функция, читающая посылки из текстового файла и возвращающая их список
+     *
+     * @param filename путь к файлу
+     * @param truckHeight высота грузовика
+     * @param truckWidth ширина грузовика
+     * @return список прочитанных посылок
+     *
+     * @throws ValidationException исключение бросается, если очередная посылка не прошла валидацию
+     */
     @Override
     public List<Parcel> readAllParcels(String filename, int truckHeight, int truckWidth) {
 

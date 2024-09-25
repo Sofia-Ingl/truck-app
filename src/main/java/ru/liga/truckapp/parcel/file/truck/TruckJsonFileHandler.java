@@ -22,6 +22,14 @@ public class TruckJsonFileHandler implements TruckFileHandler {
             .registerTypeAdapter(Truck.class, new TruckDeserializer())
             .create();
 
+    /**
+     * Функция, читающая грузовик из json файла
+     *
+     * @param filename путь к файлу
+     * @return прочитанный грузовик
+     *
+     * @throws JsonIOException ошибка ввода-вывода
+     */
     @Override
     public Truck readTruck(String filename) {
 
@@ -33,6 +41,14 @@ public class TruckJsonFileHandler implements TruckFileHandler {
         }
     }
 
+    /**
+     * Функция, читающая список грузовиков из json файла
+     *
+     * @param filename путь к файлу
+     * @return прочитанный список грузовиков
+     *
+     * @throws JsonIOException ошибка ввода-вывода
+     */
     @Override
     public List<Truck> readTrucks(String filename) {
         try {
@@ -45,6 +61,14 @@ public class TruckJsonFileHandler implements TruckFileHandler {
         }
     }
 
+    /**
+     * Функция, записывающая грузовик в json файл
+     *
+     * @param filename путь к файлу
+     * @param trucks список грузовиков, которые надо записать в файл
+     *
+     * @throws JsonIOException ошибка ввода-вывода
+     */
     @Override
     public void writeTrucks(String filename, List<Truck> trucks) {
 

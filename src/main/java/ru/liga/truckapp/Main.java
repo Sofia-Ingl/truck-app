@@ -21,6 +21,12 @@ import java.util.*;
 @Slf4j
 public class Main {
 
+
+    /**
+     * Точка входа в программу
+     *
+     * @param args аргументы командной сроки
+     */
     public static void main(String[] args) {
 
         try {
@@ -41,14 +47,14 @@ public class Main {
             Map<PackagingAlgorithmType, PackagingTaskTemplate> packagers = new HashMap<>();
             PackagingTaskTemplateCreator packagersCreator = new DefaultPackagingTaskTemplateCreator();
             for (PackagingAlgorithmType type : PackagingAlgorithmType.values()) {
-                PackagingTaskTemplate packagingTaskTemplate = packagersCreator.create(type);
+                PackagingTaskTemplate packagingTaskTemplate = packagersCreator.create(type, System.out);
                 packagers.put(type, packagingTaskTemplate);
             }
 
             Map<CountingAlgorithmType, CountingTaskTemplate> counters = new HashMap<>();
             CountingTaskTemplateCreator countersCreator = new DefaultCountingTaskTemplateCreator();
             for (CountingAlgorithmType type : CountingAlgorithmType.values()) {
-                CountingTaskTemplate countingTaskTemplate = countersCreator.create(type);
+                CountingTaskTemplate countingTaskTemplate = countersCreator.create(type, System.out);
                 counters.put(type, countingTaskTemplate);
             }
 

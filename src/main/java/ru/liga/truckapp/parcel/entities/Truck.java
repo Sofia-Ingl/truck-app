@@ -2,6 +2,8 @@ package ru.liga.truckapp.parcel.entities;
 
 import lombok.*;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
 
 @Getter
@@ -48,6 +50,13 @@ public class Truck {
 
     }
 
+    /**
+     * Процедура, загружающая посылку на заданное место в грузовике
+     *
+     * @param x позиция по горизонтали
+     * @param y позиция по вертикали
+     * @param suitableParcel посылка
+     */
     public void loadParcel(int x,
                            int y,
                            Parcel suitableParcel) {
@@ -77,7 +86,15 @@ public class Truck {
 
     }
 
-
+    /**
+     * Функция, проверяющая, можно ли загрузить посылку на заданное место в грузовике
+     *
+     * @param x позиция по горизонтали
+     * @param y позиция по вертикали
+     * @param suitableParcel посылка
+     *
+     * @return можно ли загрузить посылку
+     */
     public boolean canLoadParcel(int x,
                                  int y,
                                  Parcel suitableParcel) {
@@ -101,7 +118,14 @@ public class Truck {
         return true;
     }
 
-
+    /**
+     * Функция, предоставляющая срез ряда в грузовике
+     *
+     * @param x стартовая позиция по горизонтали
+     * @param y позиция по вертикали (индекс ряда, может быть отрицательный)
+     *
+     * @return срез части ряда или +++..., если индекс ряда отрицательный (+++... = срез дна)
+     */
     public char[] getRowSlice(int x, int y) {
         char[] slice = new char[width - x];
         for (int i = x; i < width; i++) {
@@ -114,6 +138,15 @@ public class Truck {
     }
 
 
+    /**
+     * Функция, проверяющая, что дно посылки не будет нависать
+     *
+     * @param x позиция по горизонтали, куда будет загружаться посылка
+     * @param y позиция по вертикали, куда будет загружаться посылка
+     * @param parcelWidth ширина посылки
+     *
+     * @return не будет ли дно нависать (не нависает = true)
+     */
     public boolean checkParcelBottomWillNotHang(int x, int y, int parcelWidth) {
         if (y <= 0) return true;
 
@@ -124,9 +157,14 @@ public class Truck {
         return blanks * 2 < parcelWidth;
     }
 
-    public void print() {
+    /**
+     * Процедура, печатающая грузовик
+     *
+     * @param out куда грузовик печатается
+     */
+    public void print(PrintStream out) {
 
-        System.out.println(this);
+        out.println(this);
 
     }
 

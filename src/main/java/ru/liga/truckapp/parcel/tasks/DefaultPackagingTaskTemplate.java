@@ -20,6 +20,15 @@ public class DefaultPackagingTaskTemplate implements PackagingTaskTemplate {
     private final TruckFileHandler truckFileHandler;
     private final TruckPrinter truckPrinter;
 
+    /**
+     * Процедура по чтению посылок, упаковке их в грузовики и записи грузовиков в выходной файл
+     *
+     * @param inputFileName путь к файлу с посылками, которые надо упаковать
+     * @param outputFileName путь к файлу, куда надо записать грузовики
+     * @param truckWidth ширина грузовика
+     * @param truckHeight высота грузовика
+     * @param truckQuantity количество грузовиков
+     */
     @Override
     public void execute(String inputFileName, String outputFileName, int truckWidth, int truckHeight, int truckQuantity) {
         log.info("Starting packaging task...");

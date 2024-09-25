@@ -14,9 +14,19 @@ import ru.liga.truckapp.parcel.tasks.DefaultPackagingTaskTemplate;
 import ru.liga.truckapp.parcel.tasks.PackagingTaskTemplate;
 import ru.liga.truckapp.parcel.validation.DefaultParcelValidator;
 
+import java.io.PrintStream;
+
 public class DefaultPackagingTaskTemplateCreator implements PackagingTaskTemplateCreator {
+
+    /**
+     * Функция для создания дефолтных упаковочных тасок
+     *
+     * @param algorithm алгоритм упаковки
+     * @param userOutput стрим, куда печатать вывод
+     * @return шаблон дефолтной упаковочной таски
+     */
     @Override
-    public PackagingTaskTemplate create(PackagingAlgorithmType algorithm) {
+    public PackagingTaskTemplate create(PackagingAlgorithmType algorithm, PrintStream userOutput) {
 
         ParcelFileHandler parcelFileHandler = new DefaultParcelFileHandler(new DefaultParcelValidator());
         ParcelPackager parcelPackager = switch (algorithm) {
@@ -24,7 +34,7 @@ public class DefaultPackagingTaskTemplateCreator implements PackagingTaskTemplat
             case STEADY_BIDIRECTIONAL -> new SteadyBidirectionalPackagingAlgorithm();
         };
         TruckFileHandler truckFileHandler = new TruckJsonFileHandler();
-        TruckPrinter truckPrinter = new DefaultTruckPrinter();
+        TruckPrinter truckPrinter = new DefaultTruckPrinter(userOutput);
         return new DefaultPackagingTaskTemplate(
                 parcelFileHandler,
                 parcelPackager,

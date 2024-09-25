@@ -7,6 +7,16 @@ import java.lang.reflect.Type;
 
 public class TruckDeserializer implements JsonDeserializer<Truck> {
 
+    /**
+     * Функция, восстанавливающая грузовик из формата библиотеки gson
+     *
+     * @param jsonElement сериализовнный грузовик
+     * @param type тип
+     * @param jsonDeserializationContext контекст сериализации
+     * @return десериализованный грузовик
+     *
+     * @throws JsonParseException бросается, если переданный для десериализации объект был сериализован с ошибкой
+     */
     @Override
     public Truck deserialize(JsonElement jsonElement,
                              Type type,

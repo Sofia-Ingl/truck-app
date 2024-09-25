@@ -11,7 +11,26 @@ import java.util.*;
 @Slf4j
 public class OptimizedPackagingAlgorithm implements ParcelPackager {
 
-
+    /**
+     * Функция, оптимизированно упаковывающая посылки в грузовики.
+     * <p>
+     * Грузовики создаются по необходимости в процессе работы алгоритма.
+     * <p>
+     * В каждый последующий грузовик посылки упаковываются слева направо снизу вверх, начиная с самых широких.
+     * Находятся прямоугольные слоты, и для каждого слота ищется наиболее подходящая посылка. Далее
+     * она загружается в грузовик, и на основе ее объема и положения ее правого края находится новый слот, который надо
+     * заполнить. Если ни одна посылка, помещающаяся в слот, не найдена, считается, что слот заполнен на максимум.
+     * Когда указатель левого нижнего угла очередного слота выходит за пределы кузова, считается, что грузовик заполнен,
+     * и содается новый. Если лимит по числу грузовиков достигнут, бросается исключение.
+     *
+     * @throws PackagingException исключение бросается, если при работе алгоритма должен быть превышен лимит по грузовикам
+     *
+     * @param truckWidth ширина грузовика
+     * @param truckHeight высота грузовика
+     * @param truckQuantity количество грузовиков (максимальное)
+     * @param parcels посылки
+     * @return список заполненных грузовиков
+     */
     @Override
     public List<Truck> processPackaging(int truckWidth,
                                         int truckHeight,
@@ -70,11 +89,8 @@ public class OptimizedPackagingAlgorithm implements ParcelPackager {
                             suitableParcelIndex, currentWidthToFill, currentHeightToFill, x, y);
 
                     Parcel suitableParcel = parcelsSorted.get(suitableParcelIndex);
-
                     truck.loadParcel(x, y, suitableParcel);
-
                     log.debug("Parcel loaded to truck: {}", suitableParcel);
-
                     parcelsSorted.remove(suitableParcelIndex);
 
                     if (parcelsSorted.isEmpty()) {

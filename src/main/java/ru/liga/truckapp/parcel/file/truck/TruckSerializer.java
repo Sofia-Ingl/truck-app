@@ -7,6 +7,14 @@ import java.lang.reflect.Type;
 
 public class TruckSerializer implements JsonSerializer<Truck> {
 
+    /**
+     * Функция, сериализующая грузовик в формат, принимаемый библиотекой gson
+     *
+     * @param truck грузовик
+     * @param type тип
+     * @param jsonSerializationContext контекст сериализации
+     * @return сериализованный для gson грузовик
+     */
     @Override
     public JsonElement serialize(Truck truck,
                                  Type type,

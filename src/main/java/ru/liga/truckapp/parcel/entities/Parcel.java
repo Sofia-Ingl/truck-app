@@ -37,10 +37,6 @@ public class Parcel implements Comparable<Parcel> {
     }
 
 
-    public boolean equals(Parcel obj) {
-        return Arrays.deepEquals(this.filling, obj.filling);
-    }
-
     @Override
     public String toString() {
         return "BlockType{" +

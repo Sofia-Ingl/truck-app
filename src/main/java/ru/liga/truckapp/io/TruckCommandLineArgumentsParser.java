@@ -12,6 +12,12 @@ public class TruckCommandLineArgumentsParser implements CommandLineArgumentsPars
 
     private final CommandLineParser parser;
 
+    /**
+     * Функция, парсящая аргументы командной строки
+     *
+     * @param args аргументы командной строки
+     * @return прочитанные пары ключ-значение
+     */
     public Properties parse(String[] args) {
 
         Properties props = new Properties();

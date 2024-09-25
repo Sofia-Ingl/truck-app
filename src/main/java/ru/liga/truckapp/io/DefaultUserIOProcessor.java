@@ -21,6 +21,13 @@ public class DefaultUserIOProcessor implements UserIOProcessor {
     private final InputStream userInput;
     private final PrintStream userOutput;
 
+    /**
+     * Функция, обрабатывающая пользовательский ввод
+     *
+     * @param counters объекты для подсчета посылок, привязанные к алгоритмам
+     * @param packagers объекты для упаковки посылок, привязанные к алгоритмам
+     * @param properties аргументы программы (тут хранятся высота и ширина грузовика)
+     */
     @Override
     public void processUserIO(Map<CountingAlgorithmType, CountingTaskTemplate> counters,
                               Map<PackagingAlgorithmType, PackagingTaskTemplate> packagers,

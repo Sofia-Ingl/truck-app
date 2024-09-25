@@ -10,6 +10,12 @@ import static ru.liga.truckapp.parcel.validation.ParcelValidationConstants.PARCE
 @Slf4j
 public class DefaultParcelCounter implements ParcelCounter {
 
+    /**
+     * Функция, подсчитывающая число посылок разных видов в грузовике
+     *
+     * @param truck грузовик
+     * @return число посылок каждого типа, присутствующего в грузовике
+     */
     @Override
     public Map<Integer, Integer> countParcelsInTruck(Truck truck) {
 
@@ -63,6 +69,12 @@ public class DefaultParcelCounter implements ParcelCounter {
         return parcelsNumberByTypes;
     }
 
+    /**
+     * Функция, подсчитывающая число посылок разных видов для каждого грузовика из списка
+     *
+     * @param trucks список грузовиков
+     * @return список мап, каждая из которых включает информацию о числе посылок типов, которые присутствуют в грузовике
+     */
     @Override
     public List<Map<Integer, Integer>> countParcels(List<Truck> trucks) {
         List<Map<Integer, Integer>> parcelsQuantityInEveryTruck = new ArrayList<>();

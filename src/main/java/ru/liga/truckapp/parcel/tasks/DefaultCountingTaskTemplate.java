@@ -18,6 +18,11 @@ public class DefaultCountingTaskTemplate implements CountingTaskTemplate {
     private final ParcelCounter parcelCounter;
     private final TruckPrinter truckPrinter;
 
+    /**
+     * Процедура, читающая грузовики из файла, считающая количество посылок в каждом и выводящая информацию пользователю
+     *
+     * @param inputFileName путь к файлу с грузовиками
+     */
     @Override
     public void execute(String inputFileName) {
         log.info("Starting counting task...");
