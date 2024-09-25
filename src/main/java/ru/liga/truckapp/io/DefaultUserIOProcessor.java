@@ -88,7 +88,7 @@ public class DefaultUserIOProcessor implements UserIOProcessor {
             CountingTaskTemplate countingTask = countersAvailable.get(CountingAlgorithmType.DEFAULT);
             countingTask.execute(filename);
         } catch (Exception e) {
-            log.error("Error processing counting task: {}", e.getMessage());
+            log.error("Error while processing counting task: {}", e.getMessage());
         }
 
     }
@@ -129,7 +129,7 @@ public class DefaultUserIOProcessor implements UserIOProcessor {
                     truckQuantity
             );
         } catch (Exception e) {
-            log.error("Error processing packaging task: {}", e.getMessage());
+            log.error("Error while processing packaging task: {}", e.getMessage());
         }
     }
 }

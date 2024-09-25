@@ -63,7 +63,6 @@ public class DefaultParcelFileHandler implements ParcelFileHandler {
 
 
         } catch (IOException e) {
-            log.error("IOException occurred while reading parcel file '{}': {}", filename, e.getMessage());
             throw new RuntimeException("IOException occurred while reading parcel file: " + e.getMessage());
         }
     }
@@ -102,7 +101,6 @@ public class DefaultParcelFileHandler implements ParcelFileHandler {
             for (String line : currentParcel) {
                 message.append(line).append("\n");
             }
-            log.error("ValidationException: {}", message);
             throw new ValidationException(message.toString());
         }
         if (!validator.fitsTruck(currentParcel, truckHeight, truckWidth)) {
@@ -111,7 +109,6 @@ public class DefaultParcelFileHandler implements ParcelFileHandler {
             for (String line : currentParcel) {
                 message.append(line).append("\n");
             }
-            log.error("ValidationException: {}", message);
             throw new ValidationException(message.toString());
         }
     }

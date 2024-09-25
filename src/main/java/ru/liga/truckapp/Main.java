@@ -21,7 +21,6 @@ import java.util.*;
 @Slf4j
 public class Main {
 
-
     /**
      * Точка входа в программу
      *
